@@ -19,8 +19,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.selectedIndex = 1
         tabBar.frame.size.height = 100
         tabBar.roundedTop(30)
+        
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
-        tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10)
+        //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10) //seems problem?
 
     }
     
@@ -33,8 +34,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewWillLayoutSubviews()
         
         //tabBar.frame.size.height = CGFloat(kBarHeight)
-        print(view.frame.height)
-        tabBar.frame.origin.y = view.frame.height - kBarHeight
+        //print("tabviewHeight: \(view.frame.height) and \(view.frame.size.height) and \(tabBar.frame.size.height) and \(tabBar.frame.size.width)")
+        
+        tabBar.roundedTop(30)
+        
+        //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
+        //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10)
+
+        
+        //tabBar.frame.origin.y = view.frame.height - kBarHeight
     }
     
     func configureTabBarItems() {

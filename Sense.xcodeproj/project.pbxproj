@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		3D8F0A86842442D12844186B /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
+		4DA0205024AD131400745F7D /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0204F24AD131400745F7D /* Sense1.wav */; };
+		4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6FD342724A91198000401BB /* DkCoolCrayon-xJyV.ttf */; };
+		4DA0205324BBB1BE00745F7D /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0205224BBB1BE00745F7D /* globe_rotation.json */; };
 		C61F60FF2384B12E007F5035 /* CustomQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */; };
 		C61F61002384B12E007F5035 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C61F60FE2384B12E007F5035 /* QuestionCell.xib */; };
 		C61F610223987B3D007F5035 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F610123987B3D007F5035 /* TabBarController.swift */; };
 		C624099D242EAA4100D41FFC /* PulseAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624099C242EAA4100D41FFC /* PulseAnimation.swift */; };
-		C63CDF2824A45E0600A336BB /* Sense.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C63CDF2724A45E0500A336BB /* Sense.mp3 */; };
 		C67D990B236BA63C000B638F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67D990A236BA63C000B638F /* AppDelegate.swift */; };
 		C67D990D236BA63C000B638F /* LearnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67D990C236BA63C000B638F /* LearnViewController.swift */; };
 		C67D9910236BA63C000B638F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C67D990E236BA63C000B638F /* Main.storyboard */; };
@@ -23,7 +25,6 @@
 		C687DC482496C18E004C32A3 /* large_pulsating.json in Resources */ = {isa = PBXBuildFile; fileRef = C687DC472496C18E004C32A3 /* large_pulsating.json */; };
 		C687DC4A2496CDB8004C32A3 /* red_pulsating.json in Resources */ = {isa = PBXBuildFile; fileRef = C687DC492496CDB8004C32A3 /* red_pulsating.json */; };
 		C687DC5024982654004C32A3 /* lighting_changer.json in Resources */ = {isa = PBXBuildFile; fileRef = C687DC4F24982654004C32A3 /* lighting_changer.json */; };
-		C687DC58249AA281004C32A3 /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = C687DC57249AA281004C32A3 /* globe_rotation.json */; };
 		C69454DD249D0721000E9D6F /* PanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69454DC249D0721000E9D6F /* PanView.swift */; };
 		C694BAF32422FB420037EEC0 /* ChooseLearningModeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C694BAF22422FB420037EEC0 /* ChooseLearningModeVC.swift */; };
 		C694BAF62423C37F0037EEC0 /* ScaleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C694BAF52423C37F0037EEC0 /* ScaleSegue.swift */; };
@@ -38,11 +39,12 @@
 /* Begin PBXFileReference section */
 		0E4A638716E3711F6B3BE1EB /* Pods-Sense.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sense.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sense/Pods-Sense.debug.xcconfig"; sourceTree = "<group>"; };
 		379404D15685B282E03C5A2E /* Pods-Sense.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sense.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sense/Pods-Sense.release.xcconfig"; sourceTree = "<group>"; };
+		4DA0204F24AD131400745F7D /* Sense1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sense1.wav; path = ../../../../../Downloads/Sense1.wav; sourceTree = "<group>"; };
+		4DA0205224BBB1BE00745F7D /* globe_rotation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = globe_rotation.json; path = ../../../../../Downloads/globe_rotation.json; sourceTree = "<group>"; };
 		C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomQuestionCell.swift; sourceTree = "<group>"; };
 		C61F60FE2384B12E007F5035 /* QuestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		C61F610123987B3D007F5035 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C624099C242EAA4100D41FFC /* PulseAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseAnimation.swift; sourceTree = "<group>"; };
-		C63CDF2724A45E0500A336BB /* Sense.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sense.mp3; sourceTree = "<group>"; };
 		C67D9907236BA63C000B638F /* Sense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67D990A236BA63C000B638F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C67D990C236BA63C000B638F /* LearnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnViewController.swift; sourceTree = "<group>"; };
@@ -55,7 +57,6 @@
 		C687DC472496C18E004C32A3 /* large_pulsating.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = large_pulsating.json; sourceTree = "<group>"; };
 		C687DC492496CDB8004C32A3 /* red_pulsating.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_pulsating.json; sourceTree = "<group>"; };
 		C687DC4F24982654004C32A3 /* lighting_changer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lighting_changer.json; sourceTree = "<group>"; };
-		C687DC57249AA281004C32A3 /* globe_rotation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = globe_rotation.json; sourceTree = "<group>"; };
 		C69454DC249D0721000E9D6F /* PanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanView.swift; sourceTree = "<group>"; };
 		C694BAF22422FB420037EEC0 /* ChooseLearningModeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLearningModeVC.swift; sourceTree = "<group>"; };
 		C694BAF52423C37F0037EEC0 /* ScaleSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSegue.swift; sourceTree = "<group>"; };
@@ -122,9 +123,9 @@
 		C61F60FC2384B0E1007F5035 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C63CDF2724A45E0500A336BB /* Sense.mp3 */,
+				4DA0205224BBB1BE00745F7D /* globe_rotation.json */,
+				4DA0204F24AD131400745F7D /* Sense1.wav */,
 				C687DC4F24982654004C32A3 /* lighting_changer.json */,
-				C687DC57249AA281004C32A3 /* globe_rotation.json */,
 				C687DC492496CDB8004C32A3 /* red_pulsating.json */,
 				C687DC472496C18E004C32A3 /* large_pulsating.json */,
 				C687DC43249685BC004C32A3 /* 24455-summer-buddy.json */,
@@ -275,12 +276,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C687DC4A2496CDB8004C32A3 /* red_pulsating.json in Resources */,
+				4DA0205024AD131400745F7D /* Sense1.wav in Resources */,
 				C67D9915236BA63E000B638F /* LaunchScreen.storyboard in Resources */,
+				4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */,
+				4DA0205324BBB1BE00745F7D /* globe_rotation.json in Resources */,
 				C687DC44249685BC004C32A3 /* 24455-summer-buddy.json in Resources */,
 				C687DC4224967F74004C32A3 /* Pulsating.json in Resources */,
 				C61F61002384B12E007F5035 /* QuestionCell.xib in Resources */,
-				C63CDF2824A45E0600A336BB /* Sense.mp3 in Resources */,
-				C687DC58249AA281004C32A3 /* globe_rotation.json in Resources */,
 				C67D9912236BA63E000B638F /* Assets.xcassets in Resources */,
 				C687DC482496C18E004C32A3 /* large_pulsating.json in Resources */,
 				C694BB0E24246D9F0037EEC0 /* CellView.xib in Resources */,
@@ -315,23 +317,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Sense/Pods-Sense-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
-				"${BUILT_PRODUCTS_DIR}/DrawerView/DrawerView.framework",
-				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sense/Pods-Sense-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DrawerView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sense/Pods-Sense-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sense/Pods-Sense-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sense/Pods-Sense-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -504,6 +499,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 278L5HYV58;
 				INFOPLIST_FILE = Sense/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,6 +521,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 278L5HYV58;
 				INFOPLIST_FILE = Sense/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

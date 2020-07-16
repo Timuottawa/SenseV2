@@ -10,7 +10,6 @@ import UIKit
 import Hero
 import ChameleonFramework
 import Lottie
-import DrawerView
 import AVFoundation
 
 class QuizViewController: UIViewController {
@@ -25,7 +24,6 @@ class QuizViewController: UIViewController {
     var audioPlayer = AVAudioPlayer()
     
     @IBOutlet weak var stackViewCenterY: NSLayoutConstraint!
-    @IBOutlet var drawerView: DrawerView!
     @IBOutlet weak var minuteCounter: UILabel!
     @IBOutlet weak var secondCounter: UILabel!
     
@@ -190,7 +188,7 @@ class QuizViewController: UIViewController {
         let displayLink = CADisplayLink(target: self, selector: #selector(updater))
         displayLink.add(to: .main, forMode: .default)
         finalView.isHidden = false
-        finalView.layer.zPosition = CGFloat(10)
+        view.bringSubviewToFront(finalView)
         stackView.isHidden = true
         correctLabel.text = "0"
         highScoreLabel.text = "0"
@@ -200,7 +198,7 @@ class QuizViewController: UIViewController {
         
         timer.invalidate()
         resetButton.isHidden = false
-        dropDownView.layer.zPosition = 30
+        //view.bringSubviewToFront(dropDownView)
         // #add
     }
     
@@ -590,8 +588,8 @@ class QuizViewController: UIViewController {
         self.view.isUserInteractionEnabled = true
         //self.view.addGestureRecognizer(resetTimer)
         view.bringSubviewToFront(dropDownView)
-        drawerView.insetAdjustmentBehavior = .superviewSafeArea
-        drawerView.position = .open
+        //drawerView.insetAdjustmentBehavior = .superviewSafeArea
+        //drawerView.position = .open
         littleSymbol.isHidden = true
         secondCounter.isHidden = true
         minuteCounter.isHidden = true
@@ -690,8 +688,8 @@ class QuizViewController: UIViewController {
     
     func fetchFromDefaults() {
         latestYCor = 0
-        level = 1
-        cellLevel = 1
+        level = 8
+        cellLevel = 8
         if let _ = defaults.integer(forKey: "highScore") as? Int {
             //
         } else {
