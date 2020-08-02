@@ -113,7 +113,7 @@ class QuizViewController: UIViewController {
         //print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
         //Just for test
         //view.frame.size.height = 300
-        //
+        
         
         view.contentSize = contentViewSize //normalViewSize
         view.contentOffset = CGPoint(x:0, y:20)
