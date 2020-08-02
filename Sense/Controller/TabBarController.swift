@@ -17,8 +17,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         self.delegate = self
         self.selectedIndex = 1
+        
         tabBar.frame.size.height = 100
+        
         tabBar.roundedTop(30)
+        
         
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
         //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10) //seems problem?
@@ -37,6 +40,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         //print("tabviewHeight: \(view.frame.height) and \(view.frame.size.height) and \(tabBar.frame.size.height) and \(tabBar.frame.size.width)")
         
         tabBar.roundedTop(30)
+        
+        //print("batItem height:\(tabBar.frame.height)")
+
         
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
         //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10)
@@ -57,10 +63,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBarController.viewControllers = viewControllers
         tabBarController.selectedIndex = 1
         
+        
         tabBarController.tabBar.frame.size.height = 100
+        
         //tabBarController.tabBar.layer.position = CGPoint(x: 10,y: 818)
         
-        let frame = tabBarController.tabBar.frame
+        //let frame = tabBarController.tabBar.frame
         
         
         tabBarController.tabBar.roundedTop(30)
@@ -76,32 +84,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             vc.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
             vc.title = nil
         }
-        
+        //
     }
     
     func setTabBarItemImage(vc: UIViewController, image: String) {
         let item = UITabBarItem()
-        item.title = ""
+        item.title = "123"
         item.image = UIImage(named: image)
-        
         vc.tabBarItem = item
     }
     
-    /*
-    override func viewWillLayoutSubviews() {
-        let defaultTabBarHeight = { tabBar.frame.size.height }()
-        super.viewWillLayoutSubviews()
-        
-        let newTabBarHeight = defaultTabBarHeight - 12.0
-        
-        var newFrame = tabBar.frame
-        newFrame.size.height = newTabBarHeight
-        newFrame.origin.y = view.frame.size.height - newTabBarHeight
-        
-        tabBar.frame = newFrame
-    }
-    */
-
+    
     /*
     // MARK: - Navigation
 
