@@ -472,7 +472,7 @@ class QuizViewController: UIViewController {
                 print(button.frame.size)
             }
         }
-        /*
+        
         for c in stackConstraints {
             print(c)
             if c.identifier == "b1" || c.identifier == "b2" {
@@ -483,7 +483,7 @@ class QuizViewController: UIViewController {
                 c.constant = buttons[0].frame.size.width - 20
             }
         }
-         */
+         
         
     }
     

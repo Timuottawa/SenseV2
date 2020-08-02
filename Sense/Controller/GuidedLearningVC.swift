@@ -35,8 +35,8 @@ class GuidedLearningVC: UIViewController {
     
     var snap : UISnapBehavior!
     var animator : UIDynamicAnimator!
-    
-    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height + 400)
+    let cellH = 70
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: CGFloat(10*(cellH+20)))
     lazy var normalViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
     
     var pulsatingLayer: CAShapeLayer!
@@ -158,10 +158,10 @@ class GuidedLearningVC: UIViewController {
         
         if (Int(self.view.frame.height - latestYCor)) < 120 && timesOffsetChanged != 1 {
             print("scrollview initialized!!!!!")
-            let scrollPoint = CGPoint(x: 0.0, y: view.frame.height)
+            //let scrollPoint = CGPoint(x: 0.0, y: view.frame.height)
             scrollview.contentSize = contentViewSize
-            scrollview.setContentOffset(scrollPoint, animated: false)
-            timesOffsetChanged += 1
+            //scrollview.setContentOffset(scrollPoint, animated: false)
+            //timesOffsetChanged += 1
         }
         
         //Just for test
