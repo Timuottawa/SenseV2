@@ -29,7 +29,6 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     @IBOutlet weak var dynamicScrollView: UIScrollView!
     @IBOutlet weak var backToChooseButton: UIButton!
     
-
     let testArray = ["1","2","3","4","5","6","7","8","9"]
     
     var pageNumber : Int = 1
@@ -38,12 +37,32 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     {
         super.viewDidLoad()
         backToChooseButton.layer.cornerRadius = 25
+        view.bringSubviewToFront(backToChooseButton)
 
         //Init voice eviroment
         synth.delegate = self;
         
+        print("viewDidLoad width: \(self.view.frame.width)")
+        print(self.dynamicScrollView.frame.size.width)
+        
+        //dynamicScroll()
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        
+        print("viewDidAppear:\(self.dynamicScrollView.frame.size.width)")
+        
+        //I don't know why StoryBoard added some view in for a blank scroll view? Junly 31, 2020 by Tim
+        print("%%%%:\(dynamicScrollView.subviews)")
+        for _view in self.dynamicScrollView.subviews {
+            _view.removeFromSuperview()
+        }
+        print("%%%%:\(dynamicScrollView.subviews)")
+        
+        //If put in viewDidLoad(), will get wrong dynamicScrollView.frame.size.width.
         dynamicScroll()
     }
+
     
     @IBAction func backToChoose(_ sender: UIButton) {
         
@@ -57,23 +76,34 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         }
     }
     
+    //To caculate the number of rows in the current table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //To caculate the number of page of current table view
+
+        
         //self.pageNumber = Int(tableView.frame.minX/self.dynamicScrollView.frame.size.width) + 1;
-        print("\n page#=\(pageNumber)")
+        //print("\n tablebview page#=\(pageNumber)")
         
         //tableView.reloadData()
         
         return (10 - self.dynamicScrollView.currentPage)
     }
     
+    //The content of a cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //To caculate the number of page of current table view
+        
         //self.pageNumber = Int(tableView.frame.minX/self.dynamicScrollView.frame.size.width) + 1;
-        print("\n page__#=\(pageNumber)")
+        //print("width:")
+        //print(tableView.frame.width)
+        //print("view: \(view.frame.size)")
+    
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTVCell", for: indexPath) as! CustomQuestionCell
-        //print(cell.frame.width)
+        
+        //print("cellwidth:\(cell.frame.width)")
+        
+        //cell.contentView.frame.size.width = CGFloat(tableView.bounds.width - 100)
+        //cell.center.x = view.center.x
         
         
         let numberTwoNumber = Int(testArray[indexPath.row])! + (pageNumber - 1)
@@ -81,64 +111,87 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             cell.numberOne.text = String(pageNumber)
             cell.numberTwo.text = String(numberTwoNumber)
         }
-        
-        
+
         
         return cell
     }
     
     var gtView = UITableView();
-    
     let N_VIEWS:Int = 9; //Total number of the table views in the scroll view
+    let cellH = 85 //should be replaced by a relative value!
+    
+    
     func dynamicScroll()
     {
         // normal iphone width
-        let tableW:CGFloat = self.dynamicScrollView.frame.size.width;
-        let tableH:CGFloat = self.dynamicScrollView.frame.size.height;
+        let tableW:CGFloat = dynamicScrollView.frame.size.width;
+        let tableH:CGFloat = CGFloat(cellH * N_VIEWS) //dynamicScrollView.frame.height;
+        
+        print("dynamicScroll:")
+        print(tableW)
+        print(tableH)
+        print(view.frame.width)
+        print(view.frame.height)
+        
         let tableY:CGFloat = 0;
         let totalCount:NSInteger = N_VIEWS;//# of table views；
         
         
         
-        var tView: UITableView;
-        tView = UITableView();
-        /*
-        if( i == 1)
-        {
-            gtView = tView;
-        }
-        */
+        let tView: UITableView = UITableView();
+
         // 9 x the normal width
         tView.frame = CGRect(x: CGFloat(0) * tableW, y: tableY, width: tableW, height: tableH);
-            
+        
         tView.delegate = self;
         tView.dataSource = self;
         tView.tableFooterView = UIView();
         tView.backgroundColor = UIColor.clear;
         tView.separatorStyle = .none;
         tView.allowsSelection = false;
+
+        tView.estimatedRowHeight = 100.0
         tView.rowHeight = UITableView.automaticDimension
-        tView.estimatedRowHeight = 120.0
-        tView.rowHeight = 85
+        tView.rowHeight = CGFloat(cellH) //should be replaced by a relative value!
+        
         tView.backgroundColor = .clear
+        tView.isScrollEnabled = false
         tView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionTVCell");
-            
+
+        //print("dynamicSubviews!!!:\(dynamicScrollView.subviews)")
         dynamicScrollView.addSubview(tView);
         
+        //print("dynamicSubviews--:\(dynamicScrollView.subviews.count)")
+        //print("dynamicSubviews--:\(dynamicScrollView.subviews)")
     
         let contentW:CGFloat = tableW * CGFloat(totalCount);//這個表示整個ScrollView的長度；
-        dynamicScrollView.contentSize = CGSize(width: contentW, height: 0);
+        dynamicScrollView.contentSize = CGSize(width: contentW, height: tView.contentSize.height);
+        //dynamicScrollView.contentSize = CGSize(width: contentW, height: 0);
         dynamicScrollView.isPagingEnabled = true;
         dynamicScrollView.delegate = self;
         
     }
     
+    func screateTableView()
+    {
+        //
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scrolled")
+        
+        // July 31, 2020 by Tim
+        // If others such as tableview, view..., but not dynamicScrollView, just return.
+        if scrollView != dynamicScrollView {
+            //print("!!!scrollView != dynamicScrollView")
+            return
+        }
+        
+        print("didScrolled")
         print(scrollView.currentPage)
         //探测page是否变没变
         if pageNumber == scrollView.currentPage {
             pageNumber = scrollView.currentPage
+            print("continue...")
         }
         else {
             pageNumber = scrollView.currentPage
@@ -149,18 +202,16 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             if dynamicScrollView.subviews.count < scrollView.currentPage+2{
                 print("is empty page")
                 let tableW:CGFloat = self.dynamicScrollView.frame.size.width;
-                let tableH:CGFloat = self.dynamicScrollView.frame.size.height;
+                let tableH:CGFloat = CGFloat(cellH * (10-pageNumber)) //self.dynamicScrollView.frame.size.height;
+                
+                print("didScroll: \(tableW) \(tableH)")
+                
                 let tableY:CGFloat = 0;
-                let totalCount:NSInteger = N_VIEWS;//# of table views；
+                //let totalCount:NSInteger = N_VIEWS;//# of table views；
                 
                 var tView: UITableView;
                 tView = UITableView();
-                /*
-                 if( pageNumber == 1)
-                 {
-                 gtView = tView;
-                 }
-                 */
+
                 // 9 x the normal width
                 tView.frame = CGRect(x: CGFloat(scrollView.currentPage-1) * tableW, y: tableY, width: tableW, height: tableH);
                 
@@ -172,25 +223,29 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 tView.allowsSelection = false;
                 tView.rowHeight = UITableView.automaticDimension
                 tView.estimatedRowHeight = 120.0
-                tView.rowHeight = 85
+                tView.rowHeight = CGFloat(cellH) //should be replaced by a relative value!
                 tView.backgroundColor = .clear
+                tView.isScrollEnabled = false
                 tView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionTVCell");
                 
                 dynamicScrollView.addSubview(tView)
-                print(scrollView.subviews)
                 
+                //print("subviews--:\(scrollView.subviews.count)")
+                //print("subviews--:\(scrollView.subviews)")
                 //let prevView = scrollView.subviews[scrollView.currentPage-2]
                 //prevView.removeFromSuperview()
             }
             else {
-                print("subviews: \(dynamicScrollView.subviews.count)")
                 print("tableview already exists")
+                print("subviews: \(dynamicScrollView.subviews.count)")
             }
-            
-            
         }
     }
 
+    func createTableView()
+    {
+        
+    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     {
@@ -307,6 +362,9 @@ extension UIResponder {
 
 extension UIScrollView {
     var currentPage: Int {
+        //print("$currentPage$:\(self.contentOffset.x)")
         return Int((self.contentOffset.x + (0.5 * self.frame.size.width))/self.frame.width)+1
     }
 }
+
+
