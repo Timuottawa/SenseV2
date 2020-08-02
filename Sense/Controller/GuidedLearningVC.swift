@@ -47,8 +47,8 @@ class GuidedLearningVC: UIViewController {
         view.frame = self.view.bounds
         //Just for test
         //view.frame.size.height = 300
-        
         view.contentSize = normalViewSize
+        view.isScrollEnabled = true
         //view.contentOffset = CGPoint(x:0, y:100)
         return view
     }()
@@ -155,12 +155,15 @@ class GuidedLearningVC: UIViewController {
     
     func createNewView() {
         
-        if (Int(self.view.frame.height - latestYCor)) < 90 && timesOffsetChanged != 1 {
-            let scrollPoint = CGPoint(x: 0.0, y: 300.0)
+        
+        if (Int(self.view.frame.height - latestYCor)) < 120 && timesOffsetChanged != 1 {
+            print("scrollview initialized!!!!!")
+            let scrollPoint = CGPoint(x: 0.0, y: view.frame.height)
             scrollview.contentSize = contentViewSize
             scrollview.setContentOffset(scrollPoint, animated: false)
             timesOffsetChanged += 1
         }
+        
         //Just for test
         let tempCellView = CellView(frame: CGRect(x:0, y:0, width:self.view.frame.width - 50, height:self.view.frame.height-80))
         

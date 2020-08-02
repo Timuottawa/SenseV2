@@ -13,6 +13,9 @@ var audioPlayer: AVAudioPlayer!
 
 class ListenViewController: UIViewController {
     
+    
+    @IBOutlet weak var stackView: UIStackView!
+    
     @IBOutlet weak var secondLabelH: NSLayoutConstraint!
     
     @IBOutlet weak var ansLabelH: NSLayoutConstraint!
@@ -224,8 +227,13 @@ class ListenViewController: UIViewController {
         secondLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
          */
    
-
-
+        //Tim
+        //print("Listen viewDidLoad:")
+        //print(stackView.frame.origin.y)
+        //print(firstLabel.frame.origin.y)
+        print("Listen viewDidLoad constraints: \(stackView.constraints)")
+        
+        
         //firstLabel.adjustsFontForContentSizeCategory = true
         //secondLabel.adjustsFontForContentSizeCategory = true
         //ansLabel.adjustsFontForContentSizeCategory = true
@@ -270,6 +278,19 @@ class ListenViewController: UIViewController {
         ansLabel.layer.removeAllAnimations()
         
     }
+    
+    //Aug., 2nd, 2020 by Tim
+    override func viewWillLayoutSubviews() {
+        let tabBarHeight = self.tabBarController?.tabBar.frame.height
+        let iH: Int = (Int)(tabBarHeight!)
+        
+        if  iH > 60 {
+           tabBarItem.imageInsets = UIEdgeInsets(top: 20, left: 0, bottom: -20, right: 0)
+        }
+        else {
+            tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+    }
 }
 
 
@@ -289,9 +310,9 @@ extension UIView {
 }
 
 public extension Int {
-  public var asWord: String {
+  var asWord: String   {
     let numberValue = NSNumber(value: self)
-    var formatter = NumberFormatter()
+    let formatter = NumberFormatter()
     formatter.numberStyle = .spellOut
     return formatter.string(from: numberValue)!
   }

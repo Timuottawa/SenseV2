@@ -16,14 +16,14 @@ class CustomQuestionCell: UITableViewCell {
     @IBOutlet weak var numberTwo: UILabel!
     @IBOutlet weak var questionButton: UIButton!
     
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         //var colors : Dictionary<UIColor,UIColor> = [UIColor.flatYellow: UIColor.flatYellowDark, UIColor.flatPowderBlue: UIColor.flatPowderBlueDark]
         
         questionView.layer.cornerRadius = 30
-        questionView.backgroundColor = UIColor(gradientStyle:UIGradientStyle.leftToRight, withFrame:questionView.frame, andColors:[.flatPowderBlue(), .flatPowderBlueDark()])
+        questionView.backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:questionView.frame, andColors:[.flatPowderBlue(), .flatPowderBlueDark()])
         
         
         questionView.layer.shadowColor = UIColor.flatPowderBlueDark().cgColor
@@ -31,6 +31,13 @@ class CustomQuestionCell: UITableViewCell {
         questionView.layer.shadowOpacity = 0.7
         questionView.layer.shadowRadius = 4.0
         
+    }
+    
+    override  func layoutSubviews() {
+        super.layoutSubviews()
+        //print("questionCell.swift in layoutSubviews bounds/cell.frame/contendview.frame---self.bound: \(self.bounds) \(questionView.frame) \(self.contentView.frame) \(self.frame)")
+        //questionView.frame = CGRect(x: 0,y: 0, width: 375, height: 80)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
