@@ -114,7 +114,7 @@ class QuizViewController: UIViewController {
         //Just for test
         //view.frame.size.height = 300
         
-        view.contentSize = contentViewSize //normalViewSize
+        view.contentSize = normalViewSize //contentViewSize //normalViewSize
         view.contentOffset = CGPoint(x:0, y:20)
         
         return view
@@ -472,6 +472,7 @@ class QuizViewController: UIViewController {
                 print(button.frame.size)
             }
         }
+        
         
         for c in stackConstraints {
             print(c)
