@@ -279,18 +279,6 @@ class ListenViewController: UIViewController {
         
     }
     
-    //Aug., 2nd, 2020 by Tim
-    override func viewWillLayoutSubviews() {
-        let tabBarHeight = self.tabBarController?.tabBar.frame.height
-        let iH: Int = (Int)(tabBarHeight!)
-        
-        if  iH > 60 {
-           tabBarItem.imageInsets = UIEdgeInsets(top: 20, left: 0, bottom: -20, right: 0)
-        }
-        else {
-            tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-    }
 }
 
 
