@@ -531,7 +531,7 @@
                             <outletCollection property="gestureRecognizers" destination="z2z-wP-d2r" appends="YES" id="QYH-to-0gl"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" image="icons8-artificial_intelligence" selectedImage="icons8-artificial_intelligence" id="uTa-an-qD8"/>
+                    <tabBarItem key="tabBarItem" tag="3" image="icons8-artificial_intelligence" selectedImage="icons8-artificial_intelligence" id="uTa-an-qD8"/>
                     <connections>
                         <outlet property="blurEffect" destination="ohg-Uf-mgn" id="JPp-vs-vnI"/>
                         <outlet property="congratsView" destination="qFU-3P-FaY" id="oKC-Yc-zsx"/>
