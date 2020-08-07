@@ -884,7 +884,13 @@ class QuizViewController: UIViewController {
         voiceRecordButton.layer.cornerRadius = voiceRecordButton.frame.width/2
         if #available(iOS 10.0, *) {
             voiceOverlay = VoiceOverlayController()
-            isVoiceSupported = true
+            //August 7, Tim add:
+            if voiceOverlay != nil {
+                isVoiceSupported = true
+            }
+            else {
+                isVoiceSupported = false
+            }
         } else {
             isVoiceSupported = false
         }
