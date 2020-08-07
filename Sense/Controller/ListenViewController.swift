@@ -14,12 +14,15 @@ var audioPlayer: AVAudioPlayer!
 class ListenViewController: UIViewController {
     
     
+    @IBOutlet var autoLayout: [NSLayoutConstraint]!
+    
+    
     @IBOutlet weak var stackView: UIStackView!
     
     @IBOutlet weak var secondLabelH: NSLayoutConstraint!
-    
     @IBOutlet weak var ansLabelH: NSLayoutConstraint!
     @IBOutlet weak var firstLabelH: NSLayoutConstraint!
+    
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
@@ -28,6 +31,8 @@ class ListenViewController: UIViewController {
     @IBOutlet weak var numLabel1: UILabel!
     @IBOutlet weak var numLabel2: UILabel!
     @IBOutlet weak var numLabel3: UILabel!
+    
+    var hopH: CGFloat = 20 //Hiphop Height
     
     var isPaused = true
     var level: Int = 1
@@ -42,6 +47,40 @@ class ListenViewController: UIViewController {
     let timestamps = [0.0000, 2.0443, 4.0907+0.3, 6.1350+0.4, 8.1814+0.4, 10.2258+0.6, 13.0221+0.1, 15.0665+0.2, 17.1129+0.2, 19.1572+0.4, 21.2036]
     
     let customFont = UIFont(name: "DK Cool Crayon", size: UIFont.labelFontSize)
+    
+    // Only for iPad by Tim on August 6, 2020
+    func _autoLayout()
+    {
+        print("_autoLayout:\(_screenHeight)")
+        
+        if _screenHeight < 1000 { return } //iPad only
+        
+        for c in autoLayout {
+            print(c.identifier as Any)
+            print(c.constant)
+            switch c.identifier {
+                case "$dS1nListen$": //100
+                    if _screenHeight > 1000 { c.constant = 30 }
+                    if _screenHeight > 1200 { c.constant = 80 }
+                    if _screenHeight > 1300 { c.constant = 100 }
+                    //c.constant = CGFloat(Int(_screenHeight * (50/1366)))
+                    print(c.constant)
+                case "$dSnSlider$": //-10
+                    c.constant = -10
+                    print(c.constant)
+                case "$1label$": //61
+                    c.constant = hopH + 1
+                    print(c.constant)
+                case "$2label$": //61
+                    c.constant = hopH + 1
+                    print(c.constant)
+                case "$3label$": //61
+                    c.constant = hopH + 1
+                    print(c.constant)
+                default: break
+            }
+        }
+    }
     
     @IBAction func onSlide(_ sender: UISlider) {
         slider.value = roundf(slider.value)
@@ -88,6 +127,7 @@ class ListenViewController: UIViewController {
         }
         
     }
+    
     
     func looper() {
         //while level < 9 {
@@ -146,7 +186,7 @@ class ListenViewController: UIViewController {
                     
                     UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                      
-                        self.firstLabelH.constant -= 20
+                        self.firstLabelH.constant -= self.hopH //20
                         self.view.layoutIfNeeded()
                         
                         //print(self.firstLabel.constraints) //don't print here?
@@ -160,7 +200,7 @@ class ListenViewController: UIViewController {
                                     
                                     //self.firstLabel.frame = CGRect(x: self.firstLabel.frame.origin.x, y: self.firstLabel.frame.origin.y + 20, width: self.firstLabel.frame.width, height: self.firstLabel.frame.height)
                                     
-                                    self.firstLabelH.constant += 20
+                                    self.firstLabelH.constant += self.hopH //20
                                     self.view.layoutIfNeeded()
                                     
                                 })
@@ -170,14 +210,14 @@ class ListenViewController: UIViewController {
                     if self.stop == false{
                         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                                 //self.secondLabel.frame = CGRect(x: self.secondLabel.frame.origin.x, y: self.secondLabel.frame.origin.y - 20, width: self.secondLabel.frame.width, height: self.secondLabel.frame.height)
-                            self.secondLabelH.constant -= 20
+                            self.secondLabelH.constant -= self.hopH //20
                             self.view.layoutIfNeeded()
                                 
                             }) { (complete) in
                                 
                                 UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                                     //self.secondLabel.frame = CGRect(x: self.secondLabel.frame.origin.x, y: self.secondLabel.frame.origin.y + 20, width: self.secondLabel.frame.width, height: self.secondLabel.frame.height)
-                                    self.secondLabelH.constant += 20
+                                    self.secondLabelH.constant += self.hopH //20
                                     self.view.layoutIfNeeded()
                                 })
                                 
@@ -185,13 +225,13 @@ class ListenViewController: UIViewController {
                                     if self.stop == false {
                                     UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                                         //self.ansLabel.frame = CGRect(x: self.ansLabel.frame.origin.x, y: self.ansLabel.frame.origin.y - 20, width: self.ansLabel.frame.width, height: self.ansLabel.frame.height)
-                                        self.ansLabelH.constant -= 20
+                                        self.ansLabelH.constant -= self.hopH //20
                                         self.view.layoutIfNeeded()
                                         
                                     }) { (complete) in
                                             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                                                 //self.ansLabel.frame = CGRect(x: self.ansLabel.frame.origin.x, y: self.ansLabel.frame.origin.y + 20, width: self.ansLabel.frame.width, height: self.ansLabel.frame.height)
-                                                self.ansLabelH.constant += 20
+                                                self.ansLabelH.constant += self.hopH //20
                                                 self.view.layoutIfNeeded()
                                             
                                         })
@@ -219,7 +259,10 @@ class ListenViewController: UIViewController {
             }
         //}
     }
-    
+    override func viewWillLayoutSubviews() {
+        
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         /*
@@ -231,14 +274,22 @@ class ListenViewController: UIViewController {
         //print("Listen viewDidLoad:")
         //print(stackView.frame.origin.y)
         //print(firstLabel.frame.origin.y)
-        print("Listen viewDidLoad constraints: \(stackView.constraints)")
+        //print("Listen viewDidLoad constraints: \(stackView.constraints)")
         
         
         //firstLabel.adjustsFontForContentSizeCategory = true
         //secondLabel.adjustsFontForContentSizeCategory = true
         //ansLabel.adjustsFontForContentSizeCategory = true
         
-        
+        if _screenHeight > 1000 { //iPad only
+            hopH = CGFloat(Int(_screenHeight * (60/1366)))
+            print("hopH:\(hopH)")
+            _autoLayout()
+        }
+        else {
+            hopH = 30
+        }
+            
         
         firstLabel.text = "one"
         secondLabel.text = "one"

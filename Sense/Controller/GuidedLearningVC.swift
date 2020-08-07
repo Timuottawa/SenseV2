@@ -23,6 +23,7 @@ class GuidedLearningVC: UIViewController {
     @IBOutlet weak var levelTextLabel: UILabel!
     @IBOutlet weak var blurEffect: UIVisualEffectView!
     
+    @IBOutlet var congratsConstraints: [NSLayoutConstraint]!
     var level: Int = 1
     var cellLevel: Int = 1
     var currentView: CellView?
@@ -30,21 +31,29 @@ class GuidedLearningVC: UIViewController {
     var spacing: CGFloat = 20
     var timesOffsetChanged: CGFloat = 0
     var isWaiting: Bool = false
-    
+    var screenHeight: CGFloat?
+    var screenWidth: CGFloat?
     let pulsatingView = AnimationView()
+    var finished = false
     
     var snap : UISnapBehavior!
     var animator : UIDynamicAnimator!
-    let cellH = 70
+    var cellH = 0
     lazy var contentViewSize = CGSize(width: self.view.frame.width, height: CGFloat(10*(cellH+20)))
-    lazy var normalViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+    lazy var normalViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height-80)
     
     var pulsatingLayer: CAShapeLayer!
     
+    
     lazy var scrollview: UIScrollView = {
         let view = UIScrollView(frame: .zero)
+        
+        //print("scrollview creating...")
         view.backgroundColor = .white
-        view.frame = self.view.bounds
+        //view.frame = self.view.bounds
+        view.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
+        
+        //print(self.view.bounds)
         //Just for test
         //view.frame.size.height = 300
         view.contentSize = normalViewSize
@@ -70,7 +79,7 @@ class GuidedLearningVC: UIViewController {
                 // Animating....
                 UIView.animate(withDuration: 0.5, animations: {
                     // Height
-                    self.currentView!.frame.size.height = 70
+                    self.currentView!.frame.size.height = CGFloat(self.cellH)
                     // Center
                     self.currentView!.center = CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(CGFloat(self.cellLevel-self.level+1)*(self.spacing + (self.currentView!.frame.height))))
                     
@@ -87,7 +96,11 @@ class GuidedLearningVC: UIViewController {
                         
                     }, completion: { finished in
                         
-                        self.latestYCor = CGFloat(CGFloat(self.cellLevel)*(self.spacing + (self.currentView!.frame.height)))
+                        //self.latestYCor = CGFloat(CGFloat(self.cellLevel)*(self.spacing + (self.currentView!.frame.height)))
+                        //August 6, 2020 by Tim
+                        self.latestYCor = CGFloat(CGFloat(self.cellLevel-self.level+1)*(self.spacing + (self.currentView!.frame.height)))
+                                              
+                        
                         self.cellLevel += 1
                         print(self.latestYCor)
                         
@@ -140,31 +153,55 @@ class GuidedLearningVC: UIViewController {
         }
     }
     
+    
+
     func pulsatingConfig() {
 
-         pulsatingView.frame = CGRect(x: ((currentView?.ansButton.frame.origin.x)!), y: ((currentView?.ansButton.frame.origin.y)!), width: 100, height: 100)
+        pulsatingView.frame = CGRect(x: ((currentView?.ansButton.frame.origin.x)!), y: ((currentView?.ansButton.frame.origin.y)!), width: (currentView?.ansButton.frame.width)!*2.5, height: (currentView?.ansButton.frame.height)!*2.5)
          pulsatingView.center = (currentView?.ansButton.center)!
+        
+        //let c = NSLayoutConstraint(item: pulsatingView, attribute: .centerX, relatedBy: .equal, toItem: currentView!.ansButton, attribute: .centerX, multiplier: 1.0, constant: 0)
+        
+        
          pulsatingView.animation = Animation.named("Pulsating")
          pulsatingView.loopMode = .loop
          pulsatingView.contentMode = .scaleAspectFit
          pulsatingView.play(fromProgress: 0, toProgress: 0.3)
          currentView!.addSubview(pulsatingView)
-         currentView?.sendSubviewToBack(pulsatingView)
- 
+         currentView!.sendSubviewToBack(pulsatingView)
+         //view.addConstraint(c)
+         currentView!.layoutIfNeeded()
+        
+   
     }
     
     func createNewView() {
         
+        if cellLevel == 9 {
+            print("createNewView")
+            print( Int(self.view.frame.height - latestYCor) )
+            print(timesOffsetChanged)
+        }
         
-        if (Int(self.view.frame.height - latestYCor)) < 120 && timesOffsetChanged != 1 {
-            print("scrollview initialized!!!!!")
-            //let scrollPoint = CGPoint(x: 0.0, y: view.frame.height)
+        //print("createNewView")'
+        
+        //Commented by Tim on July 19, 2020
+        //Uncomented by Tim on August 3nd, 2020
+        // changed by Tim from "120" to "2*cellH" August 6, 2020
+        if ((cellLevel == 9) && (Int(self.view.frame.height - latestYCor)) < (2 * cellH)) && (timesOffsetChanged != 1) {
+            //let scrollPoint = CGPoint(x: 0.0, y: 300.0)
+            print("contentViewSize:\(contentViewSize)")
             scrollview.contentSize = contentViewSize
             //scrollview.setContentOffset(scrollPoint, animated: false)
             //timesOffsetChanged += 1
         }
+        else{
+             print("normalViewSize:\(normalViewSize)")
+             scrollview.contentSize = normalViewSize
+            
+        }
         
-        //Just for test
+        //
         let tempCellView = CellView(frame: CGRect(x:0, y:0, width:self.view.frame.width - 50, height:self.view.frame.height-80))
         
         //let tempCellView = CellView(frame: CGRect(x:0, y:0, width:300, height:10))
@@ -189,11 +226,22 @@ class GuidedLearningVC: UIViewController {
         pulsatingConfig()
         self.view.bringSubviewToFront(backButton)
     }
+    // Ugly codes for iPad by Tim August 3rd.
+    override func viewDidLayoutSubviews() { //for iPad only
+        if let cv = currentView {
+            if cv.subviews.count >= 2 {
+                cv.subviews[0].center = cv.ansButton.center
+            }
+        }
+    }
+    
     @IBAction func proceedButtonPressed(_ sender: UIButton) {
         proceedButton.isHidden = true
+        
         for view in scrollview.subviews {
             view.removeFromSuperview()
         }
+        scrollview.contentOffset = CGPoint(x:0, y:0)
         level += 1
         cellLevel = level
         timesOffsetChanged = 0
@@ -203,21 +251,32 @@ class GuidedLearningVC: UIViewController {
     @IBAction func nextLevelButtonPressed(_ sender: UIButton) {
         congratsView.isHidden = true
         blurEffect.isHidden = true
-        for view in scrollview.subviews {
-            view.removeFromSuperview()
+        
+        
+        scrollview.contentOffset = CGPoint(x:0, y:0)
+        
+        if finished != true {
+            
+            for view in scrollview.subviews {
+                view.removeFromSuperview()
+            }
+            level += 1
+            cellLevel = level
+            timesOffsetChanged = 0
+            latestYCor = 0
+            
+            createNewView()
         }
-        level += 1
-        cellLevel = level
-        timesOffsetChanged = 0
-        latestYCor = 0
-        createNewView()
     }
     
     @IBAction func reviewButtonPressed(_ sender: UIButton) {
         self.view.bringSubviewToFront(self.proceedButton)
         UIView.animate(withDuration: 2, animations: {
             self.congratsView.isHidden = true
-            self.proceedButton.isHidden = false
+            if self.finished != true {
+                print("finished!!!!")
+                self.proceedButton.isHidden = false
+            }
             self.blurEffect.isHidden = true
             
         })
@@ -226,13 +285,17 @@ class GuidedLearningVC: UIViewController {
     
     func enterNewLevel() {
         print("level complete")
-        levelTextLabel.text = "You've completed level \(level)!"
+        levelTextLabel.text = "You've completed level \(level) !"
         blurEffect.isHidden = false
         self.view.bringSubviewToFront(blurEffect)
         self.view.bringSubviewToFront(congratsView)
         congratsView.isHidden = false
+        if level == 9 {
+            nextButton.setTitle("Finish", for: .normal)
+            finished = true
+        }
         self.view.layoutIfNeeded()
-        print(scrollview.subviews)
+        //print(scrollview.subviews)
     }
     
     func configureCongrats() {
@@ -252,7 +315,7 @@ class GuidedLearningVC: UIViewController {
         view.isHidden = true
     }
     
-    
+    //------Obsoleted------
     func pulsatingLayerConfig(parentView: UIView) {
         let circularPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         pulsatingLayer = CAShapeLayer()
@@ -267,6 +330,22 @@ class GuidedLearningVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        cellH = _cellH
+        
+        print("cellH:\(cellH)")
+        print("contentViewSize:\(contentViewSize)")
+        print("normalViewSize:\(normalViewSize)")
+        
+        // Just for test
+        level = 1
+        cellLevel = 1
+        
+        
+        screenHeight = _screenHeight
+        screenWidth = _screenWidth
+        
+        dynamicAutoLayout()
+        
         configureCongrats()
         view.addSubview(scrollview)
         createNewView()
@@ -280,8 +359,31 @@ class GuidedLearningVC: UIViewController {
         self.view.bringSubviewToFront(blurEffect)
         print("GL")
         self.view.bringSubviewToFront(backButton)
+
     }
     
+    func dynamicAutoLayout() {
+        for c in congratsConstraints {
+            //print(c.identifier)
+            switch c.identifier {
+                case "height":
+                    c.constant = screenHeight! * 2/3
+                case "width":
+                    c.constant = screenWidth! * 6/7
+                case "nButtonWidth":
+                    c.constant = screenWidth! * 1/5
+                case "nButtonHeight":
+                    c.constant = screenHeight! * 1/10
+                case "rButtonWidth":
+                    c.constant = screenWidth! * 1/5
+                case "rButtonHeight":
+                    c.constant = screenHeight! * 1/10
+                default: break
+                    
+            }
+            
+        }
+    }
     
     func cellViewInitialization(CellView: CellView,cl: String, ll: String) {
         print(timesOffsetChanged)
@@ -322,7 +424,7 @@ class GuidedLearningVC: UIViewController {
         
     }
     
-
+    //------Obsoleted------
     func cellViewConstraints(CellView: CellView) {
         CellView.translatesAutoresizingMaskIntoConstraints = false
         

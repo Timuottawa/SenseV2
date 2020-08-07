@@ -95,4 +95,24 @@ class CellView: UIView {
     
 }
     
-
+// Defined by Tim on August 6, 2020
+public var _cellH: Int {
+    
+    var cH: Int
+    // Aug 4, Bob add:
+    //cellH = Int(view.frame.height * 0.078125)
+    cH = Int(_screenHeight * 0.1)
+    
+    if( _screenHeight > 800 && _screenHeight < 1000 ) { //iPhoneX, iPhoneXR only
+        cH = Int(_screenHeight * 0.09)
+    }
+    
+    // Aug 5, Tim add:
+    if _screenHeight > 1000 { //iPad only
+        cH = Int(_screenHeight * 0.1)
+    }
+    if _screenHeight > 1200 { //iPad only
+        cH = Int(_screenHeight * 0.09)
+    }
+    return cH
+}

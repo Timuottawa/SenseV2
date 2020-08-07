@@ -36,14 +36,21 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        // Aug 3, Bob add:
+        //cellH = CGFloat(Int(view.frame.height * 0.078125))
+        // Aug 6, Tim add:
+        //cellH = CGFloat(Int(_screenHeight * 0.078125))
+        cellH = CGFloat(_cellH)
+        
         backToChooseButton.layer.cornerRadius = 25
         view.bringSubviewToFront(backToChooseButton)
 
         //Init voice eviroment
         synth.delegate = self;
         
-        print("viewDidLoad width: \(self.view.frame.width)")
-        print(self.dynamicScrollView.frame.size.width)
+        //print("viewDidLoad width: \(self.view.frame.width)")
+        //print(self.dynamicScrollView.frame.size.width)
         
         //dynamicScroll()
         
@@ -99,33 +106,33 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTVCell", for: indexPath) as! CustomQuestionCell
-        
         //print("cellwidth:\(cell.frame.width)")
-        
+        //cell.layer.cornerRadius = cell.frame.width * 1/15
         //cell.contentView.frame.size.width = CGFloat(tableView.bounds.width - 100)
         //cell.center.x = view.center.x
-        
         
         let numberTwoNumber = Int(testArray[indexPath.row])! + (pageNumber - 1)
         if numberTwoNumber < 10 {
             cell.numberOne.text = String(pageNumber)
             cell.numberTwo.text = String(numberTwoNumber)
         }
-
         
         return cell
     }
-    
     var gtView = UITableView();
     let N_VIEWS:Int = 9; //Total number of the table views in the scroll view
-    let cellH = 85 //should be replaced by a relative value!
+    var cellH: CGFloat = 0 //should be replaced by a relative value!
     
     
     func dynamicScroll()
     {
         // normal iphone width
-        let tableW:CGFloat = dynamicScrollView.frame.size.width;
-        let tableH:CGFloat = CGFloat(cellH * N_VIEWS) //dynamicScrollView.frame.height;
+        let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/7;
+        let tableH:CGFloat = CGFloat(cellH * CGFloat(N_VIEWS)) //dynamicScrollView.frame.height;
+        
+        
+        //Tim
+        let scrollW:CGFloat = dynamicScrollView.frame.size.width;
         
         print("dynamicScroll:")
         print(tableW)
@@ -141,15 +148,23 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         let tView: UITableView = UITableView();
 
         // 9 x the normal width
-        tView.frame = CGRect(x: CGFloat(0) * tableW, y: tableY, width: tableW, height: tableH);
+        //Tim August 2nd
+        tView.frame = CGRect(x: CGFloat(0) * scrollW, y: tableY, width: tableW, height: tableH);
         
+        // Aug 3, Bob add:
+        tView.center.x = dynamicScrollView.center.x + CGFloat(0) * scrollW
+        //tView.frame = CGRect(x: CGFloat(0) * tableW, y: tableY, width: tableW, height: tableH);
+
+        tView.center.y += CGFloat(cellH/2)
+
         tView.delegate = self;
         tView.dataSource = self;
         tView.tableFooterView = UIView();
         tView.backgroundColor = UIColor.clear;
         tView.separatorStyle = .none;
         tView.allowsSelection = false;
-
+        
+    
         tView.estimatedRowHeight = 100.0
         tView.rowHeight = UITableView.automaticDimension
         tView.rowHeight = CGFloat(cellH) //should be replaced by a relative value!
@@ -164,8 +179,12 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         //print("dynamicSubviews--:\(dynamicScrollView.subviews.count)")
         //print("dynamicSubviews--:\(dynamicScrollView.subviews)")
     
-        let contentW:CGFloat = tableW * CGFloat(totalCount);//這個表示整個ScrollView的長度；
-        dynamicScrollView.contentSize = CGSize(width: contentW, height: tView.contentSize.height);
+        //let contentW:CGFloat = tableW * CGFloat(totalCount);//這個表示整個ScrollView的長度；
+        //Tim August 2nd
+        let contentW:CGFloat = scrollW * CGFloat(totalCount);//這個表示整個ScrollView的長度；
+        //Tim August 2nd
+        dynamicScrollView.contentSize = CGSize(width: contentW, height: tView.contentSize.height*1.5);
+        
         //dynamicScrollView.contentSize = CGSize(width: contentW, height: 0);
         dynamicScrollView.isPagingEnabled = true;
         dynamicScrollView.delegate = self;
@@ -199,10 +218,15 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             print("current page \(scrollView.currentPage)")
             print("changed")
             // 防止创建多余的tableviews
-            if dynamicScrollView.subviews.count < scrollView.currentPage+2{
+            //Tim August 2nd
+            //if dynamicScrollView.subviews.count < scrollView.currentPage+2{
+            if dynamicScrollView.subviews.count < scrollView.currentPage{
                 print("is empty page")
-                let tableW:CGFloat = self.dynamicScrollView.frame.size.width;
-                let tableH:CGFloat = CGFloat(cellH * (10-pageNumber)) //self.dynamicScrollView.frame.size.height;
+                let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/7;
+                let tableH:CGFloat = CGFloat(cellH * CGFloat((10-pageNumber))) //self.dynamicScrollView.frame.size.height;
+                
+                //Tim August 2nd
+                let scrollW:CGFloat = dynamicScrollView.frame.size.width;
                 
                 print("didScroll: \(tableW) \(tableH)")
                 
@@ -213,7 +237,12 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 tView = UITableView();
 
                 // 9 x the normal width
-                tView.frame = CGRect(x: CGFloat(scrollView.currentPage-1) * tableW, y: tableY, width: tableW, height: tableH);
+                //tView.frame = CGRect(x: CGFloat(scrollView.currentPage-1) * tableW, y: tableY, width: tableW, height: tableH);
+                
+                //Tim August 2nd
+                tView.frame = CGRect(x: CGFloat(scrollView.currentPage-1) * scrollW, y: tableY, width: tableW, height: tableH);
+                tView.center.x = dynamicScrollView.center.x + CGFloat(scrollView.currentPage-1) * scrollW
+                tView.center.y = dynamicScrollView.center.y - CGFloat(cellH/2)
                 
                 tView.delegate = self;
                 tView.dataSource = self;
@@ -229,6 +258,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 tView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionTVCell");
                 
                 dynamicScrollView.addSubview(tView)
+                //print("added one table view!")
                 
                 //print("subviews--:\(scrollView.subviews.count)")
                 //print("subviews--:\(scrollView.subviews)")

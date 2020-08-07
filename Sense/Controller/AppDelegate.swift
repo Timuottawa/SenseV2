@@ -15,8 +15,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        window = UIWindow(frame: UIScreen.main.bounds)
         
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        var initVC = sb.instantiateViewController(withIdentifier: "OnBoardingVC")
         
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: "didPerformOnboarding") {
+            initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
+        }
+        
+        window?.rootViewController = initVC
+        window?.makeKeyAndVisible()
         print("plocal storage ldata: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
         
         return true
@@ -79,4 +90,12 @@ extension UIView {
         layer.insertSublayer(shadowLayer, at: 0)
         return shadowLayer
     }
+}
+
+// Defined by Tim on August 6, 2020
+public var _screenWidth: CGFloat {
+    return UIScreen.main.bounds.width
+}
+public var _screenHeight: CGFloat {
+    return UIScreen.main.bounds.height
 }

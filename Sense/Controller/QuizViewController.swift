@@ -11,8 +11,15 @@ import Hero
 import ChameleonFramework
 import Lottie
 import AVFoundation
+import InstantSearchVoiceOverlay
 
 class QuizViewController: UIViewController {
+    
+    // Aug 3, Bob add:
+    
+    var voiceOverlay : VoiceOverlayController?
+    var isVoiceSupported : Bool?
+    var usingVoice: Bool = false
     
     var top : CGFloat?
     var bottom : CGFloat?
@@ -25,9 +32,11 @@ class QuizViewController: UIViewController {
     var screenWidth: CGFloat?
     
     //Final cell height to the scroll view
-    let cellH = 70 //Should change to a relative value?
+    var cellH: Int = 0 //Should change to a relative value?
     
 
+    @IBOutlet weak var voiceRecordButton: UIButton!
+    @IBOutlet weak var voiceSwitch: UISwitch!
     @IBOutlet var stackConstraints: [NSLayoutConstraint]!
     @IBOutlet var congratsConstraints: [NSLayoutConstraint]!
     
@@ -63,6 +72,8 @@ class QuizViewController: UIViewController {
     let largePulsatingView = AnimationView()
     let redPulsatingView = AnimationView()
     
+    let numbers = ["One": "1", "Two": "2", "Three": "3", "Four": "4", "Five": "5", "Six": "6", "Seven": "7", "Eight": "8", "Nine": "9"]
+    
     @IBOutlet var buttons: [UIButton]!
     
     let defaults = UserDefaults.standard
@@ -97,7 +108,7 @@ class QuizViewController: UIViewController {
     var animator : UIDynamicAnimator!
     
     lazy var contentViewSize = CGSize(width: self.view.frame.width, height: CGFloat(10*(cellH+20)))
-    lazy var normalViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+    lazy var normalViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height-80)
     
     var pulsatingLayer: CAShapeLayer!
     
@@ -108,58 +119,201 @@ class QuizViewController: UIViewController {
         view.backgroundColor = .white
         //view.frame = self.view.bounds
         // 40 and 80 should be relative values???
-        view.frame = CGRect(x:0, y:40, width:self.view.frame.width, height:self.view.frame.height-80)
         
-        //print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
+        // Aug 3, Bob add:
+        view.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height-20)
+        
+        print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
+        print(self)
         //Just for test
         //view.frame.size.height = 300
         
         
-        view.contentSize = contentViewSize //normalViewSize
-        view.contentOffset = CGPoint(x:0, y:20)
+        //view.contentSize = contentViewSize //normalViewSize
+        //August 3rd, Tim
+        view.contentSize = normalViewSize
+        view.isScrollEnabled = true
+        //view.contentOffset = CGPoint(x:0, y:20)
         
         return view
     }()
-    
-    
     
     @objc func revealAnswer(sender: UIButton) {
         
         
         print("yo mama")
-        if isWaiting == false {
-            largePulsatingView.isHidden = false
-            
-            largePulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
-                self.largePulsatingView.isHidden = true
+        if usingVoice != true {
+            if isWaiting == false {
+                largePulsatingView.isHidden = false
+                
+                largePulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
+                    self.largePulsatingView.isHidden = true
+                }
             }
         }
         
         
+        
     }
+    
+    func configureVoiceButton() {
+        view.bringSubviewToFront(voiceRecordButton)
+        voiceRecordButton.isHidden = false
+        
+    }
+    
+    @IBAction func switchPressed(_ sender: UISwitch) {
+        if isVoiceSupported == true {
+            
+        }
+        if sender.isOn {
+            largePulsatingView.isHidden = true
+            stackView.isHidden = true
+            usingVoice = true
+            voiceRecordButton.isHidden = false
+            view.bringSubviewToFront(voiceRecordButton)
+        }
+        else {
+            usingVoice = false
+            voiceRecordButton.isHidden = true
+            configureStackView()
+            
+        }
+    }
+    
+    @IBAction func voiceRecordPressed(_ sender: UIButton) {
+        
+        voiceOverlay?.start(on: self, textHandler: { text, final, _ in
+            let tmpTextArr = text.components(separatedBy: " ")
+            for str in tmpTextArr {
+                if Int(str) != nil {
+                    self.currentView!.ansButton.setTitle(str, for: .normal)
+                }
+                else if self.numbers[str] != nil || self.numbers[str.capitalizingFirstLetter()] != nil {
+                    self.currentView!.ansButton.setTitle(self.numbers[str.capitalizingFirstLetter()], for: .normal)
+                }
+                
+            }
+            
+            if self.currentView!.ansButton.titleLabel?.text == String(Int(self.currentView!.firstLabel!.text!)! * Int(self.currentView!.secondLabel!.text!)!) {
+                print("congratulations!")
+                self.voiceRecordButton.isHidden = true
+                self.correctAnswer()
+            } else {
+                self.redPulsatingView.isHidden = false
+                self.currentView?.ansButton.shake(count: 2, for: 0.25, withTranslation: 5)
+                self.redPulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
+                    self.redPulsatingView.isHidden = true
+                }
+                print("wrong dumbo")
+            }
+            
+        }, errorHandler: {error in
+            
+        })
+        
+    }
+    
     @IBAction func resetPressed(_ sender: UIButton) {
         print("bruh why is this gay")
         level = 1
         cellLevel = 1
+        
     }
+    
     @IBAction func reloadPressed(_ sender: UIButton) {
-        //view.layoutIfNeeded()
-        //viewDidLoad()
+
+        print("hihiahfihadf")
+        
+        let tabVC = self.tabBarController!
+        tabVC.tabBar.isHidden = false
+        tabVC.selectedIndex = 2
+        
+        tabVC.viewControllers?[2] = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "QuizViewController")
+        
+        //self.dismiss(animated: true, completion: nil)
+        
+        return
+        
+        /*
+        //Fetch default
+        fetchFromDefaults()
+        
+        //Just for test
+        
+        level = 8
+        cellLevel = 8
+        
+        ////
+        for view in scrollview.subviews {
+            view.removeFromSuperview()
+        }
+        currentView?.removeFromSuperview()
+        ////
+        
+        timesOffsetChanged = 0
+        latestYCor = 0
+        createNewView()
+        
+        //Dropdownview
+        dropDownView.isHidden = true
+        
+        isFirstClick = true
+        
+        //TabBar
+        tabBarController?.tabBar.isHidden = false
+        
+        //Timer
+        timer.invalidate()
+        seconds = 0
+        minutes = 0
+        minuteCounter.text = "00"
+        secondCounter.text = "00"
+        
+        //Set final scores to defaults
+        correctLabel.text = "0"
+        questionsCorrect = 0
+        highScoreLabel.text = "0"
+        timeLabel.text = "0"
+        secondsTimeLabel.text = "0"
+        finalView.isHidden = true
+        
+        //
+        congratsView.isHidden = true
+        
+        
+        view.layoutIfNeeded()
+        
+        */
         
     }
     
     func createNewView() {
         
-        print("createNewView")
-        //Commented by Tim on July 19, 2020
-        /*
-        if (Int(self.view.frame.height - latestYCor)) < 90 && timesOffsetChanged != 1 {
-            let scrollPoint = CGPoint(x: 0.0, y: 300.0)
-            scrollview.contentSize = contentViewSize
-            scrollview.setContentOffset(scrollPoint, animated: false)
-            timesOffsetChanged += 1
+        if cellLevel == 9 {
+            print("createNewView")
+            print( Int(self.view.frame.height - latestYCor) )
+            print(timesOffsetChanged)
         }
-        */
+        
+        //print("createNewView")'
+        
+        //Commented by Tim on July 19, 2020
+        //Uncomented by Tim on August 3nd, 2020
+        // changed by Tim from "120" to "2*cellH" August 6, 2020
+        if ((cellLevel == 9) && (Int(self.view.frame.height - latestYCor)) < (2 * cellH)) && (timesOffsetChanged != 1) {
+            //let scrollPoint = CGPoint(x: 0.0, y: 300.0)
+            print("contentViewSize:\(contentViewSize)")
+            scrollview.contentSize = contentViewSize
+            //scrollview.setContentOffset(scrollPoint, animated: false)
+            //timesOffsetChanged += 1
+        }
+        else{
+             print("normalViewSize:\(normalViewSize)")
+             scrollview.contentSize = normalViewSize
+            
+        }
+        
         // 50, 80 ? please use relative values?
         let tempCellView = CellView(frame: CGRect(x:0, y:0, width:self.view.frame.width - 50, height:self.view.frame.height-80))
         
@@ -184,7 +338,12 @@ class QuizViewController: UIViewController {
         //self.view.layoutIfNeeded()
         
         //For Stack View...
-        configureStackView()
+        if usingVoice == true {
+            configureVoiceButton()
+        } else {
+            configureStackView()
+        }
+        
         UIView.animate(withDuration: 0.5, animations: {
             // Height
             self.stackView.alpha = 1
@@ -290,6 +449,9 @@ class QuizViewController: UIViewController {
         //resetButton.isHidden = false
         view.bringSubviewToFront(dropDownView)
         // #add
+        
+        //August 6, 2020 by Tim added
+        tabBarController?.tabBar.isHidden = false
     }
     
     @objc func updater() {
@@ -396,10 +558,11 @@ class QuizViewController: UIViewController {
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "reset2quiz") {
+        if (segue.identifier == "reset2quiz") { //2quiz") {
             // Pass data to tabBarViewController
             print("Segue: reset2quiz!")
             let tabVC = segue.destination as! TabBarController
+            print(tabVC)
             // Automatically select index = 2 to run
             tabVC.selectedIndex = 2
         }
@@ -418,6 +581,8 @@ class QuizViewController: UIViewController {
         nTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(doStuff), userInfo: nil, repeats: true)
         currentView?.ansButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
         
+        self.currentView?.ansButton.setTitle(String(Int(self.currentView!.firstLabel!.text!)! * Int(self.currentView!.secondLabel!.text!)!), for: .normal)
+        
         UIView.animate(withDuration: 2.0,
                        delay: 0,
                        usingSpringWithDamping: CGFloat(0.20),
@@ -429,8 +594,8 @@ class QuizViewController: UIViewController {
                        completion: { Void in()  }
         )
         
-        
         isWaiting = true
+        
         
     }
     
@@ -457,7 +622,7 @@ class QuizViewController: UIViewController {
                 //print("Tim....height: \(button.frame.size.height)")
                 
                 button.titleLabel?.font = UIFont(name: "Gill Sans", size: button.frame.size.height*2/4)
-                
+                //button.titleLabel?.font = UIFont(name: "Gill Sans", size: 48)
                 
                 /*
                 if button.tag == 9 {
@@ -475,7 +640,7 @@ class QuizViewController: UIViewController {
         }
         
         for c in stackConstraints {
-            print(c)
+            //print(c)
             if c.identifier == "b1" || c.identifier == "b2" {
                 print("bruhuhdaufhudhfuhsfhdshf")
                 c.constant = buttons[0].frame.size.width - 20
@@ -487,8 +652,7 @@ class QuizViewController: UIViewController {
          
         
     }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func continueExec() {
         print("touch ended")
         if isWaiting == true {
             isWaiting = false
@@ -509,6 +673,10 @@ class QuizViewController: UIViewController {
                     // Height
                     self.currentView!.frame.size.height = CGFloat(self.cellH) //70
                     // Center
+                    
+                    //Aug 3, Bob add:
+                    self.currentView?.layer.cornerRadius = self.currentView!.frame.width * 1/19
+                    
                     self.currentView!.center = CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(CGFloat(self.cellLevel-self.level+1)*(self.spacing + (self.currentView!.frame.height))))
                     
                     self.currentView!.firstLabelCenter.constant += 80
@@ -529,7 +697,10 @@ class QuizViewController: UIViewController {
                         
                     }, completion: { finished in
                         
-                        self.latestYCor = CGFloat(CGFloat(self.cellLevel)*(self.spacing + (self.currentView!.frame.height)))
+                        //self.latestYCor = CGFloat(CGFloat(self.cellLevel)*(self.spacing + (self.currentView!.frame.height)))
+                        //August 6, 2020 by Tim
+                        self.latestYCor = CGFloat(CGFloat(self.cellLevel-self.level+1)*(self.spacing + (self.currentView!.frame.height)))
+                        
                         self.cellLevel += 1
                         print(self.latestYCor)
                         
@@ -555,7 +726,11 @@ class QuizViewController: UIViewController {
                 })
             }
         }
-        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        continueExec()
     }
     
     @IBAction func changeLanguage(sender: AnyObject) {
@@ -571,7 +746,7 @@ class QuizViewController: UIViewController {
         }
         
         switch button.tag {
-            case 11:
+            case 11: // pressed the return key
                 
                 if currentView!.ansButton.titleLabel?.text == String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!) {
                     print("congratulations!")
@@ -586,7 +761,7 @@ class QuizViewController: UIViewController {
                     print("wrong dumbo")
                 }
             
-            case 10:
+            case 10: //pressed the backspace key
                 if currentView?.ansButton.currentTitle?.last == "_" {
                     currentView!.ansButton.setTitle("__", for: .normal)
                 }
@@ -627,7 +802,7 @@ class QuizViewController: UIViewController {
         if level == 9 {
             nextButton.setTitle("Finish", for: .normal)
         }
-        levelTextLabel.text = "You've completed level \(level)!"
+        levelTextLabel.text = "You've completed level \(level) !"
         blurEffect.isHidden = false
         self.view.bringSubviewToFront(blurEffect)
         self.view.bringSubviewToFront(congratsView)
@@ -694,19 +869,36 @@ class QuizViewController: UIViewController {
     
     /*
     override func viewDidLayoutSubviews() {
+
         //Aug. 1st, 2020 by Tim. I don't why an imageview will be added in the scrollview automatically?
         for view in scrollview.subviews {
             view.removeFromSuperview()
         }
-        print("viewDidLayoutSubviews")
+  
     }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Aug 3, Bob add:
+        voiceRecordButton.layer.cornerRadius = voiceRecordButton.frame.width/2
+        if #available(iOS 10.0, *) {
+            voiceOverlay = VoiceOverlayController()
+            isVoiceSupported = true
+        } else {
+            isVoiceSupported = false
+        }
+        voiceOverlay?.settings.layout.inputScreen.titleInitial = "Say your answer"
+        voiceOverlay?.settings.layout.inputScreen.subtitleBulletList = []
+        voiceOverlay?.settings.layout.inputScreen.subtitleInitial = "Say your answer please:"
+        voiceOverlay?.settings.layout.inputScreen.titleInProgress = "Validating answer..."
+        
         // jul 27 bob:
-        screenHeight = view.frame.height
-        screenWidth = view.frame.width
+        screenHeight = _screenHeight
+        screenWidth = _screenWidth
+        
+        cellH = _cellH
+        
         dynamicAutolayout()
         
 
@@ -756,7 +948,8 @@ class QuizViewController: UIViewController {
         }
         audioPlayer.prepareToPlay()
         audioPlayer.play()
- */
+        */
+        
         print("GL")
         
         
@@ -788,7 +981,7 @@ class QuizViewController: UIViewController {
         currentView?.sendSubviewToBack(redPulsatingView)
         redPulsatingView.isHidden = true
         
-        largePulsatingView.frame = CGRect(x: stackView.frame.origin.x, y: stackView.frame.origin.y, width: 370, height: 400)
+        largePulsatingView.frame = CGRect(x: stackView.frame.origin.x, y: stackView.frame.origin.y, width: stackView.frame.width*1.5, height: stackView.frame.height*1.5)
         largePulsatingView.center = stackView.center
         largePulsatingView.animation = Animation.named("large_pulsating")
         largePulsatingView.loopMode = .playOnce
@@ -813,10 +1006,7 @@ class QuizViewController: UIViewController {
         //minuteCounter.isHidden = false
         //quizLabel.isHidden = false
         
-        guard let recognizerView = recognizer.view else {
-            return
-            
-        }
+
         if recognizer.state == .ended {
             if heightConstraint.constant > half! {
                 print("less")
@@ -852,9 +1042,12 @@ class QuizViewController: UIViewController {
     
     func fetchFromDefaults() {
         latestYCor = 0
+        
+        // Just for test
         level = 1
         cellLevel = 1
-        if let _ = defaults.integer(forKey: "highScore") as? Int {
+        
+        if let _ = defaults.integer(forKey: "highScore") as?  Int {
             //
         } else {
             defaults.setValue(0, forKey: "highScore")
@@ -876,7 +1069,7 @@ class QuizViewController: UIViewController {
         
         // update timely
         //self.view.layoutIfNeeded()
-        stackView.layer.zPosition = .greatestFiniteMagnitude
+        stackView.layer.zPosition = .greatestFiniteMagnitude - 1 //.greatestFiniteMagnitude
         stackView.isHidden = false
 
          
@@ -926,6 +1119,11 @@ class QuizViewController: UIViewController {
         return true
     }
     
+    deinit {
+        print(self)
+        print("!!!!!!!!!!!!!!!!!!!Quiz view controller Deinit...!!!!!!!!!!")
+    }
+    
     func dynamicAutolayout() {
         print("YO MAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMA")
         
@@ -946,6 +1144,10 @@ class QuizViewController: UIViewController {
                     c.constant = screenWidth! * 1/5
                 case "rButtonHeight":
                     c.constant = screenHeight! * 1/10
+                case "tHeight":
+                    c.constant = screenHeight! * 1/12
+                case "tWidth":
+                    c.constant = screenHeight! - (screenHeight! * 2/12)
                 default: break
                     
             }
@@ -971,6 +1173,7 @@ class QuizViewController: UIViewController {
                     c.constant = screenWidth! * 2/3
                 case "stackHeight":
                     c.constant = screenHeight! * 1/3
+                
                 default: break
             }
         }
@@ -991,4 +1194,14 @@ public extension UIButton {
     }
     
     
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }
