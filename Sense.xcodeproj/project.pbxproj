@@ -11,9 +11,9 @@
 		4D0645C524D9EF6600F5FB44 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */; };
 		4D9C577024DD7C5E0014C251 /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
 		4D9C577124DD7C5E0014C251 /* Pods_Sense.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4DA0205024AD131400745F7D /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0204F24AD131400745F7D /* Sense1.wav */; };
+		4D9C577624DD8A960014C251 /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577524DD8A960014C251 /* globe_rotation.json */; };
+		4D9C577824DD8C1F0014C251 /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577724DD8C1F0014C251 /* Sense1.wav */; };
 		4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6FD342724A91198000401BB /* DkCoolCrayon-xJyV.ttf */; };
-		4DA0205324BBB1BE00745F7D /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0205224BBB1BE00745F7D /* globe_rotation.json */; };
 		C61F60FF2384B12E007F5035 /* CustomQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */; };
 		C61F61002384B12E007F5035 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C61F60FE2384B12E007F5035 /* QuestionCell.xib */; };
 		C61F610223987B3D007F5035 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F610123987B3D007F5035 /* TabBarController.swift */; };
@@ -58,8 +58,8 @@
 		379404D15685B282E03C5A2E /* Pods-Sense.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sense.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sense/Pods-Sense.release.xcconfig"; sourceTree = "<group>"; };
 		4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardV.swift; sourceTree = "<group>"; };
 		4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
-		4DA0204F24AD131400745F7D /* Sense1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sense1.wav; path = ../../../../../Downloads/Sense1.wav; sourceTree = "<group>"; };
-		4DA0205224BBB1BE00745F7D /* globe_rotation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = globe_rotation.json; path = ../../../../../Downloads/globe_rotation.json; sourceTree = "<group>"; };
+		4D9C577524DD8A960014C251 /* globe_rotation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = globe_rotation.json; sourceTree = "<group>"; };
+		4D9C577724DD8C1F0014C251 /* Sense1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sense1.wav; sourceTree = "<group>"; };
 		C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomQuestionCell.swift; sourceTree = "<group>"; };
 		C61F60FE2384B12E007F5035 /* QuestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		C61F610123987B3D007F5035 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -142,8 +142,8 @@
 		C61F60FC2384B0E1007F5035 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4DA0205224BBB1BE00745F7D /* globe_rotation.json */,
-				4DA0204F24AD131400745F7D /* Sense1.wav */,
+				4D9C577524DD8A960014C251 /* globe_rotation.json */,
+				4D9C577724DD8C1F0014C251 /* Sense1.wav */,
 				C687DC4F24982654004C32A3 /* lighting_changer.json */,
 				C687DC492496CDB8004C32A3 /* red_pulsating.json */,
 				C687DC472496C18E004C32A3 /* large_pulsating.json */,
@@ -298,17 +298,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				C687DC4A2496CDB8004C32A3 /* red_pulsating.json in Resources */,
-				4DA0205024AD131400745F7D /* Sense1.wav in Resources */,
 				C67D9915236BA63E000B638F /* LaunchScreen.storyboard in Resources */,
 				4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */,
-				4DA0205324BBB1BE00745F7D /* globe_rotation.json in Resources */,
 				C687DC44249685BC004C32A3 /* 24455-summer-buddy.json in Resources */,
 				C687DC4224967F74004C32A3 /* Pulsating.json in Resources */,
 				C61F61002384B12E007F5035 /* QuestionCell.xib in Resources */,
 				C67D9912236BA63E000B638F /* Assets.xcassets in Resources */,
 				C687DC482496C18E004C32A3 /* large_pulsating.json in Resources */,
 				C694BB0E24246D9F0037EEC0 /* CellView.xib in Resources */,
+				4D9C577624DD8A960014C251 /* globe_rotation.json in Resources */,
 				C687DC5024982654004C32A3 /* lighting_changer.json in Resources */,
+				4D9C577824DD8C1F0014C251 /* Sense1.wav in Resources */,
 				C67D9910236BA63C000B638F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
