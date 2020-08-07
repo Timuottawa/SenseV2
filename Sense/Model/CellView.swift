@@ -37,7 +37,7 @@ class CellView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("cellveiw init frame: \(frame)")
+        //print("cellveiw init frame: \(frame)")
         self.loadView()
     }
     
@@ -78,9 +78,9 @@ class CellView: UIView {
         self.cellView.frame = self.bounds // Important!!!
         
         
-        print("cellVeiw loadvidew self.bounds:\(self.bounds)")
-        print(self.frame.size.width)
-        print(self.cellView.frame.width)
+        //print("cellVeiw loadvidew self.bounds:\(self.bounds)")
+        //print(self.frame.size.width)
+        //print(self.cellView.frame.width)
         
         self.cellView.backgroundColor = UIColor.clear
         self.addSubview(self.cellView)
@@ -116,3 +116,4 @@ public var _cellH: Int {
     }
     return cH
 }
+
