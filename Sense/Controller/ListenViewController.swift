@@ -104,6 +104,9 @@ class ListenViewController: UIViewController {
     
     
     @IBAction func playPressed(_ sender: UIButton) {
+        
+        if audioPlayer == nil { return }
+        
         if isPaused == true {
             playButton.setImage(UIImage(named: "Pause"), for: .normal)
             isPaused = false
@@ -317,6 +320,9 @@ class ListenViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        
+        if audioPlayer == nil { return }
+        
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
         audioPlayer?.stop()
