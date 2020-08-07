@@ -9,6 +9,9 @@ target 'Sense' do
   pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
   pod 'Hero'
   pod 'lottie-ios'
+  pod 'InstantSearchVoiceOverlay'
+  pod 'paper-onboarding'
+
 #  pod 'DrawerView'
 
 

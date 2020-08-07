@@ -22,8 +22,11 @@ class CustomQuestionCell: UITableViewCell {
         // Initialization code
         //var colors : Dictionary<UIColor,UIColor> = [UIColor.flatYellow: UIColor.flatYellowDark, UIColor.flatPowderBlue: UIColor.flatPowderBlueDark]
         
-        questionView.layer.cornerRadius = 30
-        questionView.backgroundColor = UIColor(gradientStyle:UIGradientStyle.topToBottom, withFrame:questionView.frame, andColors:[.flatPowderBlue(), .flatPowderBlueDark()])
+        // Aug 3, Bob add:
+        
+        questionView.layer.cornerRadius = 15
+        
+        questionView.backgroundColor = .flatPowderBlue()
         
         
         questionView.layer.shadowColor = UIColor.flatPowderBlueDark().cgColor
@@ -67,4 +70,18 @@ class CustomQuestionCell: UITableViewCell {
         }
         
     }
+    
+    //Tim
+    /*
+    override var frame: CGRect {
+        get {
+            return super.frame
+        }
+        set {
+            var frame = newValue
+            frame.origin.x += 15
+            frame.size.width -= 2*15
+            super.frame = frame
+        }
+    }*/
 }
