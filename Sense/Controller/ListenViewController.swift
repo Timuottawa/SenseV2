@@ -92,10 +92,10 @@ class ListenViewController: UIViewController {
         
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
-        audioPlayer.stop()
-        print("---\(audioPlayer.currentTime)")
-        audioPlayer.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+        audioPlayer?.stop()
+        //print("---\(audioPlayer.currentTime)")
+        audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
+        //print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
         stop = true
         firstLabel.layer.removeAllAnimations()
         secondLabel.layer.removeAllAnimations()
@@ -108,17 +108,17 @@ class ListenViewController: UIViewController {
             playButton.setImage(UIImage(named: "Pause"), for: .normal)
             isPaused = false
             stop = false
-            print("CURRENT: \(audioPlayer.currentTime)")
+            //print("CURRENT: \(audioPlayer.currentTime)")
             audioPlayer?.play()
             looper()
         }
         else {
             playButton.setImage(UIImage(named: "Play"), for: .normal)
             isPaused = true
-            audioPlayer.stop()
-            print("---\(audioPlayer.currentTime)")
-            audioPlayer.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-            print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+            audioPlayer?.stop()
+            //print("---\(audioPlayer.currentTime)")
+            audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
+            //print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
             stop = true
             firstLabel.layer.removeAllAnimations()
             secondLabel.layer.removeAllAnimations()
@@ -134,9 +134,9 @@ class ListenViewController: UIViewController {
             if isPaused == false { //To be playing...
                 
                 if cellLevel > 9 && level > 8 {
-                    audioPlayer.stop()
+                    audioPlayer?.stop()
                     
-                    audioPlayer.currentTime = 0
+                    audioPlayer?.currentTime = 0
                     slider.value = 1
                     level = 1
                     cellLevel = 1
@@ -242,9 +242,9 @@ class ListenViewController: UIViewController {
                                                 }
                                                 else { //if self.level > 9 {
                                                     
-                                                    audioPlayer.stop()
+                                                    audioPlayer?.stop()
                                                 
-                                                    audioPlayer.currentTime = TimeInterval(self.timestamps[self.index] + Double(self.bigIndex))
+                                                    audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(self.bigIndex))
                                                     print(self.level)
                                                     print(self.cellLevel)
                                                     
@@ -306,11 +306,11 @@ class ListenViewController: UIViewController {
             audioPlayer = try? AVAudioPlayer(contentsOf: url)
             
             if audioPlayer == nil {
-                print("Error in calling AVAudioPlayer().")
+                print("!!!Error in calling AVAudioPlayer().")
             }
             
             print("play....")
-            audioPlayer.prepareToPlay()
+            audioPlayer?.prepareToPlay()
             
 
         }
@@ -319,10 +319,10 @@ class ListenViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
-        audioPlayer.stop()
-        print("viewDidDisappear---\(audioPlayer.currentTime)")
-        audioPlayer.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        print("viewDidDisappear time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+        audioPlayer?.stop()
+        //print("viewDidDisappear---\(audioPlayer.currentTime)")
+        audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
+        //print("viewDidDisappear time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
         stop = true
         firstLabel.layer.removeAllAnimations()
         secondLabel.layer.removeAllAnimations()
