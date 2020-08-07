@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D8F0A86842442D12844186B /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
 		4D0645C324D9EE0300F5FB44 /* OnBoardV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */; };
 		4D0645C524D9EF6600F5FB44 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */; };
+		4D9C577024DD7C5E0014C251 /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
+		4D9C577124DD7C5E0014C251 /* Pods_Sense.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4DA0205024AD131400745F7D /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0204F24AD131400745F7D /* Sense1.wav */; };
 		4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6FD342724A91198000401BB /* DkCoolCrayon-xJyV.ttf */; };
 		4DA0205324BBB1BE00745F7D /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DA0205224BBB1BE00745F7D /* globe_rotation.json */; };
@@ -37,6 +38,20 @@
 		C6B4471C23BD9C7500022C11 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B4471B23BD9C7500022C11 /* QuizViewController.swift */; };
 		C6B4471E23BD9CCF00022C11 /* ListenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B4471D23BD9CCF00022C11 /* ListenViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4D9C577224DD7C5E0014C251 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4D9C577124DD7C5E0014C251 /* Pods_Sense.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E4A638716E3711F6B3BE1EB /* Pods-Sense.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sense.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sense/Pods-Sense.debug.xcconfig"; sourceTree = "<group>"; };
@@ -79,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D8F0A86842442D12844186B /* Pods_Sense.framework in Frameworks */,
+				4D9C577024DD7C5E0014C251 /* Pods_Sense.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +248,7 @@
 				C67D9904236BA63C000B638F /* Frameworks */,
 				C67D9905236BA63C000B638F /* Resources */,
 				F0D50FF68E4BC5A40DF821FF /* [CP] Embed Pods Frameworks */,
+				4D9C577224DD7C5E0014C251 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
