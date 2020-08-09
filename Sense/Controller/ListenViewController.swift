@@ -51,32 +51,32 @@ class ListenViewController: UIViewController {
     // Only for iPad by Tim on August 6, 2020
     func _autoLayout()
     {
-        print("_autoLayout:\(_screenHeight)")
+        _print("_autoLayout:\(_screenHeight)")
         
         if _screenHeight < 1000 { return } //iPad only
         
         for c in autoLayout {
-            print(c.identifier as Any)
-            print(c.constant)
+            _print(c.identifier as Any)
+            _print(c.constant)
             switch c.identifier {
                 case "$dS1nListen$": //100
                     if _screenHeight > 1000 { c.constant = 30 }
                     if _screenHeight > 1200 { c.constant = 80 }
                     if _screenHeight > 1300 { c.constant = 100 }
                     //c.constant = CGFloat(Int(_screenHeight * (50/1366)))
-                    print(c.constant)
+                    _print(c.constant)
                 case "$dSnSlider$": //-10
                     c.constant = -10
-                    print(c.constant)
+                    _print(c.constant)
                 case "$1label$": //61
                     c.constant = hopH + 1
-                    print(c.constant)
+                    _print(c.constant)
                 case "$2label$": //61
                     c.constant = hopH + 1
-                    print(c.constant)
+                    _print(c.constant)
                 case "$3label$": //61
                     c.constant = hopH + 1
-                    print(c.constant)
+                    _print(c.constant)
                 default: break
             }
         }
@@ -93,9 +93,9 @@ class ListenViewController: UIViewController {
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
         audioPlayer?.stop()
-        //print("---\(audioPlayer.currentTime)")
+        //_print("---\(audioPlayer.currentTime)")
         audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        //print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+        //_print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
         stop = true
         firstLabel.layer.removeAllAnimations()
         secondLabel.layer.removeAllAnimations()
@@ -111,7 +111,7 @@ class ListenViewController: UIViewController {
             playButton.setImage(UIImage(named: "Pause"), for: .normal)
             isPaused = false
             stop = false
-            //print("CURRENT: \(audioPlayer.currentTime)")
+            //_print("CURRENT: \(audioPlayer.currentTime)")
             audioPlayer?.play()
             looper()
         }
@@ -119,9 +119,9 @@ class ListenViewController: UIViewController {
             playButton.setImage(UIImage(named: "Play"), for: .normal)
             isPaused = true
             audioPlayer?.stop()
-            //print("---\(audioPlayer.currentTime)")
+            //_print("---\(audioPlayer.currentTime)")
             audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-            //print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+            //_print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
             stop = true
             firstLabel.layer.removeAllAnimations()
             secondLabel.layer.removeAllAnimations()
@@ -154,7 +154,7 @@ class ListenViewController: UIViewController {
                     slider.value = Float(level)
                 }
                 if level > 9 {
-                    print("done")
+                    _print("done")
                 }
                         
                 firstLabel.text = level.asWord
@@ -192,7 +192,7 @@ class ListenViewController: UIViewController {
                         self.firstLabelH.constant -= self.hopH //20
                         self.view.layoutIfNeeded()
                         
-                        //print(self.firstLabel.constraints) //don't print here?
+                        //_print(self.firstLabel.constraints) //don't print here?
                         
                         //self.firstLabel.frame = CGRect(x: self.firstLabel.frame.origin.x, y: self.firstLabel.frame.origin.y - 20, width: self.firstLabel.frame.width, height: self.firstLabel.frame.height)
                         
@@ -248,8 +248,8 @@ class ListenViewController: UIViewController {
                                                     audioPlayer?.stop()
                                                 
                                                     audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(self.bigIndex))
-                                                    print(self.level)
-                                                    print(self.cellLevel)
+                                                    _print(self.level)
+                                                    _print(self.cellLevel)
                                                     
                                                 }
                                             }
@@ -274,10 +274,10 @@ class ListenViewController: UIViewController {
          */
    
         //Tim
-        //print("Listen viewDidLoad:")
-        //print(stackView.frame.origin.y)
-        //print(firstLabel.frame.origin.y)
-        //print("Listen viewDidLoad constraints: \(stackView.constraints)")
+        //_print("Listen viewDidLoad:")
+        //_print(stackView.frame.origin.y)
+        //_print(firstLabel.frame.origin.y)
+        //_print("Listen viewDidLoad constraints: \(stackView.constraints)")
         
         
         //firstLabel.adjustsFontForContentSizeCategory = true
@@ -286,7 +286,7 @@ class ListenViewController: UIViewController {
         
         if _screenHeight > 1000 { //iPad only
             hopH = CGFloat(Int(_screenHeight * (60/1366)))
-            print("hopH:\(hopH)")
+            _print("hopH:\(hopH)")
             _autoLayout()
         }
         else {
@@ -309,10 +309,10 @@ class ListenViewController: UIViewController {
             audioPlayer = try? AVAudioPlayer(contentsOf: url)
             
             if audioPlayer == nil {
-                print("!!!Error in calling AVAudioPlayer().")
+                _print("!!!Error in calling AVAudioPlayer().")
             }
             
-            print("play....")
+            _print("play....")
             audioPlayer?.prepareToPlay()
             
 
@@ -326,9 +326,9 @@ class ListenViewController: UIViewController {
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
         audioPlayer?.stop()
-        //print("viewDidDisappear---\(audioPlayer.currentTime)")
+        //_print("viewDidDisappear---\(audioPlayer.currentTime)")
         audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        //print("viewDidDisappear time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
+        //_print("viewDidDisappear time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
         stop = true
         firstLabel.layer.removeAllAnimations()
         secondLabel.layer.removeAllAnimations()

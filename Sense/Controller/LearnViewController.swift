@@ -36,11 +36,50 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     @IBAction func backPressed(_ sender: Any) {
     }
     
+    //August 9, 2020 by Tim
+    init() {
+          _print("f:init()---\(Date().timeIntervalSince1970)")
+          super.init(nibName: nil, bundle: nil)
+          
+          _print(self)
+          _print("f:init()+++\(Date().timeIntervalSince1970)")
+      }
+    override func awakeFromNib() {
+          _print("f:afNib()---\(Date().timeIntervalSince1970)")
+          super.awakeFromNib()
+          
+          _print(self)
+          _print("f:afNib()+++\(Date().timeIntervalSince1970)")
+      }
+    required init?(coder aDecoder: NSCoder) {
+          _print("f:init?()---\(Date().timeIntervalSince1970)")
+          super.init(coder: aDecoder)
+          
+          _print(self)
+          _print("f:init?()+++\(Date().timeIntervalSince1970)")
+      }
+    override func loadView() {
+          _print("f:loadView()---\(Date().timeIntervalSince1970)")
+          super.loadView()
+          
+          _print(self)
+          _print("f:loadView()+++\(Date().timeIntervalSince1970)")
+      }
     
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        
+    deinit {
+        _print(self)
+        _print("!!!!!!!!!!!!!!!!!!!Free view controller Deinit...!!!!!!!!!!")
+    }
+    
+    override func viewDidLoad() {
+          
+          _print("f:vdld()---\(Date().timeIntervalSince1970)")
+          _print(self)
+          
+          super.viewDidLoad()
+          
+          _print("f:vdld()-++\(Date().timeIntervalSince1970)")
+   
         // Aug 3, Bob add:
         //cellH = CGFloat(Int(view.frame.height * 0.078125))
         // Aug 6, Tim add:
@@ -53,22 +92,24 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         //Init voice eviroment
         synth.delegate = self;
         
-        //print("viewDidLoad width: \(self.view.frame.width)")
-        //print(self.dynamicScrollView.frame.size.width)
+        //_print("viewDidLoad width: \(self.view.frame.width)")
+        //_print(self.dynamicScrollView.frame.size.width)
         
         //dynamicScroll()
+        
+        _print("f:vdld()---\(Date().timeIntervalSince1970)")
         
     }
     override func viewDidAppear(_ animated: Bool) {
         
-        print("viewDidAppear:\(self.dynamicScrollView.frame.size.width)")
+        _print("viewDidAppear:\(self.dynamicScrollView.frame.size.width)")
         
         //I don't know why StoryBoard added some view in for a blank scroll view? Junly 31, 2020 by Tim
-        print("%%%%:\(dynamicScrollView.subviews)")
+        _print("%%%%:\(dynamicScrollView.subviews)")
         for _view in self.dynamicScrollView.subviews {
             _view.removeFromSuperview()
         }
-        print("%%%%:\(dynamicScrollView.subviews)")
+        _print("%%%%:\(dynamicScrollView.subviews)")
         
         //If put in viewDidLoad(), will get wrong dynamicScrollView.frame.size.width.
         dynamicScroll()
@@ -86,7 +127,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
 
         
         //self.pageNumber = Int(tableView.frame.minX/self.dynamicScrollView.frame.size.width) + 1;
-        //print("\n tablebview page#=\(pageNumber)")
+        //_print("\n tablebview page#=\(pageNumber)")
         
         //tableView.reloadData()
         
@@ -98,13 +139,13 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         //To caculate the number of page of current table view
         
         //self.pageNumber = Int(tableView.frame.minX/self.dynamicScrollView.frame.size.width) + 1;
-        //print("width:")
-        //print(tableView.frame.width)
-        //print("view: \(view.frame.size)")
+        //_print("width:")
+        //_print(tableView.frame.width)
+        //_print("view: \(view.frame.size)")
     
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionTVCell", for: indexPath) as! CustomQuestionCell
-        //print("cellwidth:\(cell.frame.width)")
+        //_print("cellwidth:\(cell.frame.width)")
         //cell.layer.cornerRadius = cell.frame.width * 1/15
         //cell.contentView.frame.size.width = CGFloat(tableView.bounds.width - 100)
         //cell.center.x = view.center.x
@@ -132,11 +173,11 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         //Tim
         let scrollW:CGFloat = dynamicScrollView.frame.size.width;
         
-        print("dynamicScroll:")
-        print(tableW)
-        print(tableH)
-        print(view.frame.width)
-        print(view.frame.height)
+        _print("dynamicScroll:")
+        _print(tableW)
+        _print(tableH)
+        _print(view.frame.width)
+        _print(view.frame.height)
         
         let tableY:CGFloat = 0;
         let totalCount:NSInteger = N_VIEWS;//# of table views；
@@ -171,11 +212,11 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         tView.isScrollEnabled = false
         tView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionTVCell");
 
-        //print("dynamicSubviews!!!:\(dynamicScrollView.subviews)")
+        //_print("dynamicSubviews!!!:\(dynamicScrollView.subviews)")
         dynamicScrollView.addSubview(tView);
         
-        //print("dynamicSubviews--:\(dynamicScrollView.subviews.count)")
-        //print("dynamicSubviews--:\(dynamicScrollView.subviews)")
+        //_print("dynamicSubviews--:\(dynamicScrollView.subviews.count)")
+        //_print("dynamicSubviews--:\(dynamicScrollView.subviews)")
     
         //let contentW:CGFloat = tableW * CGFloat(totalCount);//這個表示整個ScrollView的長度；
         //Tim August 2nd
@@ -199,34 +240,34 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         // July 31, 2020 by Tim
         // If others such as tableview, view..., but not dynamicScrollView, just return.
         if scrollView != dynamicScrollView {
-            //print("!!!scrollView != dynamicScrollView")
+            //_print("!!!scrollView != dynamicScrollView")
             return
         }
         
-        print("didScrolled")
-        print(scrollView.currentPage)
+        _print("didScrolled")
+        _print(scrollView.currentPage)
         //探测page是否变没变
         if pageNumber == scrollView.currentPage {
             pageNumber = scrollView.currentPage
-            print("continue...")
+            _print("continue...")
         }
         else {
             pageNumber = scrollView.currentPage
             //("c")
-            print("current page \(scrollView.currentPage)")
-            print("changed")
+            _print("current page \(scrollView.currentPage)")
+            _print("changed")
             // 防止创建多余的tableviews
             //Tim August 2nd
             //if dynamicScrollView.subviews.count < scrollView.currentPage+2{
             if dynamicScrollView.subviews.count < scrollView.currentPage{
-                print("is empty page")
+                _print("is empty page")
                 let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/7;
                 let tableH:CGFloat = CGFloat(cellH * CGFloat((10-pageNumber))) //self.dynamicScrollView.frame.size.height;
                 
                 //Tim August 2nd
                 let scrollW:CGFloat = dynamicScrollView.frame.size.width;
                 
-                print("didScroll: \(tableW) \(tableH)")
+                _print("didScroll: \(tableW) \(tableH)")
                 
                 let tableY:CGFloat = 0;
                 //let totalCount:NSInteger = N_VIEWS;//# of table views；
@@ -256,16 +297,16 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 tView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionTVCell");
                 
                 dynamicScrollView.addSubview(tView)
-                //print("added one table view!")
+                //_print("added one table view!")
                 
-                //print("subviews--:\(scrollView.subviews.count)")
-                //print("subviews--:\(scrollView.subviews)")
+                //_print("subviews--:\(scrollView.subviews.count)")
+                //_print("subviews--:\(scrollView.subviews)")
                 //let prevView = scrollView.subviews[scrollView.currentPage-2]
                 //prevView.removeFromSuperview()
             }
             else {
-                print("tableview already exists")
-                print("subviews: \(dynamicScrollView.subviews.count)")
+                _print("tableview already exists")
+                _print("subviews: \(dynamicScrollView.subviews.count)")
             }
         }
     }
@@ -282,12 +323,12 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         //currentPage presents the number of current table view
         
         //if pageNumber == scrollView        // Do something with your page update
-        //print("scrollViewDidEndDecelerating: \(currentPage)")
+        //_print("scrollViewDidEndDecelerating: \(currentPage)")
         
         
-        //print(pageNumber)
+        //_print(pageNumber)
         //let currentPage:Int = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
-        //print("scrollView Page: \(currentPage)");
+        //_print("scrollView Page: \(currentPage)");
         
         
         //if currentPage == 0 {
@@ -309,8 +350,8 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 // 设置语音环境，保证能朗读出声音（特别是刚做过语音识别，这句话必加，不然没声音）
                 try audioSession.setCategory(AVAudioSession.Category.ambient)
             }catch let error as NSError{
-                print("!!!error.code!!!\n")
-                print(error.code)
+                _print("!!!error.code!!!\n")
+                _print(error.code)
             }
             //需要转的文本
             let utterance = AVSpeechUtterance.init(string: message)
@@ -390,7 +431,7 @@ extension UIResponder {
 
 extension UIScrollView {
     var currentPage: Int {
-        //print("$currentPage$:\(self.contentOffset.x)")
+        //_print("$currentPage$:\(self.contentOffset.x)")
         return Int((self.contentOffset.x + (0.5 * self.frame.size.width))/self.frame.width)+1
     }
 }

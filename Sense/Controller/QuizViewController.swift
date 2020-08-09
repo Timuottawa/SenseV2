@@ -124,8 +124,8 @@ class QuizViewController: UIViewController {
         // Aug 3, Bob add:
         view.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height-20)
         
-        print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
-        print(self)
+        _print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
+        _print(self)
         //Just for test
         //view.frame.size.height = 300
         
@@ -142,7 +142,7 @@ class QuizViewController: UIViewController {
     @objc func revealAnswer(sender: UIButton) {
         
         
-        print("yo mama")
+        _print("yo mama")
         if usingVoice != true {
             if isWaiting == false {
                 largePulsatingView.isHidden = false
@@ -201,7 +201,7 @@ class QuizViewController: UIViewController {
             }
             
             if self.currentView!.ansButton.titleLabel?.text == String(Int(self.currentView!.firstLabel!.text!)! * Int(self.currentView!.secondLabel!.text!)!) {
-                print("congratulations!")
+                _print("congratulations!")
                 self.voiceRecordButton.isHidden = true
                 self.correctAnswer()
             } else {
@@ -210,7 +210,7 @@ class QuizViewController: UIViewController {
                 self.redPulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
                     self.redPulsatingView.isHidden = true
                 }
-                print("wrong dumbo")
+                _print("wrong dumbo")
             }
             
         }, errorHandler: {error in
@@ -239,7 +239,7 @@ class QuizViewController: UIViewController {
         
     }
     @IBAction func resetPressed(_ sender: UIButton) {
-        print("bruh why is this gay")
+        _print("bruh why is this gay")
         level = 1
         cellLevel = 1
     
@@ -253,6 +253,11 @@ class QuizViewController: UIViewController {
         
         tabVC.viewControllers?[2] = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "QuizViewController")
         
+        //Pre-loadView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            _ = tabVC.viewControllers?[2].view
+        }
+        
         dismiss(animated: false, completion: nil)
         
         return
@@ -261,7 +266,7 @@ class QuizViewController: UIViewController {
     
     @IBAction func reloadPressed(_ sender: UIButton) {
 
-        print("hihiahfihadf")
+        _print("hihiahfihadf")
         
         let tabVC = self.tabBarController!
         tabVC.tabBar.isHidden = false
@@ -332,25 +337,25 @@ class QuizViewController: UIViewController {
     func createNewView() {
         
         if cellLevel == 9 {
-            print("createNewView")
-            print( Int(self.view.frame.height - latestYCor) )
-            print(timesOffsetChanged)
+            _print("createNewView")
+            _print( Int(self.view.frame.height - latestYCor) )
+            _print(timesOffsetChanged)
         }
         
-        //print("createNewView")'
+        //_print("createNewView")'
         
         //Commented by Tim on July 19, 2020
         //Uncomented by Tim on August 3nd, 2020
         // changed by Tim from "120" to "2*cellH" August 6, 2020
         if ((cellLevel == 9) && (Int(self.view.frame.height - latestYCor)) < (2 * cellH)) && (timesOffsetChanged != 1) {
             //let scrollPoint = CGPoint(x: 0.0, y: 300.0)
-            print("contentViewSize:\(contentViewSize)")
+            _print("contentViewSize:\(contentViewSize)")
             scrollview.contentSize = contentViewSize
             //scrollview.setContentOffset(scrollPoint, animated: false)
             //timesOffsetChanged += 1
         }
         else{
-             print("normalViewSize:\(normalViewSize)")
+             _print("normalViewSize:\(normalViewSize)")
              scrollview.contentSize = normalViewSize
             
         }
@@ -369,9 +374,9 @@ class QuizViewController: UIViewController {
         // !!!
         view.addSubview(tempCellView)
         
-        //print("tempcellView orgin.y and height:")
-        //print(tempCellView.frame.origin.y)
-        //print(tempCellView.frame.height)
+        //_print("tempcellView orgin.y and height:")
+        //_print(tempCellView.frame.origin.y)
+        //_print(tempCellView.frame.height)
         
         currentView = tempCellView
 
@@ -402,7 +407,7 @@ class QuizViewController: UIViewController {
     
        // Initialize the CellView
        func cellViewInitialization(CellView: CellView,cl: String, ll: String) {
-           print(timesOffsetChanged)
+           _print(timesOffsetChanged)
            
            //CellView.cellView.backgroundColor = .clear
            let sub = (timesOffsetChanged+1) - (timesOffsetChanged*spacing)
@@ -416,7 +421,7 @@ class QuizViewController: UIViewController {
            CellView.newplyCenter.constant -= 80
            CellView.equalSign.frame.origin.y -= 80
            CellView.ansButton.frame.origin.y -= 80
-           //print("ANSBUTTON CONSTRAINTS: \(CellView.ansButton.constraints)")
+           //_print("ANSBUTTON CONSTRAINTS: \(CellView.ansButton.constraints)")
            /*
             if cellLevel != 1 {
             let aboveViewTag = Int(String(level)+String(Int(cellLevel)-1))
@@ -481,7 +486,7 @@ class QuizViewController: UIViewController {
         
         correctLabel.text = "0"
         highScoreLabel.text = "0"
-        print(questionsCorrect)
+        _print(questionsCorrect)
         level = 1
         cellLevel = 1
         
@@ -524,7 +529,7 @@ class QuizViewController: UIViewController {
             view.removeFromSuperview()
         }
         if level == 9 {
-            print("floor gang auh")
+            _print("floor gang auh")
             finalScoreViewConfig()
         }
         else {
@@ -543,7 +548,7 @@ class QuizViewController: UIViewController {
             view.removeFromSuperview()
         }
         if level == 9 {
-            print("floor gang auh")
+            _print("floor gang auh")
             finalScoreViewConfig()
         }
         else {
@@ -602,10 +607,10 @@ class QuizViewController: UIViewController {
         //if (segue.identifier == "reset2quiz") { //2quiz") {
         if (segue.identifier == "reset") { //2quiz") {
             // Pass data to tabBarViewController
-            print("Segue: reset!")
+            _print("Segue: reset!")
 
             
-            print("self:\(self as Any)")
+            _print("self:\(self as Any)")
             
             let tabVC = segue.destination as! TabBarController
             
@@ -613,7 +618,7 @@ class QuizViewController: UIViewController {
             //let tabVC = self.tabBarController
             tabVC.selectedIndex = 1
             
-            print("again Self:\(self as Any)")
+            _print("again Self:\(self as Any)")
             //self.tabBarController?.dismissMe(animated: false)
             //self.dismissMe(animated: false)
             
@@ -626,9 +631,9 @@ class QuizViewController: UIViewController {
             isFirstClick = false
             tabBarController?.tabBar.isHidden = true
         }
-        print("correctAnswer")
-        print(cellLevel)
-        print(level)
+        _print("correctAnswer")
+        _print(cellLevel)
+        _print(level)
         questionsCorrect += 1
         nTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(doStuff), userInfo: nil, repeats: true)
         currentView?.ansButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
@@ -661,8 +666,8 @@ class QuizViewController: UIViewController {
         //stackView.frame.origin.x = view.frame.width/2
         
         //stackView.frame.origin.y = (currentView?.frame.origin.y)! + 300
-        //print("origin: \(stackView.center)")
-        //print("size: \(stackView.frame)")
+        //_print("origin: \(stackView.center)")
+        //_print("size: \(stackView.frame)")
         for (_, button) in buttons.enumerated() {
             if button.tag != 11 && button.tag != 10 {
                 button.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
@@ -671,7 +676,7 @@ class QuizViewController: UIViewController {
                 button.titleLabel?.adjustsFontSizeToFitWidth = true
                 
                 //July 28 pm, 2020 by Tim
-                //print("Tim....height: \(button.frame.size.height)")
+                //_print("Tim....height: \(button.frame.size.height)")
                 
                 button.titleLabel?.font = UIFont(name: "Gill Sans", size: button.frame.size.height*2/4)
                 //button.titleLabel?.font = UIFont(name: "Gill Sans", size: 48)
@@ -687,14 +692,14 @@ class QuizViewController: UIViewController {
             else {
                 button.contentVerticalAlignment = .fill
                 button.contentHorizontalAlignment = .fill
-                print(button.frame.size)
+                _print(button.frame.size)
             }
         }
         
         for c in stackConstraints {
-            //print(c)
+            //_print(c)
             if c.identifier == "b1" || c.identifier == "b2" {
-                print("bruhuhdaufhudhfuhsfhdshf")
+                _print("bruhuhdaufhudhfuhsfhdshf")
                 c.constant = buttons[0].frame.size.width - 20
             }
             else if c.identifier == "b1h" || c.identifier == "b2h" {
@@ -705,7 +710,7 @@ class QuizViewController: UIViewController {
         
     }
     func continueExec() {
-        print("touch ended")
+        _print("touch ended")
         if isWaiting == true {
             isWaiting = false
             nTimer.invalidate()
@@ -719,7 +724,7 @@ class QuizViewController: UIViewController {
             pulsatingLayerConfig(parentView: currentView!.ansButton)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                 // wait for user to dismiss: tap any open area
-                print("hi")
+                _print("hi")
                 // Animating....
                 UIView.animate(withDuration: 0.5, animations: {
                     // Height
@@ -754,19 +759,19 @@ class QuizViewController: UIViewController {
                         self.latestYCor = CGFloat(CGFloat(self.cellLevel-self.level+1)*(self.spacing + (self.currentView!.frame.height)))
                         
                         self.cellLevel += 1
-                        print(self.latestYCor)
+                        _print(self.latestYCor)
                         
                         
                         
                         // CellView doesnot belong to scrollview at the beginning
                         self.currentView!.removeFromSuperview()
                         self.scrollview.addSubview(self.currentView!)
-                        //print("cellFrame:\(String(describing: self.currentView))")
-                        //print("scrollview:\(self.scrollview.subviews)")
+                        //_print("cellFrame:\(String(describing: self.currentView))")
+                        //_print("scrollview:\(self.scrollview.subviews)")
                         
                         
                         if self.cellLevel > 9 {
-                            print("cellLevel: \(self.cellLevel), level: \(self.level)")
+                            _print("cellLevel: \(self.cellLevel), level: \(self.level)")
                             self.enterNewLevel()
                             //source
                         }
@@ -791,12 +796,12 @@ class QuizViewController: UIViewController {
         guard let button = sender as? UIButton else {
             return
         }
-        print("changeLanguage")
+        _print("changeLanguage")
         
         let ans_length: Int = String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!).count;
         if currentView?.ansButton.currentTitle == "_" || currentView?.ansButton.currentTitle == "__" {
             currentView!.ansButton.setTitle("", for: .normal)
-            print("removed!!")
+            _print("removed!!")
         }
         
         switch button.tag {
@@ -804,7 +809,7 @@ class QuizViewController: UIViewController {
                 
                 if currentView!.ansButton.titleLabel?.text == String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!) {
                     gVars.soundEffect(filename: "correctmc", ext: "mp3")
-                    print("congratulations!")
+                    _print("congratulations!")
                     stackView.alpha = 0
                     correctAnswer()
                 } else {
@@ -814,7 +819,7 @@ class QuizViewController: UIViewController {
                     redPulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
                         self.redPulsatingView.isHidden = true
                     }
-                    print("wrong dumbo")
+                    _print("wrong dumbo")
                 }
             
             case 10: //pressed the backspace key
@@ -834,13 +839,13 @@ class QuizViewController: UIViewController {
                 
                 if ans_length == 1 {
                     currentView!.ansButton.setTitle(String(button.tag), for: .normal)
-                    print("equal")
+                    _print("equal")
                 }
                 else {
                     if currentView?.ansButton.currentTitle?.count != ans_length && currentView?.ansButton.currentTitle?.last != "_" && currentView?.ansButton.currentTitle == "" {
                         currentView!.ansButton.setTitle((currentView?.ansButton.currentTitle)! + String(button.tag) + "_", for: .normal)
-                        print("plus equal")
-                        print(currentView?.ansButton.currentTitle as Any)
+                        _print("plus equal")
+                        _print(currentView?.ansButton.currentTitle as Any)
                     }
                     else {
                         
@@ -849,12 +854,12 @@ class QuizViewController: UIViewController {
                     }
                 }
                 
-                print("button.tag:\(button.tag)")
+                _print("button.tag:\(button.tag)")
             
         }
     }
     func enterNewLevel() {
-        print("level complete")
+        _print("level complete")
         gVars.soundEffect(filename: "congrats", ext: "mp3")
         if level == 9 {
             nextButton.setTitle("Finish", for: .normal)
@@ -866,7 +871,7 @@ class QuizViewController: UIViewController {
         congratsView.isHidden = false
         tabBarController?.tabBar.isHidden = false
         self.view.layoutIfNeeded()
-        //print(scrollview.subviews)
+        //_print(scrollview.subviews)
     }
     
     func configureCongrats() {
@@ -921,8 +926,8 @@ class QuizViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         gVars.level = level
         gVars.cellLevel = cellLevel
-        print(self as Any)
-        print("levels \(gVars.level) \(gVars.cellLevel)")
+        _print(self as Any)
+        _print("levels \(gVars.level) \(gVars.cellLevel)")
     }
     
     /*
@@ -937,41 +942,45 @@ class QuizViewController: UIViewController {
     
     //August 8, 2020 by Tim
     init() {
-        print("quiz:init()---\(Date().timeIntervalSince1970)")
+        _print("quiz:init()---\(Date().timeIntervalSince1970)")
         super.init(nibName: nil, bundle: nil)
-        print(self)
-        print("quiz:init()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("quiz:init()+++\(Date().timeIntervalSince1970)")
     }
     override func awakeFromNib() {
-        print("quiz:afNib()---\(Date().timeIntervalSince1970)")
+        _print("quiz:afNib()---\(Date().timeIntervalSince1970)")
         super.awakeFromNib()
-        print(self)
-        print("quiz:afNib()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("quiz:afNib()+++\(Date().timeIntervalSince1970)")
     }
     required init?(coder aDecoder: NSCoder) {
-        print("quiz:init?()---\(Date().timeIntervalSince1970)")
+        _print("quiz:init?()---\(Date().timeIntervalSince1970)")
         super.init(coder: aDecoder)
-        print(self)
-        print("quiz:init?()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("quiz:init?()+++\(Date().timeIntervalSince1970)")
     }
     override func loadView() {
-        print("quiz:loadView()---\(Date().timeIntervalSince1970)")
+        _print("quiz:loadView()---\(Date().timeIntervalSince1970)")
         super.loadView()
-        print(self)
-        print("quiz:loadView()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("quiz:loadView()+++\(Date().timeIntervalSince1970)")
     }
     override func viewDidLoad() {
         
-        print("quiz:vdld()---\(Date().timeIntervalSince1970)")
-        print(self)
+        _print("quiz:vdld()---\(Date().timeIntervalSince1970)")
+        _print(self)
         
         super.viewDidLoad()
         
-        print("quiz:vdld()-++\(Date().timeIntervalSince1970)")
+        _print("quiz:vdld()-++\(Date().timeIntervalSince1970)")
         
     
 
-        print("Quiz:viewdidLoad...")
+        _print("Quiz:viewdidLoad...")
         // Aug 3, Bob add:
         voiceRecordButton.layer.cornerRadius = voiceRecordButton.frame.width/2
         if #available(iOS 10.0, *) {
@@ -1046,19 +1055,19 @@ class QuizViewController: UIViewController {
             audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "Sense", ofType: "mp3")!))
         }
         catch {
-            print(error)
+            _print(error)
         }
         audioPlayer.prepareToPlay()
         audioPlayer.play()
         */
         
-        print("GL")
+        _print("GL")
         
         
     }
     @objc func doStuff() {
         // perform any action you wish to
-        print("User inactive for more than 5 seconds .")
+        _print("User inactive for more than 5 seconds .")
         nTimer.invalidate()
     }
     
@@ -1118,7 +1127,7 @@ class QuizViewController: UIViewController {
 
         if recognizer.state == .ended {
             if heightConstraint.constant > half! {
-                print("less")
+                _print("less")
                 //resetButton.isHidden = true
                 //reloadButton.isHidden = true
                 UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
@@ -1129,7 +1138,7 @@ class QuizViewController: UIViewController {
                 }
             }
             else {
-                print("greater")
+                _print("greater")
                 UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
                     self.heightConstraint.constant = self.bottom!
                     //
@@ -1173,7 +1182,7 @@ class QuizViewController: UIViewController {
     
     //Confgiure the StackView
     func configureStackView() {
-        //print("DEBUG_BUTTONS: \(buttons)")
+        //_print("DEBUG_BUTTONS: \(buttons)")
         stackView.layer.cornerRadius = 15
         
         // update timely
@@ -1183,8 +1192,8 @@ class QuizViewController: UIViewController {
 
          
         //By Tim
-        print("configureStackView screenHeight: \(String(describing: screenHeight))")
-        print("configureStackView constant: \(stackViewCenterY.constant)")
+        _print("configureStackView screenHeight: \(String(describing: screenHeight))")
+        _print("configureStackView constant: \(stackViewCenterY.constant)")
         
         if screenHeight! > 1000 { //for iPad?
             stackViewCenterY.constant = screenHeight! * 1/5 //should caculate for it?
@@ -1214,14 +1223,14 @@ class QuizViewController: UIViewController {
         
         CellView.center = CGPoint(x: self.view.frame.size.width  / 2, y: (self.view.frame.size.height / 2)*(timesOffsetChanged+1) - (timesOffsetChanged*spacing))
         
-        //print(CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2)))
+        //_print(CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2)))
         //CellView.cellView.frame.size.height = self.view.frame.height / 2
         
         CellView.cellView.center = CGPoint(x: CellView.cellView.frame.size.width  / 2, y: (self.view.frame.size.height / 2)*(timesOffsetChanged+1) - (timesOffsetChanged*spacing))
         
-        //print(CellView.center)
+        //_print(CellView.center)
         //CellView.cellView.center = CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2))
-        //print(CellView.cellView.center)
+        //_print(CellView.cellView.center)
         
     }
     override var prefersStatusBarHidden: Bool {
@@ -1229,17 +1238,17 @@ class QuizViewController: UIViewController {
     }
     
     deinit {
-        print(self)
-        print("!!!!!!!!!!!!!!!!!!!Quiz view controller Deinit...!!!!!!!!!!")
+        _print(self)
+        _print("!!!!!!!!!!!!!!!!!!!Quiz view controller Deinit...!!!!!!!!!!")
     }
     
     func dynamicAutolayout() {
-        print("YO MAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMA")
+        _print("YO MAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMAMA")
         
-        print(screenHeight!)
-        print(screenWidth!)
+        _print(screenHeight!)
+        _print(screenWidth!)
         for c in congratsConstraints {
-            //print(c.identifier)
+            //_print(c.identifier)
             switch c.identifier {
                 case "height":
                     c.constant = screenHeight! * 2/3
@@ -1263,7 +1272,7 @@ class QuizViewController: UIViewController {
             
         }
         
-        //print(proceedConstraints)
+        //_print(proceedConstraints)
         for c in proceedConstraints {
         
             switch c.identifier {

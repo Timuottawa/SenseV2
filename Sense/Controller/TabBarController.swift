@@ -15,25 +15,34 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     
     var kBarHeight: CGFloat = 80
     
+    func InitPreLoadVC()
+    {
+        //Init for Guided and Freestyle
+        self._guidedLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GuidedLearningVC")
+        //_guidedLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        //_guidedLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //
+        
+        self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
+        //_freeLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        //_freeLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        
         
         self.delegate = self
         self.selectedIndex = 1
         
-        //Init for Guided and Freestyle
-        self._guidedLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GuidedLearningVC")
-        _guidedLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        _guidedLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        //
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.InitPreLoadVC()
+        }
         
-        self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
-        _freeLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        _freeLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        //
-        
-        //print("tabbarVCs---\(self.viewControllers as Any)")
-        //print(self)
+        //_print("tabbarVCs---\(self.viewControllers as Any)")
+        //_print(self)
         
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
         //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10) //seems problem?
@@ -49,7 +58,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         // Use data from the view controller which initiated the unwind segue
                 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            print("unwindToGuidedLearningVC...")
+            _print("unwindToGuidedLearningVC...")
             self._guidedLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GuidedLearningVC")
             sourceViewController.dismiss(animated: false, completion: nil)
             
@@ -66,7 +75,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         // Use data from the view controller which initiated the unwind segue
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            print("unwindToLearningVC...")
+            _print("unwindToLearningVC...")
             self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
             sourceViewController.dismiss(animated: false, completion: nil)
             
@@ -88,49 +97,49 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     //August 8, 2020 by Tim
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-
+        
         //Pre-viewLoad() to speed up
-        AsyncDispatch()
-
+        //AsyncDispatch()
     }
+
     
     //August 8, 2020 by Tim
     func AsyncDispatch()
     {
+            
         //August 8, 2020 by Tim
          //Speed quizview up, pre-loadView !
          DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //print("+-+-+-+-+:dispatch quizvc")
+             //_print("+-+-+-+-+:dispatch quizvc")
              _ = self.viewControllers?[2].view
          }
          
          //Speed up GuildedLearningCV
          DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //print("+-+-+-+-+:dispatch GuildedLearning")
+             //_print("+-+-+-+-+:dispatch GuildedLearning")
              _ = self._guidedLearningVC?.view
          }
          
          //Speed up GuildedLearningCV
          DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //print("+-+-+-+-+:dispatch freeLearning")
+             //_print("+-+-+-+-+:dispatch freeLearning")
              _ = self._freeLearningVC?.view
          }
         
     }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         //Speed up and pre-viewLoad()
-        AsyncDispatch()
+        //AsyncDispatch()
         
         //tabBar.frame.size.height = CGFloat(kBarHeight)
-        //print("tabviewHeight: \(view.frame.height) and \(view.frame.size.height) and \(tabBar.frame.size.height) and \(tabBar.frame.size.width)")
+        //_print("tabviewHeight: \(view.frame.height) and \(view.frame.size.height) and \(tabBar.frame.size.height) and \(tabBar.frame.size.width)")
         if #available(iOS 11.0, *) {
             if (view.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.height) > 20 {
                 tabBar.roundedTop(30)
-                //print(view.safeAreaLayoutGuide.layoutFrame.size.height)
-                //print(view.frame.height)
+                //_print(view.safeAreaLayoutGuide.layoutFrame.size.height)
+                //_print(view.frame.height)
                 // 734, 812
             }
         
@@ -139,7 +148,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
             
         }
         
-        //print("batItem height:\(tabBar.frame.height)")
+        //_print("batItem height:\(tabBar.frame.height)")
 
         
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
@@ -156,7 +165,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         //---------------------
               
         //---------------------Adjust tabBar image position
-        //print("Tab bar ...Tim")
+        //_print("Tab bar ...Tim")
         let tabBar = self.tabBar
         let tabBarHeight = tabBar.frame.height
         let iH: Int = (Int)(tabBarHeight)
@@ -164,8 +173,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         
         for tb in tabBar.items! {
 
-              print("choose H:\(iH)")
-              //print(tb.tag)
+              _print("choose H:\(iH)")
+              //_print(tb.tag)
             
             
               if  iH > 60 {
@@ -173,7 +182,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
               }
               else {
                   if tb.tag == 3 {
-                      //print("frame.height:\(self.view.frame.height)")
+                      //_print("frame.height:\(self.view.frame.height)")
                       if(self.view.frame.height > 1000){ //for iPad only
                           tb.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -3, right: 0)
                       }
@@ -187,7 +196,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
                   }
               }
             
-             //print(tb.selectedImage as Any)
+             //_print(tb.selectedImage as Any)
             
               
              if tabBar.frame.width > 900 || ( _screenHeight == 1024 && _screenWidth == 768 ){ // iPad and ipad2 only
@@ -255,6 +264,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         // Pass the selected object to the new view controller.
     }
     */
+    
 }
 
 //---------------------Change tabBar Height for iPad only
@@ -265,7 +275,7 @@ class CustomeTabBar: UITabBar {
         
         var sizeThatFits = super.sizeThatFits(size)
         
-        print("sizeThatFites: \(sizeThatFits)")
+        //_print("sizeThatFites: \(sizeThatFits)")
         
         if sizeThatFits.width > 1000 { //For iPad
             sizeThatFits.height = 83 //same as iPhoneX

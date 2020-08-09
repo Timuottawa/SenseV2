@@ -8,6 +8,19 @@
 
 import UIKit
 
+//August 9, 2020 by Tim
+//Wrapper for print()
+#if DEBUG //DEBUG is defined by Swift Compiler (Xcode)
+//func _print(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+func _print(_ items: Any...) {
+    print(items)
+}
+#else
+func _print(_ items: Any...) {
+    return
+}
+#endif
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -26,15 +39,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
         }
         
+        //Set rootViewController, so don't set Entry Point in Storyboard.
+        //In the app's setting, go to your target and the Info tab. There clear the value of Main storyboard file base name. This will remove the following warning: Failed to instantiate the default view controller for UIMainStoryboardFile 'Main' - perhaps the designated entry point is not set?
         window?.rootViewController = initVC
         
         if #available(iOS 10.0, *) {
             window?.makeKeyAndVisible()  //??? will crash on iPad2
         }
         
-        print("plocal storage ldata: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
+        _print("plocal storage ldata: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
+        
         
         return true
+    }
+    
+    //August 9, 2020 by Tim
+    //Set screen to portrait only
+    var interfaceOrientations: UIInterfaceOrientationMask = .portrait /*{
+        
+        didSet {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        }
+    }*/
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return interfaceOrientations
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -46,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //print("applicationDidEnterBackground: \(gVars.level) \(gVars.cellLevel)")
         let defaults = UserDefaults.standard
         let cL = defaults.integer(forKey: "cellLevel") 
-        print(cL)
+        _print(cL)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -59,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        print("applicationWillTerminate")
+        _print("applicationWillTerminate")
     }
 
 

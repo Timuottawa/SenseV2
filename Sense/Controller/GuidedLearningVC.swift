@@ -48,12 +48,12 @@ class GuidedLearningVC: UIViewController {
     lazy var scrollview: UIScrollView = {
         let view = UIScrollView(frame: .zero)
         
-        //print("scrollview creating...")
+        //_print("scrollview creating...")
         view.backgroundColor = .white
         //view.frame = self.view.bounds
         view.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         
-        //print(self.view.bounds)
+        //_print(self.view.bounds)
         //Just for test
         //view.frame.size.height = 300
         view.contentSize = normalViewSize
@@ -64,46 +64,56 @@ class GuidedLearningVC: UIViewController {
     
     //August 8, 2020 by Tim
     init() {
-        print("g:init()---\(Date().timeIntervalSince1970)")
+        _print("g:init()---\(Date().timeIntervalSince1970)")
         super.init(nibName: nil, bundle: nil)
-        print(self)
-        print("g:init()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("g:init()+++\(Date().timeIntervalSince1970)")
     }
     override func awakeFromNib() {
-        print("g:afNib()---\(Date().timeIntervalSince1970)")
+        _print("g:afNib()---\(Date().timeIntervalSince1970)")
         super.awakeFromNib()
-        print(self)
-        print("g:afNib()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("g:afNib()+++\(Date().timeIntervalSince1970)")
     }
     required init?(coder aDecoder: NSCoder) {
-        print("g:init?()---\(Date().timeIntervalSince1970)")
+        _print("g:init?()---\(Date().timeIntervalSince1970)")
         super.init(coder: aDecoder)
-        print(self)
-        print("g:init?()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("g:init?()+++\(Date().timeIntervalSince1970)")
     }
     override func loadView() {
-        print("g:loadView()---\(Date().timeIntervalSince1970)")
+        _print("g:loadView()---\(Date().timeIntervalSince1970)")
         super.loadView()
-        print(self)
-        print("g:loadView()+++\(Date().timeIntervalSince1970)")
+        
+        _print(self)
+        _print("g:loadView()+++\(Date().timeIntervalSince1970)")
     }
+    
+    deinit {
+        _print(self)
+        _print("!!!!!!!!!!!!!!!!!!!Guided view controller Deinit...!!!!!!!!!!")
+    }
+    
     override func viewDidLoad() {
         
-        print("g:vdld()---\(Date().timeIntervalSince1970)")
-        print(self)
+        _print("g:vdld()---\(Date().timeIntervalSince1970)")
+        _print(self)
         
         super.viewDidLoad()
         
-        print("g:vdld()-++\(Date().timeIntervalSince1970)")
+        _print("g:vdld()-++\(Date().timeIntervalSince1970)")
         
     
 
         
         cellH = _cellH
         
-        print("cellH:\(cellH)")
-        print("contentViewSize:\(contentViewSize)")
-        print("normalViewSize:\(normalViewSize)")
+        _print("cellH:\(cellH)")
+        _print("contentViewSize:\(contentViewSize)")
+        _print("normalViewSize:\(normalViewSize)")
         
         // Just for test
         level = 1
@@ -126,10 +136,10 @@ class GuidedLearningVC: UIViewController {
         shadow(view: proceedButton)
         blurEffect.isHidden = true
         self.view.bringSubviewToFront(blurEffect)
-        print("GL")
+        _print("GL")
         self.view.bringSubviewToFront(backButton)
 
-        print("g:vdld()+++\(Date().timeIntervalSince1970)")
+        _print("g:vdld()+++\(Date().timeIntervalSince1970)")
     }
     
     
@@ -142,7 +152,7 @@ class GuidedLearningVC: UIViewController {
             isWaiting = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                 // wait for user to dismiss: tap any open area
-                print("hi")
+                _print("hi")
                 // Animating....
                 UIView.animate(withDuration: 0.5, animations: {
                     // Height
@@ -169,7 +179,7 @@ class GuidedLearningVC: UIViewController {
                                               
                         
                         self.cellLevel += 1
-                        print(self.latestYCor)
+                        _print(self.latestYCor)
                         
                         
                         
@@ -179,7 +189,7 @@ class GuidedLearningVC: UIViewController {
                         
                         
                         if self.cellLevel > 9 {
-                            print("cellLevel: \(self.cellLevel), level: \(self.level)")
+                            _print("cellLevel: \(self.cellLevel), level: \(self.level)")
                             self.enterNewLevel()
                             //source
                         }
@@ -198,8 +208,8 @@ class GuidedLearningVC: UIViewController {
     @objc func revealAnswer(sender: UIButton) {
         if isWaiting == false {
             isWaiting = true
-            print(cellLevel)
-            print(level)
+            _print(cellLevel)
+            _print(level)
             let str_result = String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!);
             pulsatingView.removeFromSuperview()
             currentView!.ansButton.setTitle(str_result, for: .normal);
@@ -245,19 +255,19 @@ class GuidedLearningVC: UIViewController {
     func createNewView() {
         
         if cellLevel == 9 {
-            //print("createNewView")
-            //print( Int(self.view.frame.height - latestYCor) )
-            //print(timesOffsetChanged)
+            //_print("createNewView")
+            //_print( Int(self.view.frame.height - latestYCor) )
+            //_print(timesOffsetChanged)
         }
         
-        //print("createNewView")'
+        //_print("createNewView")'
         
         //Commented by Tim on July 19, 2020
         //Uncomented by Tim on August 3nd, 2020
         // changed by Tim from "120" to "2*cellH" August 6, 2020
         if ((cellLevel == 9) && (Int(self.view.frame.height - latestYCor)) < (2 * cellH)) && (timesOffsetChanged != 1) {
             //let scrollPoint = CGPoint(x: 0.0, y: 300.0)
-            //print("contentViewSize:\(contentViewSize)")
+            //_print("contentViewSize:\(contentViewSize)")
             
             scrollview.contentSize = contentViewSize
             
@@ -265,7 +275,7 @@ class GuidedLearningVC: UIViewController {
             //timesOffsetChanged += 1
         }
         else{
-             //print("normalViewSize:\(normalViewSize)")
+             //_print("normalViewSize:\(normalViewSize)")
              scrollview.contentSize = normalViewSize
             
         }
@@ -348,7 +358,7 @@ class GuidedLearningVC: UIViewController {
         UIView.animate(withDuration: 2, animations: {
             self.congratsView.isHidden = true
             if self.finished != true {
-                print("finished!!!!")
+                _print("finished!!!!")
                 self.proceedButton.isHidden = false
             }
             self.blurEffect.isHidden = true
@@ -358,7 +368,7 @@ class GuidedLearningVC: UIViewController {
     }
     
     func enterNewLevel() {
-        print("level complete")
+        _print("level complete")
         gVars.soundEffect(filename: "congrats", ext: "mp3")
         levelTextLabel.text = "You've completed level \(level) !"
         blurEffect.isHidden = false
@@ -370,7 +380,7 @@ class GuidedLearningVC: UIViewController {
             finished = true
         }
         self.view.layoutIfNeeded()
-        //print(scrollview.subviews)
+        //_print(scrollview.subviews)
     }
     
     func configureCongrats() {
@@ -405,7 +415,7 @@ class GuidedLearningVC: UIViewController {
     
     func dynamicAutoLayout() {
         for c in congratsConstraints {
-            //print(c.identifier)
+            //_print(c.identifier)
             switch c.identifier {
                 case "height":
                     c.constant = screenHeight! * 2/3
@@ -427,7 +437,7 @@ class GuidedLearningVC: UIViewController {
     }
     
     func cellViewInitialization(CellView: CellView,cl: String, ll: String) {
-        print(timesOffsetChanged)
+        _print(timesOffsetChanged)
 
         //CellView.cellView.backgroundColor = .clear
         CellView.center = CGPoint(x: self.view.frame.size.width  / 2, y: (self.view.frame.size.height / 2)*(timesOffsetChanged+1) - (timesOffsetChanged*spacing))
@@ -475,12 +485,12 @@ class GuidedLearningVC: UIViewController {
         
         CellView.frame.size.height = self.view.frame.height
         CellView.center = CGPoint(x: self.view.frame.size.width  / 2, y: (self.view.frame.size.height / 2)*(timesOffsetChanged+1) - (timesOffsetChanged*spacing))
-        print(CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2)))
+        _print(CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2)))
         //CellView.cellView.frame.size.height = self.view.frame.height / 2
         CellView.cellView.center = CGPoint(x: CellView.cellView.frame.size.width  / 2, y: (self.view.frame.size.height / 2)*(timesOffsetChanged+1) - (timesOffsetChanged*spacing))
-        print(CellView.center)
+        _print(CellView.center)
         //CellView.cellView.center = CGPoint(x: CGFloat(self.view.frame.width/2), y: CGFloat(self.view.frame.height/2))
-        print(CellView.cellView.center)
+        _print(CellView.cellView.center)
         
     }
     override var prefersStatusBarHidden: Bool {

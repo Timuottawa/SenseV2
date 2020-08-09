@@ -23,7 +23,7 @@ class ChooseLearningModeVC: UIViewController {
     
     @IBAction func guidedPressed(_ sender: UIButton) {
         
-        print("guidePressed...")
+        _print("guidePressed...")
         let tbVC = self.tabBarController as? TabBarController
         if let vc = tbVC?._guidedLearningVC {
             present(vc, animated: false, completion: nil)
@@ -32,7 +32,7 @@ class ChooseLearningModeVC: UIViewController {
     }
     
     @IBAction func freePressed(_ sender: Any) {
-        print("freePressed...")
+        _print("freePressed...")
         let tbVC = self.tabBarController as? TabBarController
         if let vc = tbVC?._freeLearningVC {
             present(vc, animated: false, completion: nil)
@@ -68,7 +68,7 @@ class ChooseLearningModeVC: UIViewController {
         let currentMin = formatter.string(from: Date())
         formatter.dateFormat = "HH"
         let currentHour = formatter.string(from: Date())
-        //print("currenttime: ")
+        //_print("currenttime: ")
         if Int(currentHour)! > 18 {
             easterEggAnimation.play(fromProgress: 0, toProgress: 0.15)  { (finished) in
                 self.time = 1
@@ -94,11 +94,13 @@ class ChooseLearningModeVC: UIViewController {
             easterEggAnimation.animation = Animation.named("globe_rotation")
         }
         else {
-            let imageView = UIImageView(image: UIImage(named: "globe_rotation"))
+            let imageView = UIImageView(image: UIImage(named: "light"))
             imageView.frame = UIScreen.main.bounds
             imageView.contentMode = .scaleAspectFit
             self.view.addSubview(imageView)
-            view.bringSubviewToFront(imageView)
+            view.sendSubviewToBack(imageView)
+            //view.bringSubviewToFront(imageView)
+            //view.backgroundColor = .flatGreenDark()
         }
         easterEggAnimation.loopMode = .playOnce
         

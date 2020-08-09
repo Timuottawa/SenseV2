@@ -33,7 +33,7 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     func onboardingDidTransitonToIndex(_ index: Int) {
         if index == 3 {
-            print("trasns")
+            _print("trasns")
             self.view.bringSubviewToFront(continueButton)
             UIView.animate(withDuration: 0.4, animations: {
                 self.continueButton.alpha = 1
@@ -75,7 +75,7 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     func onboardingItem(at index: Int) -> OnboardingItemInfo {
         return [
          OnboardingItemInfo(informationImage: #imageLiteral(resourceName: "Car"),
-                                       title: "Completely Offline.",
+                                       title: "Completely Offline",
                                  description: "Sense is designed to help kids memorize the multiplication table with the help of their parents. You can use it anytime, anywhere; during car rides, on the plane, or even free time at home. It is recommended that parents guide their child through this experience.",
                                     pageIcon:  UIImage(),
                                        color: #colorLiteral(red: 0.01607623696, green: 0.8369068503, blue: 0.7562904954, alpha: 1),
@@ -96,7 +96,7 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 
         OnboardingItemInfo(informationImage: #imageLiteral(resourceName: "Music"),
                                      title: "Memorize Faster With Music",
-                               description: "Sense provides a template rhythm and melody to help memorization, parents are encouraged to find a suitable multiplication song; many can be found on youtube",
+                               description: "Sense provides a template rhythm and melody to help memorization, parents are encouraged to find a suitable multiplication song; many can be found on youtube.",
                                   pageIcon: UIImage(),
                                      color: #colorLiteral(red: 0.9586718678, green: 0.4633653164, blue: 0.4460003972, alpha: 1),
                                      titleColor: .white,
@@ -106,7 +106,7 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                                 
         OnboardingItemInfo(informationImage: #imageLiteral(resourceName: "Clock"),
                                       title: "Practice!",
-                                description: "You can test your skills with the Quiz mode. It offers two types of input: voice and touch.",
+                                description: "You can test your skills with the Quiz mode. It offers two types of input: voice and touch. Should you have any questions or comments, please let me know by email: bobycx@outlook.com.",
                                    pageIcon: UIImage(),
                                       color: #colorLiteral(red: 0.5057775974, green: 0.6187750697, blue: 0.8372532725, alpha: 1),
                                       titleColor: .white,
