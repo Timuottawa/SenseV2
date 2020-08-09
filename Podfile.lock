@@ -2,21 +2,18 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
-  - Hero (1.5.0)
   - InstantSearchVoiceOverlay (1.1.0)
   - lottie-ios (3.1.8)
   - paper-onboarding (6.1.5)
 
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
-  - Hero
   - InstantSearchVoiceOverlay
   - lottie-ios
   - paper-onboarding
 
 SPEC REPOS:
   trunk:
-    - Hero
     - InstantSearchVoiceOverlay
     - lottie-ios
     - paper-onboarding
@@ -32,11 +29,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
-  Hero: b7385b75e7259da62f4f85462f59a5082d66b058
   InstantSearchVoiceOverlay: 8fcbd0c143c872e6b39ef9b6475f1dfeb9ebfbcf
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   paper-onboarding: fede1799b1da6988f3788e3b71654583c6f3bce1
 
-PODFILE CHECKSUM: eb0e6319e1a02198f835706fa05a8cda68331ae3
+PODFILE CHECKSUM: d34ce0d7fec99a3c6d986c6019710ae5015fa3f1
 
 COCOAPODS: 1.9.3

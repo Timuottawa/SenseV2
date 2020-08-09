@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 class globalVariables {
     var level: Int = 1
@@ -15,6 +16,23 @@ class globalVariables {
     init(level: Int, cellLevel: Int) {
         self.level = level
         self.cellLevel = cellLevel
+    }
+    
+    func soundEffect(filename: String, ext: String) {
+        if let url = Bundle.main.url(forResource: filename, withExtension: ext){
+            
+            audioPlayer = try? AVAudioPlayer(contentsOf: url)
+            
+            if audioPlayer == nil {
+                print("!!!Error in calling AVAudioPlayer().")
+            }
+            
+            print("play....")
+            audioPlayer?.play()
+            
+            
+
+        }
     }
 }
 
