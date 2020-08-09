@@ -7,17 +7,17 @@
 //
 
 import UIKit
-import Hero
 import ChameleonFramework
 import Lottie
 import AVFoundation
 import InstantSearchVoiceOverlay
 
+
 class QuizViewController: UIViewController {
     
     // Aug 3, Bob add:
+    var voiceOverlay : NSObject? //VoiceOverlayController?
     
-    var voiceOverlay : VoiceOverlayController?
     var isVoiceSupported : Bool?
     var usingVoice: Bool = false
     
@@ -27,6 +27,8 @@ class QuizViewController: UIViewController {
     
     var seconds: Int = 0
     var minutes: Int = 0
+    
+    var audioPlayer: AVAudioPlayer!
     
     var screenHeight: CGFloat?
     var screenWidth: CGFloat?
@@ -41,7 +43,6 @@ class QuizViewController: UIViewController {
     @IBOutlet var congratsConstraints: [NSLayoutConstraint]!
     
     @IBOutlet var proceedConstraints: [NSLayoutConstraint]!
-    var audioPlayer = AVAudioPlayer()
     
     @IBOutlet weak var stackViewCenterY: NSLayoutConstraint!
     @IBOutlet weak var minuteCounter: UILabel!
@@ -183,7 +184,11 @@ class QuizViewController: UIViewController {
     
     @IBAction func voiceRecordPressed(_ sender: UIButton) {
         
-        voiceOverlay?.start(on: self, textHandler: { text, final, _ in
+        if #available(iOS 10.0, *) {
+            
+            let _voiceOverlay = voiceOverlay as? VoiceOverlayController
+            
+            _voiceOverlay?.start(on: self, textHandler: { text, final, _ in
             let tmpTextArr = text.components(separatedBy: " ")
             for str in tmpTextArr {
                 if Int(str) != nil {
@@ -212,12 +217,45 @@ class QuizViewController: UIViewController {
             
         })
         
+        }//endif #available(iOS 10.0, *)
+        
     }
-    
+    //August 8, 2020 by Tim
+    func freeResources()
+    {
+        //Remove all cellViews
+        if let cv = currentView { cv.removeFromSuperview(); currentView = nil}
+        for view in scrollview.subviews {
+            view.removeFromSuperview()
+        }
+        //Clear scrollviews
+        scrollview.removeFromSuperview()
+        
+        //Free timer resource
+        nTimer.invalidate()
+        timer.invalidate()
+        
+        //Free recorder ???
+        
+    }
     @IBAction func resetPressed(_ sender: UIButton) {
         print("bruh why is this gay")
         level = 1
         cellLevel = 1
+    
+        //Free all resources, August 8, 2020 by Tim
+        freeResources()
+        
+        //Deleted reset Segue.
+        let tabVC = self.tabBarController!
+        tabVC.tabBar.isHidden = false
+        tabVC.selectedIndex = 1
+        
+        tabVC.viewControllers?[2] = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "QuizViewController")
+        
+        dismiss(animated: false, completion: nil)
+        
+        return
         
     }
     
@@ -229,9 +267,12 @@ class QuizViewController: UIViewController {
         tabVC.tabBar.isHidden = false
         tabVC.selectedIndex = 2
         
+        //Free all resources. August 8, 2020 by Tim
+        freeResources()
+       
         tabVC.viewControllers?[2] = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "QuizViewController")
         
-        //self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
         
         return
         
@@ -558,17 +599,28 @@ class QuizViewController: UIViewController {
         
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "reset2quiz") { //2quiz") {
+        //if (segue.identifier == "reset2quiz") { //2quiz") {
+        if (segue.identifier == "reset") { //2quiz") {
             // Pass data to tabBarViewController
-            print("Segue: reset2quiz!")
+            print("Segue: reset!")
+
+            
+            print("self:\(self as Any)")
+            
             let tabVC = segue.destination as! TabBarController
-            print(tabVC)
+            
             // Automatically select index = 2 to run
-            tabVC.selectedIndex = 2
+            //let tabVC = self.tabBarController
+            tabVC.selectedIndex = 1
+            
+            print("again Self:\(self as Any)")
+            //self.tabBarController?.dismissMe(animated: false)
+            //self.dismissMe(animated: false)
+            
         }
     }
     
-    func correctAnswer() {
+    func  as AnycorrectAnswer() {
         if isFirstClick == true {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(count), userInfo: nil, repeats: true)
             isFirstClick = false
@@ -733,6 +785,8 @@ class QuizViewController: UIViewController {
         continueExec()
     }
     
+
+    
     @IBAction func changeLanguage(sender: AnyObject) {
         guard let button = sender as? UIButton else {
             return
@@ -749,10 +803,12 @@ class QuizViewController: UIViewController {
             case 11: // pressed the return key
                 
                 if currentView!.ansButton.titleLabel?.text == String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!) {
+                    gVars.soundEffect(filename: "correctmc", ext: "mp3")
                     print("congratulations!")
                     stackView.alpha = 0
                     correctAnswer()
                 } else {
+                    gVars.soundEffect(filename: "wrong", ext: "wav")
                     redPulsatingView.isHidden = false
                     currentView?.ansButton.shake(count: 2, for: 0.25, withTranslation: 5)
                     redPulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
@@ -799,6 +855,7 @@ class QuizViewController: UIViewController {
     }
     func enterNewLevel() {
         print("level complete")
+        gVars.soundEffect(filename: "congrats", ext: "mp3")
         if level == 9 {
             nextButton.setTitle("Finish", for: .normal)
         }
@@ -864,6 +921,7 @@ class QuizViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         gVars.level = level
         gVars.cellLevel = cellLevel
+        print(self as Any)
         print("levels \(gVars.level) \(gVars.cellLevel)")
     }
     
@@ -877,9 +935,44 @@ class QuizViewController: UIViewController {
   
     }*/
     
+    //August 8, 2020 by Tim
+    init() {
+        print("quiz:init()---\(Date().timeIntervalSince1970)")
+        super.init(nibName: nil, bundle: nil)
+        print(self)
+        print("quiz:init()+++\(Date().timeIntervalSince1970)")
+    }
+    override func awakeFromNib() {
+        print("quiz:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        print(self)
+        print("quiz:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        print("quiz:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        print(self)
+        print("quiz:init?()+++\(Date().timeIntervalSince1970)")
+    }
+    override func loadView() {
+        print("quiz:loadView()---\(Date().timeIntervalSince1970)")
+        super.loadView()
+        print(self)
+        print("quiz:loadView()+++\(Date().timeIntervalSince1970)")
+    }
+    
     override func viewDidLoad() {
+        
+        print("quiz:vdld()---\(Date().timeIntervalSince1970)")
+        print(self)
+        
         super.viewDidLoad()
         
+        print("quiz:vdld()-++\(Date().timeIntervalSince1970)")
+        
+    
+
+        print("Quiz:viewdidLoad...")
         // Aug 3, Bob add:
         voiceRecordButton.layer.cornerRadius = voiceRecordButton.frame.width/2
         if #available(iOS 10.0, *) {
@@ -891,14 +984,18 @@ class QuizViewController: UIViewController {
             else {
                 isVoiceSupported = false
             }
-        } else {
+        } else {//under 10.0
             isVoiceSupported = false
         }
-        voiceOverlay?.settings.layout.inputScreen.titleInitial = "Say your answer"
-        voiceOverlay?.settings.layout.inputScreen.subtitleBulletList = []
-        voiceOverlay?.settings.layout.inputScreen.subtitleInitial = "Say your answer please:"
-        voiceOverlay?.settings.layout.inputScreen.titleInProgress = "Validating answer..."
-        
+        if #available(iOS 10.0, *) {
+            
+            let _voiceOverlay = voiceOverlay as? VoiceOverlayController
+            
+            _voiceOverlay?.settings.layout.inputScreen.titleInitial = "Say your answer"
+            _voiceOverlay?.settings.layout.inputScreen.subtitleBulletList = []
+            _voiceOverlay?.settings.layout.inputScreen.subtitleInitial = "Say your answer please:"
+            _voiceOverlay?.settings.layout.inputScreen.titleInProgress = "Validating answer..."
+        }
         // jul 27 bob:
         screenHeight = _screenHeight
         screenWidth = _screenWidth
@@ -980,7 +1077,11 @@ class QuizViewController: UIViewController {
         
         redPulsatingView.frame = CGRect(x: ((currentView?.ansButton.frame.origin.x)!), y: ((currentView?.ansButton.frame.origin.y)!), width: 100, height: 100)
         redPulsatingView.center = (currentView?.ansButton.center)!
-        redPulsatingView.animation = Animation.named("red_pulsating")
+        
+        if #available(iOS 10.0, *) {
+            redPulsatingView.animation = Animation.named("red_pulsating") //will crash on iPad2
+        }
+        
         redPulsatingView.loopMode = .playOnce
         redPulsatingView.contentMode = .scaleAspectFit
         currentView!.addSubview(redPulsatingView)
@@ -989,7 +1090,10 @@ class QuizViewController: UIViewController {
         
         largePulsatingView.frame = CGRect(x: stackView.frame.origin.x, y: stackView.frame.origin.y, width: stackView.frame.width*1.5, height: stackView.frame.height*1.5)
         largePulsatingView.center = stackView.center
-        largePulsatingView.animation = Animation.named("large_pulsating")
+        
+        if #available(iOS 10.0, *) {
+            largePulsatingView.animation = Animation.named("large_pulsating") //will crash on iPad2
+        }
         largePulsatingView.loopMode = .playOnce
         largePulsatingView.contentMode = .scaleAspectFit
         largePulsatingView.play(fromProgress: 0, toProgress: 0.3)
