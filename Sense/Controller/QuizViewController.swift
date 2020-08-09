@@ -620,7 +620,7 @@ class QuizViewController: UIViewController {
         }
     }
     
-    func  as AnycorrectAnswer() {
+    func   correctAnswer() {
         if isFirstClick == true {
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(count), userInfo: nil, repeats: true)
             isFirstClick = false
@@ -960,7 +960,6 @@ class QuizViewController: UIViewController {
         print(self)
         print("quiz:loadView()+++\(Date().timeIntervalSince1970)")
     }
-    
     override func viewDidLoad() {
         
         print("quiz:vdld()---\(Date().timeIntervalSince1970)")
