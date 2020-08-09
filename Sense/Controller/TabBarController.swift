@@ -10,6 +10,9 @@ import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate{
     
+    var _guidedLearningVC: UIViewController?
+    var _freeLearningVC: UIViewController?
+    
     var kBarHeight: CGFloat = 80
     
     override func viewDidLoad() {
@@ -18,8 +21,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         self.delegate = self
         self.selectedIndex = 1
         
+        //Init for Guided and Freestyle
+        self._guidedLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GuidedLearningVC")
+        _guidedLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        _guidedLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //
         
-        //tabBar.frame.size.height = 100
+        self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
+        _freeLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        _freeLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //
         
         //print("tabbarVCs---\(self.viewControllers as Any)")
         //print(self)
@@ -30,13 +41,88 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     }
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         
+    }
+    
+    //August 8, 2020 by Tim
+    @IBAction func unwindToGuidedLearningVC(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+                
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            print("unwindToGuidedLearningVC...")
+            self._guidedLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GuidedLearningVC")
+            sourceViewController.dismiss(animated: false, completion: nil)
+            
+            //Just to invoke viewLoad()
+            _ = self._guidedLearningVC?.view
+            
+            }
+        return
+    }
+    
+    //August 8, 2020 by Tim
+    @IBAction func unwindToLdearningVC(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            print("unwindToLearningVC...")
+            self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
+            sourceViewController.dismiss(animated: false, completion: nil)
+            
+            //Just to invoke viewLoad()
+            _ = self._freeLearningVC?.view
+        }
+        return
         
     }
     
+    //August 8, 2020 by Tim
+    @IBAction func unwindToOnBoardingVC(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+        sourceViewController.dismiss(animated: false, completion: nil)
+        //to be...
+    }
+    
+    //August 8, 2020 by Tim
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+
+        //Pre-viewLoad() to speed up
+        AsyncDispatch()
+
+    }
+    
+    //August 8, 2020 by Tim
+    func AsyncDispatch()
+    {
+        //August 8, 2020 by Tim
+         //Speed quizview up, pre-loadView !
+         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+             //print("+-+-+-+-+:dispatch quizvc")
+             _ = self.viewControllers?[2].view
+         }
+         
+         //Speed up GuildedLearningCV
+         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+             //print("+-+-+-+-+:dispatch GuildedLearning")
+             _ = self._guidedLearningVC?.view
+         }
+         
+         //Speed up GuildedLearningCV
+         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+             //print("+-+-+-+-+:dispatch freeLearning")
+             _ = self._freeLearningVC?.view
+         }
+        
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        //Speed up and pre-viewLoad()
+        AsyncDispatch()
         
         //tabBar.frame.size.height = CGFloat(kBarHeight)
         //print("tabviewHeight: \(view.frame.height) and \(view.frame.size.height) and \(tabBar.frame.size.height) and \(tabBar.frame.size.width)")
@@ -63,7 +149,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         //tabBar.frame.origin.y = view.frame.height - kBarHeight
         //---------------------Change tabBar Height for iPad only
         //let tabBarH: CGFloat = 83 //same as iPhoneXR
-        
         //var tabFrame = self.Outlet_tabBar.frame
         //tabFrame.size.height = tabBarH
         //tabFrame.origin.y = self.view.frame.height - tabBarH
@@ -79,7 +164,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         
         for tb in tabBar.items! {
 
-              //print("choose H:\(iH)")
+              print("choose H:\(iH)")
               //print(tb.tag)
             
             
@@ -105,9 +190,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
              //print(tb.selectedImage as Any)
             
               
-             if tabBar.frame.width > 900 { // iPad only
-                
-                //tb.image = UIImage(named: "icons8-audio_wave")?.withRenderingMode(.alwaysOriginal)
+             if tabBar.frame.width > 900 || ( _screenHeight == 1024 && _screenWidth == 768 ){ // iPad and ipad2 only
 
                 //tb.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 tb.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
@@ -182,9 +265,12 @@ class CustomeTabBar: UITabBar {
         
         var sizeThatFits = super.sizeThatFits(size)
         
-        //print("sizeThatFites: \(sizeThatFits)")
+        print("sizeThatFites: \(sizeThatFits)")
         
         if sizeThatFits.width > 1000 { //For iPad
+            sizeThatFits.height = 83 //same as iPhoneX
+        }
+        else if _screenHeight == 1024 && sizeThatFits.width == 768 { //iPad2 only
             sizeThatFits.height = 83 //same as iPhoneX
         }
         return sizeThatFits
