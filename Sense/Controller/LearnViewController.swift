@@ -12,7 +12,6 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import ChameleonFramework
-import Hero
 
 class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource, AVSpeechSynthesizerDelegate{
     
@@ -32,6 +31,11 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     let testArray = ["1","2","3","4","5","6","7","8","9"]
     
     var pageNumber : Int = 1
+    
+    
+    @IBAction func backPressed(_ sender: Any) {
+    }
+    
     
     override func viewDidLoad()
     {
@@ -75,13 +79,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "backToChoose" {
-            let dest = segue.destination as! TabBarController
-            dest.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .down), dismissing: .slide(direction: .down))
-            
-        }
-    }
+
     
     //To caculate the number of rows in the current table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
