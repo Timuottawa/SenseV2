@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //Set rootViewController, so don't set Entry Point in Storyboard.
-        //In the app's setting, go to your target and the Info tab. There clear the value of Main storyboard file base name. This will remove the following warning: Failed to instantiate the default view controller for UIMainStoryboardFile 'Main' - perhaps the designated entry point is not set?
+        //In the app's setting, go to your target and the Info tab. There clear the value of Main storyboard file base name. This will remove the following warning: Failed to instantiate the default view controller for UIMainStoryboardFile 'Main' - perhaps the designated entry point is not set? Be caureful, sometime happen with a black screen.
         window?.rootViewController = initVC
         
         if #available(iOS 10.0, *) {
