@@ -12,7 +12,9 @@ import Lottie
 class ChooseLearningModeVC: UIViewController {
     
     let c1 = UIColor(hex: "463730")
+    
     let easterEggAnimation = AnimationView()
+    
     var time = 0
     
     @IBOutlet weak var guidedButton: UIButton!
@@ -20,11 +22,25 @@ class ChooseLearningModeVC: UIViewController {
     @IBOutlet weak var label: UILabel!
     
     @IBAction func guidedPressed(_ sender: UIButton) {
+        
+        print("guidePressed...")
+        let tbVC = self.tabBarController as? TabBarController
+        if let vc = tbVC?._guidedLearningVC {
+            present(vc, animated: false, completion: nil)
+        }
+
     }
     
     @IBAction func freePressed(_ sender: Any) {
+        print("freePressed...")
+        let tbVC = self.tabBarController as? TabBarController
+        if let vc = tbVC?._freeLearningVC {
+            present(vc, animated: false, completion: nil)
+        }
+
     }
     @IBAction func sunPressed(_ sender: UIButton) {
+        
         if time == 0{
             easterEggAnimation.play(fromProgress: 0, toProgress: 0.15)  { (finished) in
                 self.time = 1
@@ -68,46 +84,22 @@ class ChooseLearningModeVC: UIViewController {
         
     }
     
-    //Aug., 2nd, 2020 by Tim
-    //Adjust positions for tabBarItems
-    //The following was Moved to TabBarController.swift
-    override func viewDidLayoutSubviews() {
-        /*
-        let tabBar = self.tabBarController?.tabBar
-        let tabBarHeight = tabBar!.frame.height
-        let iH: Int = (Int)(tabBarHeight)
-        
-        for tb in tabBar!.items! {
-
-            print("choose H:\(iH)")
-            print(tb.tag)
-            if  iH > 60 {
-                tb.imageInsets = UIEdgeInsets(top: 20, left: 0, bottom: -20, right: 0)
-            }
-            else {
-                if tb.tag == 3 {
-                    print("frame.height:\(self.view.frame.height)")
-                    if(self.view.frame.height > 1000){ //for iPad only
-                        tb.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -3, right: 0)
-                    }
-                    else
-                    {
-                        tb.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
-                    }
-                }
-                else {
-                    tb.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                }
-            }
-
-        }*/
-    }
-
-    
     
     func configureEasterEgg() {
         easterEggAnimation.frame = view.bounds
-        easterEggAnimation.animation = Animation.named("globe_rotation")
+        
+        //August 8, 2020 by Tim
+        
+        if #available(iOS 10.0, *) {
+            easterEggAnimation.animation = Animation.named("globe_rotation")
+        }
+        else {
+            let imageView = UIImageView(image: UIImage(named: "globe_rotation"))
+            imageView.frame = UIScreen.main.bounds
+            imageView.contentMode = .scaleAspectFit
+            self.view.addSubview(imageView)
+            view.bringSubviewToFront(imageView)
+        }
         easterEggAnimation.loopMode = .playOnce
         
         easterEggAnimation.contentMode = .scaleAspectFit
