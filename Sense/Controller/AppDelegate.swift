@@ -27,7 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         window?.rootViewController = initVC
-        window?.makeKeyAndVisible()
+        
+        if #available(iOS 10.0, *) {
+            window?.makeKeyAndVisible()  //??? will crash on iPad2
+        }
+        
         print("plocal storage ldata: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
         
         return true
