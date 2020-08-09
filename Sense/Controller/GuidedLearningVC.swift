@@ -62,12 +62,79 @@ class GuidedLearningVC: UIViewController {
         return view
     }()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "backToMain" {
-            let dest = segue.destination as! TabBarController
-            dest.hero.modalAnimationType = .selectBy(presenting: .slide(direction: .down), dismissing: .slide(direction: .down))
-            
-        }
+    //August 8, 2020 by Tim
+    init() {
+        print("g:init()---\(Date().timeIntervalSince1970)")
+        super.init(nibName: nil, bundle: nil)
+        print(self)
+        print("g:init()+++\(Date().timeIntervalSince1970)")
+    }
+    override func awakeFromNib() {
+        print("g:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        print(self)
+        print("g:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        print("g:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        print(self)
+        print("g:init?()+++\(Date().timeIntervalSince1970)")
+    }
+    override func loadView() {
+        print("g:loadView()---\(Date().timeIntervalSince1970)")
+        super.loadView()
+        print(self)
+        print("g:loadView()+++\(Date().timeIntervalSince1970)")
+    }
+    override func viewDidLoad() {
+        
+        print("g:vdld()---\(Date().timeIntervalSince1970)")
+        print(self)
+        
+        super.viewDidLoad()
+        
+        print("g:vdld()-++\(Date().timeIntervalSince1970)")
+        
+    
+
+        
+        cellH = _cellH
+        
+        print("cellH:\(cellH)")
+        print("contentViewSize:\(contentViewSize)")
+        print("normalViewSize:\(normalViewSize)")
+        
+        // Just for test
+        level = 1
+        cellLevel = 1
+        
+        
+        screenHeight = _screenHeight
+        screenWidth = _screenWidth
+        
+        dynamicAutoLayout()
+        
+        configureCongrats()
+        view.addSubview(scrollview)
+        createNewView()
+        backButton.layer.cornerRadius = 25
+        
+        //shadow(view: backButton)
+        proceedButton.isHidden = true
+        proceedButton.layer.cornerRadius = 25
+        shadow(view: proceedButton)
+        blurEffect.isHidden = true
+        self.view.bringSubviewToFront(blurEffect)
+        print("GL")
+        self.view.bringSubviewToFront(backButton)
+
+        print("g:vdld()+++\(Date().timeIntervalSince1970)")
+    }
+    
+    
+    @IBAction func backPressed(_ sender: Any) {
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -178,9 +245,9 @@ class GuidedLearningVC: UIViewController {
     func createNewView() {
         
         if cellLevel == 9 {
-            print("createNewView")
-            print( Int(self.view.frame.height - latestYCor) )
-            print(timesOffsetChanged)
+            //print("createNewView")
+            //print( Int(self.view.frame.height - latestYCor) )
+            //print(timesOffsetChanged)
         }
         
         //print("createNewView")'
@@ -190,13 +257,15 @@ class GuidedLearningVC: UIViewController {
         // changed by Tim from "120" to "2*cellH" August 6, 2020
         if ((cellLevel == 9) && (Int(self.view.frame.height - latestYCor)) < (2 * cellH)) && (timesOffsetChanged != 1) {
             //let scrollPoint = CGPoint(x: 0.0, y: 300.0)
-            print("contentViewSize:\(contentViewSize)")
+            //print("contentViewSize:\(contentViewSize)")
+            
             scrollview.contentSize = contentViewSize
+            
             //scrollview.setContentOffset(scrollPoint, animated: false)
             //timesOffsetChanged += 1
         }
         else{
-             print("normalViewSize:\(normalViewSize)")
+             //print("normalViewSize:\(normalViewSize)")
              scrollview.contentSize = normalViewSize
             
         }
@@ -211,7 +280,8 @@ class GuidedLearningVC: UIViewController {
         UIView.transition(with: self.view, duration: 0.5, options: [.transitionCrossDissolve], animations: {
                 //self.scrollview.addSubview(tempCellView)
             }, completion: nil)
-            
+
+    
         tempCellView.tag = Int(String(level)+String(cellLevel))!
         
         cellViewInitialization(CellView: tempCellView, cl: String(cellLevel), ll: String(level))
@@ -223,9 +293,13 @@ class GuidedLearningVC: UIViewController {
         
         // update timely
         self.view.layoutIfNeeded()
-        pulsatingConfig()
+        
+        if #available(iOS 10.0, *) {
+            pulsatingConfig()  //will crash on iPad2
+        }
         self.view.bringSubviewToFront(backButton)
     }
+    
     // Ugly codes for iPad by Tim August 3rd.
     override func viewDidLayoutSubviews() { //for iPad only
         if let cv = currentView {
@@ -285,6 +359,7 @@ class GuidedLearningVC: UIViewController {
     
     func enterNewLevel() {
         print("level complete")
+        gVars.soundEffect(filename: "congrats", ext: "mp3")
         levelTextLabel.text = "You've completed level \(level) !"
         blurEffect.isHidden = false
         self.view.bringSubviewToFront(blurEffect)
@@ -327,40 +402,6 @@ class GuidedLearningVC: UIViewController {
         parentView.layer.addSublayer(pulsatingLayer)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        cellH = _cellH
-        
-        print("cellH:\(cellH)")
-        print("contentViewSize:\(contentViewSize)")
-        print("normalViewSize:\(normalViewSize)")
-        
-        // Just for test
-        level = 1
-        cellLevel = 1
-        
-        
-        screenHeight = _screenHeight
-        screenWidth = _screenWidth
-        
-        dynamicAutoLayout()
-        
-        configureCongrats()
-        view.addSubview(scrollview)
-        createNewView()
-        backButton.layer.cornerRadius = 25
-        
-        //shadow(view: backButton)
-        proceedButton.isHidden = true
-        proceedButton.layer.cornerRadius = 25
-        shadow(view: proceedButton)
-        blurEffect.isHidden = true
-        self.view.bringSubviewToFront(blurEffect)
-        print("GL")
-        self.view.bringSubviewToFront(backButton)
-
-    }
     
     func dynamicAutoLayout() {
         for c in congratsConstraints {
