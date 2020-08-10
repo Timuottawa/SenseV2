@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohg-Uf-mgn">
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ohg-Uf-mgn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <view key="contentView" hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pIz-Qz-4pZ">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -724,7 +724,6 @@
         <scene sceneID="zcb-2s-wfp">
             <objects>
                 <tabBarController storyboardIdentifier="TabBarVC" modalPresentationStyle="fullScreen" id="FO8-jj-sNy" customClass="TabBarController" customModule="Sense" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="sKl-Ex-9XB"/>
                     <tabBar key="tabBar" clipsSubviews="YES" contentMode="redraw" semanticContentAttribute="playback" layoutMarginsFollowReadableWidth="YES" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="fill" id="jws-Hg-9rv" customClass="CustomeTabBar" customModule="Sense" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -1104,7 +1103,6 @@
                     <tabBarItem key="tabBarItem" title="" selectedImage="icons8-mind_map" id="dty-Ze-pWa">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" id="Cok-KH-0Dx"/>
                     <connections>
                         <outlet property="backToChooseButton" destination="g8l-aX-rvG" id="hSu-wT-nxW"/>
                         <outlet property="dynamicScrollView" destination="8zO-rd-tXI" id="bSB-iD-VLf"/>
@@ -1140,7 +1138,7 @@
                                     <segue destination="81i-Lh-82U" kind="unwind" unwindAction="unwindToGuidedLearningVC:" id="xtW-Iv-qzZ"/>
                                 </connections>
                             </button>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvt-Yi-DW3">
+                            <visualEffectView hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvt-Yi-DW3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <view key="contentView" hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="cNT-9H-xau">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -1275,7 +1273,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vyE-Ge-orG"/>
                     </view>
-                    <navigationItem key="navigationItem" id="nZd-sf-VNw"/>
                     <connections>
                         <outlet property="backButton" destination="KOx-6W-gsu" id="3U5-Mw-7Jz"/>
                         <outlet property="blurEffect" destination="hvt-Yi-DW3" id="WkC-Fm-hMN"/>

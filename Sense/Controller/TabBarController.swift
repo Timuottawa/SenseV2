@@ -37,7 +37,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         self.delegate = self
         self.selectedIndex = 1
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.InitPreLoadVC()
         }
         
@@ -46,7 +46,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         
         //let off = CGSize(width: CGFloat(10), height: CGFloat(10))
         //tabBar.dropShadow(shadowColor: .black, opacity: 1, offset: .zero, radius: 10) //seems problem?
-
+        
     }
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         
@@ -108,24 +108,38 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     {
             
         //August 8, 2020 by Tim
-         //Speed quizview up, pre-loadView !
-         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //_print("+-+-+-+-+:dispatch quizvc")
-             _ = self.viewControllers?[2].view
-         }
-         
-         //Speed up GuildedLearningCV
-         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //_print("+-+-+-+-+:dispatch GuildedLearning")
-             _ = self._guidedLearningVC?.view
-         }
-         
-         //Speed up GuildedLearningCV
-         DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
-             //_print("+-+-+-+-+:dispatch freeLearning")
-             _ = self._freeLearningVC?.view
-         }
+        //Speed quizview up, pre-loadView !
+        //_print("Queue quizVC...")
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            //_print("+-+-+-+-+:dispatch quizvc")
+            //_ = self.viewControllers?[2].view
+        //}
+        //DispatchQueue.global(qos: .background).async {
+        //   _ = self.viewControllers?[2].view
+        //}
+        //
         
+        //_print("Queue Gvc...")
+        //Speed up GuildedLearningCV
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            //_print("+-+-+-+-+:dispatch GuildedLearning")
+            //_ = self._guidedLearningVC?.view
+        //}
+        //DispatchQueue.global(qos: .background).async {
+        //    _ = self._guidedLearningVC?.view
+        //}
+        //
+        
+        //_print("Queue Fvc...")
+        //Speed up GuildedLearningCV
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            //_print("+-+-+-+-+:dispatch freeLearning")
+            //_ = self._freeLearningVC?.view
+        //}
+        //DispatchQueue.global(qos: .background).async {
+        //   _ = self._freeLearningVC?.view
+        //}
+        //
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

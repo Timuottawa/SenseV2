@@ -37,21 +37,28 @@ class CellView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //print("cellveiw init frame: \(frame)")
+        _print("cellview init frame: \(frame)")
+        _print("cellview loadView......")
         self.loadView()
+         _print("cellview loadView finished")
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        _print("cellview init?(NSCoder)")
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        _print("cellview awakeFromNib()")
+        _print("cellview loadView......")
         self.loadView()
+        _print("cellview loadView finished")
         
     }
     
     override func layoutSubviews() {
+        _print("cellview layoutSubviews")
         super.layoutSubviews()
         self.cellView.frame = self.bounds
     }

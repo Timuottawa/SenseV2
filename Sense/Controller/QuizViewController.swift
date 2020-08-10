@@ -126,9 +126,6 @@ class QuizViewController: UIViewController {
         
         _print("scrollview origin y and height: \(view.frame.origin.y) and \(view.frame.height)")
         _print(self)
-        //Just for test
-        //view.frame.size.height = 300
-        
         
         //view.contentSize = contentViewSize //normalViewSize
         //August 3rd, Tim
@@ -145,10 +142,12 @@ class QuizViewController: UIViewController {
         _print("yo mama")
         if usingVoice != true {
             if isWaiting == false {
-                largePulsatingView.isHidden = false
+                if #available(iOS 10.0, *) {
+                    largePulsatingView.isHidden = false
                 
-                largePulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
-                    self.largePulsatingView.isHidden = true
+                    largePulsatingView.play(fromProgress: 0, toProgress: 0.3) { (finished) in
+                        self.largePulsatingView.isHidden = true
+                    }
                 }
             }
         }
@@ -495,6 +494,7 @@ class QuizViewController: UIViewController {
         //resetButton.isHidden = false
         view.bringSubviewToFront(dropDownView)
         // #add
+        voiceSwitch.isEnabled = false
         
         //August 6, 2020 by Tim added
         tabBarController?.tabBar.isHidden = false
@@ -525,6 +525,7 @@ class QuizViewController: UIViewController {
     
     @IBAction func proceedButtonPressed(_ sender: UIButton) {
         proceedButton.isHidden = true
+        voiceSwitch.isEnabled = true
         for view in scrollview.subviews {
             view.removeFromSuperview()
         }
@@ -543,6 +544,7 @@ class QuizViewController: UIViewController {
     }
     @IBAction func nextLevelButtonPressed(_ sender: UIButton) {
         congratsView.isHidden = true
+        voiceSwitch.isEnabled = true
         blurEffect.isHidden = true
         for view in scrollview.subviews {
             view.removeFromSuperview()
@@ -864,6 +866,8 @@ class QuizViewController: UIViewController {
         if level == 9 {
             nextButton.setTitle("Finish", for: .normal)
         }
+        
+        voiceSwitch.isEnabled = false
         levelTextLabel.text = "You've completed level \(level) !"
         blurEffect.isHidden = false
         self.view.bringSubviewToFront(blurEffect)

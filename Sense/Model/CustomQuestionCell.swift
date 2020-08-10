@@ -38,7 +38,7 @@ class CustomQuestionCell: UITableViewCell {
     
     override  func layoutSubviews() {
         super.layoutSubviews()
-        //print("questionCell.swift in layoutSubviews bounds/cell.frame/contendview.frame---self.bound: \(self.bounds) \(questionView.frame) \(self.contentView.frame) \(self.frame)")
+        //_print("questionCell.swift in layoutSubviews bounds/cell.frame/contendview.frame---self.bound: \(self.bounds) \(questionView.frame) \(self.contentView.frame) \(self.frame)")
         //questionView.frame = CGRect(x: 0,y: 0, width: 375, height: 80)
 
     }
@@ -61,9 +61,9 @@ class CustomQuestionCell: UITableViewCell {
             if let vc = self.superview?.parentViewController as? LearnViewController {      vc.speechMessage(message:str);
             }
             else{
-                print("error in customQuestionCell\n")
+                _print("error in customQuestionCell\n")
             }
-            print("yay"); 
+            _print("yay");
         }
         else {
             questionButton.setTitle("?", for: .normal)

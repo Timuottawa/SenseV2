@@ -206,6 +206,7 @@ class GuidedLearningVC: UIViewController {
     }
     
     @objc func revealAnswer(sender: UIButton) {
+        _print("Guided---revealAnswer enter...")
         if isWaiting == false {
             isWaiting = true
             _print(cellLevel)
