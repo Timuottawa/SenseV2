@@ -13,6 +13,78 @@ import UIKit
 import ChameleonFramework
 import Lottie
 
+/*  Just for test
+class myUIVisualEffectView: UIVisualEffectView {
+    override func awakeFromNib() {
+        _print("UIVisualEffectView:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        
+        _print(self)
+        _print("UIVisualEffectView:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        _print("UIVisualEffectView:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        
+        _print(self)
+        _print("UIVisualEffectView:init?()+++\(Date().timeIntervalSince1970)")
+    }
+}
+
+
+class myUIView: UIView {
+    override func awakeFromNib() {
+        _print("UIView:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        
+        _print(self)
+        _print("UIView:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        _print("UIView:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        
+        _print(self)
+        _print("UIView:init?()+++\(Date().timeIntervalSince1970)")
+    }
+}
+
+class myUIButton: UIButton {
+    override func awakeFromNib() {
+        _print("UIButton:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        
+        _print(self)
+        _print("UIButton:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        _print("UIButton:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        
+        _print(self)
+        _print("UIButton:init?()+++\(Date().timeIntervalSince1970)")
+    }
+}
+class myUILabel: UILabel {
+    override func awakeFromNib() {
+        _print("UILabel:afNib()---\(Date().timeIntervalSince1970)")
+        super.awakeFromNib()
+        
+        _print(self)
+        _print("UILabel:afNib()+++\(Date().timeIntervalSince1970)")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        _print("UILabel:init?()---\(Date().timeIntervalSince1970)")
+        super.init(coder: aDecoder)
+        
+        _print(self)
+        _print("UILabel:init?()+++\(Date().timeIntervalSince1970)")
+    }
+}
+*/
+
+
+
 class GuidedLearningVC: UIViewController {
     
     @IBOutlet weak var congratsView: UIView!
@@ -24,6 +96,7 @@ class GuidedLearningVC: UIViewController {
     @IBOutlet weak var blurEffect: UIVisualEffectView!
     
     @IBOutlet var congratsConstraints: [NSLayoutConstraint]!
+    var isCongrats = false
     var level: Int = 1
     var cellLevel: Int = 1
     var currentView: CellView?
@@ -207,27 +280,30 @@ class GuidedLearningVC: UIViewController {
     
     @objc func revealAnswer(sender: UIButton) {
         _print("Guided---revealAnswer enter...")
-        if isWaiting == false {
-            isWaiting = true
-            _print(cellLevel)
-            _print(level)
-            let str_result = String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!);
-            pulsatingView.removeFromSuperview()
-            currentView!.ansButton.setTitle(str_result, for: .normal);
-            currentView!.ansButton.titleLabel?.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            
-            sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-            
-            UIView.animate(withDuration: 2.0,
-                           delay: 0,
-                           usingSpringWithDamping: CGFloat(0.20),
-                           initialSpringVelocity: CGFloat(6.0),
-                           options: UIView.AnimationOptions.allowUserInteraction,
-                           animations: {
-                            sender.transform = CGAffineTransform.identity
-            },
-                           completion: { Void in()  }
-            )
+        if isCongrats != true {
+            if isWaiting == false {
+                _print("Guided---revealAnswer asdfsdfdf...")
+                isWaiting = true
+                _print(cellLevel)
+                _print(level)
+                let str_result = String(Int(currentView!.firstLabel!.text!)! * Int(currentView!.secondLabel!.text!)!);
+                pulsatingView.removeFromSuperview()
+                currentView!.ansButton.setTitle(str_result, for: .normal);
+                currentView!.ansButton.titleLabel?.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+                
+                sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+                
+                UIView.animate(withDuration: 2.0,
+                               delay: 0,
+                               usingSpringWithDamping: CGFloat(0.20),
+                               initialSpringVelocity: CGFloat(6.0),
+                               options: UIView.AnimationOptions.allowUserInteraction,
+                               animations: {
+                                sender.transform = CGAffineTransform.identity
+                },
+                               completion: { Void in()  }
+                )
+            }
         }
     }
     
@@ -322,7 +398,7 @@ class GuidedLearningVC: UIViewController {
     
     @IBAction func proceedButtonPressed(_ sender: UIButton) {
         proceedButton.isHidden = true
-        
+        isCongrats = false
         for view in scrollview.subviews {
             view.removeFromSuperview()
         }
@@ -361,6 +437,7 @@ class GuidedLearningVC: UIViewController {
             if self.finished != true {
                 _print("finished!!!!")
                 self.proceedButton.isHidden = false
+                self.isCongrats = true
             }
             self.blurEffect.isHidden = true
             
