@@ -26,6 +26,7 @@ class ChooseLearningModeVC: UIViewController {
         _print("guidePressed...")
         let tbVC = self.tabBarController as? TabBarController
         if let vc = tbVC?._guidedLearningVC {
+            vc.modalPresentationStyle = .fullScreen
             present(vc, animated: false, completion: nil)
         }
 
@@ -35,6 +36,7 @@ class ChooseLearningModeVC: UIViewController {
         _print("freePressed...")
         let tbVC = self.tabBarController as? TabBarController
         if let vc = tbVC?._freeLearningVC {
+            vc.modalPresentationStyle = .fullScreen
             present(vc, animated: false, completion: nil)
         }
 

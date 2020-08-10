@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -26,14 +26,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newply" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Cq-z2-XMt">
-                    <rect key="frame" x="105" y="24" width="24" height="24"/>
+                    <rect key="frame" x="153.5" y="24" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="esg-Y4-lo6"/>
                         <constraint firstAttribute="width" constant="24" id="jbw-f8-gFT"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAW-hE-h96">
-                    <rect key="frame" x="24" y="19" width="32" height="32"/>
+                    <rect key="frame" x="84" y="3" width="64" height="64"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="AAW-hE-h96" secondAttribute="height" multiplier="1:1" id="icG-d6-hMl"/>
                         <constraint firstAttribute="height" constant="32" id="vjS-oU-maf">
@@ -48,23 +48,23 @@
                     </variation>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjq-a7-HXe" userLabel="view1">
-                    <rect key="frame" x="54" y="0.0" width="43.5" height="70"/>
+                    <rect key="frame" x="146" y="0.0" width="0.0" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8hU-dA-raR" userLabel="view2">
-                    <rect key="frame" x="121.5" y="0.0" width="43.5" height="70"/>
+                    <rect key="frame" x="170" y="0.0" width="0.0" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pnk-ra-oRp" userLabel="view3">
-                    <rect key="frame" x="189" y="0.0" width="43.5" height="70"/>
+                    <rect key="frame" x="226" y="0.0" width="0.0" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEW-XI-d9J" userLabel="view4">
-                    <rect key="frame" x="272.5" y="0.0" width="43.5" height="70"/>
+                    <rect key="frame" x="266" y="0.0" width="0.0" height="70"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" semanticContentAttribute="spatial" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gT-sr-g2a">
-                    <rect key="frame" x="169" y="19" width="32" height="32"/>
+                    <rect key="frame" x="174" y="3" width="64" height="64"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="6gT-sr-g2a" secondAttribute="height" multiplier="1:1" id="4dy-k2-wVd"/>
                         <constraint firstAttribute="height" constant="32" id="zfa-9I-QeG">
@@ -79,10 +79,10 @@
                     </variation>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="equal-1" translatesAutoresizingMaskIntoConstraints="NO" id="LxI-o0-g3a">
-                    <rect key="frame" x="244.5" y="24" width="24" height="24"/>
+                    <rect key="frame" x="238" y="24" width="24" height="24"/>
                 </imageView>
                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JAm-qQ-Dr8">
-                    <rect key="frame" x="293" y="10" width="54" height="54"/>
+                    <rect key="frame" x="243" y="-6" width="84" height="84"/>
                     <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="54" id="DQr-3u-Cbf">

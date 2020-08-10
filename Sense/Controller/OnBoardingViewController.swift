@@ -69,7 +69,7 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         continueButton.alpha = 0
         continueButton.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
         continueButton.setTitle("I'm Ready!", for: .normal)
-        continueButton.frame = CGRect(x: self.view.frame.width/2, y: self.view.frame.height * 3/4, width: 165, height: 60)
+        continueButton.frame = CGRect(x: self.view.frame.width/2, y: self.view.frame.height * 3/4 + 20, width: 165, height: 60)
         continueButton.center.x = self.view.center.x
     }
     func onboardingItem(at index: Int) -> OnboardingItemInfo {
