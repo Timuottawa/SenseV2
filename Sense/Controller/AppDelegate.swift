@@ -32,23 +32,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        var initVC = sb.instantiateViewController(withIdentifier: "OnBoardingVC")
         
-        let userDefaults = UserDefaults.standard
-        if userDefaults.bool(forKey: "didPerformOnboarding") {
-            initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
-        }
+        // August 12, 2020 by Tim
+        let initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
         
         //Set rootViewController, so don't set Entry Point in Storyboard.
         //In the app's setting, go to your target and the Info tab. There clear the value of Main storyboard file base name. This will remove the following warning: Failed to instantiate the default view controller for UIMainStoryboardFile 'Main' - perhaps the designated entry point is not set? Be caureful, sometime happen with a black screen.
         window?.rootViewController = initVC
         
-        if #available(iOS 10.0, *) {
-            window?.makeKeyAndVisible()  //??? will crash on iPad2
+        //if #available(iOS 10.0, *) {
+        //window?.makeKeyAndVisible()  //??? will crash on iPad2 as of an entry defined in SB
+        //}
+        
+        window?.makeKeyAndVisible() //It's ok now, as no entry defined in SB, only here.
+        
+        //Running onBoarding for the first time
+        let userDefaults = UserDefaults.standard
+        if userDefaults.bool(forKey: "didPerformOnboarding") == false { // August 12, 2020 by Tim
+            let obVC = sb.instantiateViewController(withIdentifier: "OnBoardingVC")
+            obVC.modalPresentationStyle = .fullScreen
+            window?.rootViewController?.present(obVC, animated: false, completion: nil)
         }
         
         _print("plocal storage ldata: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
-        
         
         return true
     }
