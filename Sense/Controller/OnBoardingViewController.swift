@@ -58,6 +58,8 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        _print("obVC.viewDidLoad()")
+        
         //if view.frame.width > 900 { isiPad  = true; dFontSize = 30; tFontSize = 36 }
         if _screenHeight > 1000 { isiPad  = true; dFontSize = 30; tFontSize = 36 }
         
@@ -115,6 +117,11 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
                             descriptionFont: UIFont(name: "AvenirNext-Regular", size: dFontSize)!)
             
          ][index]
+    }
+    
+    deinit {
+        _print(self)
+        _print("!!!!!!!!!!!!!!!!!!! OB view controller Deinit...!!!!!!!!!!")
     }
     
 }
