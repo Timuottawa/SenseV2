@@ -420,7 +420,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmX-eK-HS8">
                                         <rect key="frame" x="34" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.84313725490196079" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="67" identifier="rButtonWidth" id="O3H-jL-Cwo"/>
                                             <constraint firstAttribute="height" constant="40" identifier="rButtonHeight" id="pD5-nX-CPs"/>
@@ -448,7 +448,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="205-SM-qod">
                                         <rect key="frame" x="273" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.84313725490196079" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="67" identifier="nButtonWidth" id="NvO-hP-yeJ"/>
                                             <constraint firstAttribute="height" constant="40" identifier="nButtonHeight" id="ec0-Ur-yxH"/>
@@ -768,8 +768,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Follow Me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hU1-tp-avk">
-                                <rect key="frame" x="20" y="30" width="188.5" height="50"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listen" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hU1-tp-avk">
+                                <rect key="frame" x="20" y="30" width="115" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="sjE-Uy-Tc3">
                                         <variation key="widthClass=regular" constant="80"/>
@@ -1211,7 +1211,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nps-iE-od1">
                                         <rect key="frame" x="34" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.81960784313725488" green="0.86274509803921573" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="0.84313725490196079" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" identifier="rButtonHeight" id="2Lk-9S-m83"/>
                                             <constraint firstAttribute="width" constant="67" identifier="rButtonWidth" id="FXZ-ZY-C6O"/>
@@ -1239,7 +1239,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvv-HG-2eN">
                                         <rect key="frame" x="273" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.81960784313725488" green="0.86274509803921573" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="backgroundColor" red="1" green="0.84313725490196079" blue="0.83529411764705885" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" identifier="nButtonHeight" id="adt-pt-bis"/>
                                             <constraint firstAttribute="width" constant="67" identifier="nButtonWidth" id="oDG-FK-PCg"/>
