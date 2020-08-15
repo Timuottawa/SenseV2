@@ -32,6 +32,8 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     
     var pageNumber : Int = 1
     
+    let cellWidthScale: CGFloat = 16
+    
     
     @IBAction func backPressed(_ sender: Any) {
     }
@@ -172,7 +174,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     func dynamicScroll()
     {
         // normal iphone width
-        let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/7;
+        let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/cellWidthScale;
         let tableH:CGFloat = CGFloat(cellH * CGFloat(N_VIEWS)) //dynamicScrollView.frame.height;
         
         
@@ -267,7 +269,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             //if dynamicScrollView.subviews.count < scrollView.currentPage+2{
             if dynamicScrollView.subviews.count < scrollView.currentPage{
                 _print("is empty page")
-                let tableW:CGFloat = dynamicScrollView.frame.size.width - self.view.frame.width*1/7;
+                let tableW:CGFloat = dynamicScrollView.frame.size.width  - self.view.frame.width*1/cellWidthScale;
                 let tableH:CGFloat = CGFloat(cellH * CGFloat((10-pageNumber))) //self.dynamicScrollView.frame.size.height;
                 
                 //Tim August 2nd
@@ -357,6 +359,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
                 // 设置语音环境，保证能朗读出声音（特别是刚做过语音识别，这句话必加，不然没声音）
                 //try audioSession.setCategory(AVAudioSession.Category.ambient)
                 try audioSession.setCategory(AVAudioSession.Category.playback)
+                try audioSession.setActive(true)
             }catch let error as NSError{
                 _print("!!!error.code!!!\n")
                 _print(error.code)
