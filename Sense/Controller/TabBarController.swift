@@ -23,7 +23,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
         //_guidedLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         //
         
-        self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearningViewController")
+        self._freeLearningVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LearnViewController")
         //_freeLearningVC?.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         //_freeLearningVC?.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         //
@@ -101,13 +101,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     }
     
     //August 8, 2020 by Tim
+    /*
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(false)
+        super.viewWillAppear(animated)
         
         //Pre-viewLoad() to speed up
         //AsyncDispatch()
     }
-
+    */
     
     //August 8, 2020 by Tim
     func AsyncDispatch()
