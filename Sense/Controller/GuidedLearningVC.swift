@@ -314,6 +314,8 @@ class GuidedLearningVC: UIViewController {
     
     //August 14, 2020 by Tim. currentview's position is not correct when in viewDidLoad(), so put pulsatingConfig() here.
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         if currentView != nil {
             _print("viewWillAppear....pulsatingConfig()")
             if #available(iOS 10.0, *) {
@@ -515,11 +517,11 @@ class GuidedLearningVC: UIViewController {
                 case "nButtonWidth":
                     c.constant = screenWidth! * 1/5
                 case "nButtonHeight":
-                    c.constant = screenHeight! * 1/10
+                    c.constant = screenHeight! * 1/12 //10
                 case "rButtonWidth":
                     c.constant = screenWidth! * 1/5
                 case "rButtonHeight":
-                    c.constant = screenHeight! * 1/10
+                    c.constant = screenHeight! * 1/12 //10
                 default: break
                     
             }
