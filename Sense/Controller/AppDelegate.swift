@@ -33,6 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let sb = UIStoryboard(name: "Main", bundle: nil)
         
+        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"]! as! String
+        let build = Bundle.main.infoDictionary!["CFBundleVersion"]! as! String
+        
+        _print(version, build)
+        
         // August 12, 2020 by Tim
         let initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
         
@@ -48,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Running onBoarding for the first time
         let userDefaults = UserDefaults.standard
-        if userDefaults.bool(forKey: "didPerformOnboarding") == false { // August 12, 2020 by Tim
+        if userDefaults.bool(forKey: "didPerformOnboarding") == false || userDefaults.string(forKey: "version") != version || userDefaults.string(forKey: "build") != build { // August 12, 2020 by Tim
             let obVC = sb.instantiateViewController(withIdentifier: "OnBoardingVC")
             obVC.modalPresentationStyle = .fullScreen
             window?.rootViewController?.present(obVC, animated: false, completion: nil)

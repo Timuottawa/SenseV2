@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import AVFoundation
 
 class ChooseLearningModeVC: UIViewController {
     
@@ -58,9 +59,68 @@ class ChooseLearningModeVC: UIViewController {
             
         }
     }
-    
+    //Just for test
+    func popupAlert(msg: String) {
+        let alert = UIAlertController(title:"Just for testing", message: msg, preferredStyle: .alert)
+        let action1 = UIAlertAction(title: "OK", style: .default) {
+            (action: UIAlertAction) in
+            print("OK")
+        }
+        let action2 = UIAlertAction(title: "Cancel", style: .cancel) {
+            (action: UIAlertAction) in
+            print("Cancel")
+        }
+        alert.addAction(action1)
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        // Only for audio testing...
+        do {
+            //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            audioPlayer = AVAudioPlayer()
+            _print(audioPlayer as Any)
+        } catch {
+            _print("!!! set audio error !!!")
+            popupAlert(msg: "E:\(error.localizedDescription) and \(error)")
+        }
+        
+        if audioPlayer == nil {
+            _print("!!! Error in audio settings: nil !!!")
+            popupAlert(msg: "!!! Error in audio settings: nil !!!")
+        }
+        else {
+            _print("!!! Correct in audio settings !!!")
+        }
+        if let url = Bundle.main.url(forResource: "correctmc", withExtension: "mp3"){
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                _print(audioPlayer as Any)
+            }catch{
+                _print("!!! AVAudioPlayer() error !!!")
+                popupAlert(msg: "E1:\(error.localizedDescription) and \(error)")
+            }
+            audioPlayer?.volume = 1
+            if audioPlayer == nil {
+                _print("!!!Error in calling AVAudioPlayer(): nil.")
+                popupAlert(msg: "!!!Error in calling AVAudioPlayer(): nil.")
+            }
+            audioPlayer?.play()
+        }
+        //popupAlert(msg: "Passed audio test !")
+        // End testing
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
+        
         guidedButton.layer.cornerRadius = 13
         freeButton.layer.cornerRadius = 13
         configureEasterEgg()

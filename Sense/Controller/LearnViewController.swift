@@ -73,10 +73,15 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     
     override func viewDidLoad() {
           
-          _print("f:vdld()---\(Date().timeIntervalSince1970)")
-          _print(self)
+        _print("f:vdld()---\(Date().timeIntervalSince1970)")
+        print(self)
           
-          super.viewDidLoad()
+        super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
           
           _print("f:vdld()-++\(Date().timeIntervalSince1970)")
    

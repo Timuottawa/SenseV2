@@ -41,7 +41,7 @@
                         </constraint>
                     </constraints>
                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="32"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                     <variation key="widthClass=regular">
                         <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="50"/>
@@ -72,7 +72,7 @@
                         </constraint>
                     </constraints>
                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="32"/>
-                    <nil key="textColor"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                     <variation key="widthClass=regular">
                         <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="50"/>
@@ -91,7 +91,9 @@
                         <constraint firstAttribute="width" secondItem="JAm-qQ-Dr8" secondAttribute="height" multiplier="1:1" id="Kob-sz-hi0"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="32"/>
-                    <state key="normal" title="?"/>
+                    <state key="normal" title="?">
+                        <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
                     <variation key="widthClass=regular">
                         <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="50"/>
                     </variation>

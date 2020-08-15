@@ -10,7 +10,6 @@
 		4D0645C324D9EE0300F5FB44 /* OnBoardV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */; };
 		4D0645C524D9EF6600F5FB44 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */; };
 		4D9C577024DD7C5E0014C251 /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
-		4D9C577124DD7C5E0014C251 /* Pods_Sense.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4D9C577624DD8A960014C251 /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577524DD8A960014C251 /* globe_rotation.json */; };
 		4D9C577824DD8C1F0014C251 /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577724DD8C1F0014C251 /* Sense1.wav */; };
 		4D9C577A24DF76960014C251 /* wrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577924DF76960014C251 /* wrong.wav */; };
@@ -45,11 +44,10 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		4D9C577224DD7C5E0014C251 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4D9C577124DD7C5E0014C251 /* Pods_Sense.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,7 +440,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -504,7 +502,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -533,16 +531,19 @@
 			baseConfigurationReference = 0E4A638716E3711F6B3BE1EB /* Pods-Sense.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PMU848L6X;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 9V9XAASU5T;
 				INFOPLIST_FILE = Sense/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ycxbob06.Sense;
+				MACH_O_TYPE = mh_execute;
+				MARKETING_VERSION = 0.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobyuan.Sense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -555,16 +556,19 @@
 			baseConfigurationReference = 379404D15685B282E03C5A2E /* Pods-Sense.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9PMU848L6X;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = 9V9XAASU5T;
 				INFOPLIST_FILE = Sense/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ycxbob06.Sense;
+				MACH_O_TYPE = mh_execute;
+				MARKETING_VERSION = 0.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bobyuan.Sense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

@@ -176,6 +176,11 @@ class GuidedLearningVC: UIViewController {
         _print(self)
         
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
         
         _print("g:vdld()-++\(Date().timeIntervalSince1970)")
         
@@ -307,7 +312,15 @@ class GuidedLearningVC: UIViewController {
         }
     }
     
-    
+    //August 14, 2020 by Tim. currentview's position is not correct when in viewDidLoad(), so put pulsatingConfig() here.
+    override func viewDidAppear(_ animated: Bool) {
+        if currentView != nil {
+            _print("viewWillAppear....pulsatingConfig()")
+            if #available(iOS 10.0, *) {
+                pulsatingConfig()  //will crash on iPad2
+            }
+        }
+    }
 
     func pulsatingConfig() {
 

@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-var audioPlayer: AVAudioPlayer!
 
 
 class ListenViewController: UIViewController {
@@ -268,6 +267,12 @@ class ListenViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
+
         /*
         firstLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
         secondLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)

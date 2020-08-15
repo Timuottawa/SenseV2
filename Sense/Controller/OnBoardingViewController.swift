@@ -45,8 +45,12 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     @IBAction func continuePressed(_ sender: UIButton) {
         let userDefaults = UserDefaults.standard
+        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"]! as! String
+        let build = Bundle.main.infoDictionary!["CFBundleVersion"]! as! String
         
         userDefaults.set(true, forKey: "didPerformOnboarding")
+        userDefaults.set(version, forKey: "version")
+        userDefaults.set(build, forKey: "build")
         
         userDefaults.synchronize()
     }
@@ -57,6 +61,11 @@ class OnBoardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
         
         _print("obVC.viewDidLoad()")
         

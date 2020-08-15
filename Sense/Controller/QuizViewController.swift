@@ -28,7 +28,8 @@ class QuizViewController: UIViewController {
     var seconds: Int = 0
     var minutes: Int = 0
     
-    var audioPlayer: AVAudioPlayer!
+    //Commented Ausgust 14, 2020 by Tim
+    //var audioPlayer: AVAudioPlayer!
     
     var screenHeight: CGFloat?
     var screenWidth: CGFloat?
@@ -979,6 +980,11 @@ class QuizViewController: UIViewController {
         _print(self)
         
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
         
         _print("quiz:vdld()-++\(Date().timeIntervalSince1970)")
         

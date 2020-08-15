@@ -9,6 +9,10 @@
 import Foundation
 import AVFoundation
 
+var audioPlayer: AVAudioPlayer? = AVAudioPlayer()
+
+var gVars = globalVariables(level: 1, cellLevel: 1)
+
 class globalVariables {
     var level: Int = 1
     var cellLevel: Int = 1
@@ -24,17 +28,14 @@ class globalVariables {
             audioPlayer = try? AVAudioPlayer(contentsOf: url)
             
             if audioPlayer == nil {
-                print("!!!Error in calling AVAudioPlayer().")
+                _print("!!!Error in calling AVAudioPlayer().")
             }
             
-            print("play....")
+            _print("play....")
             audioPlayer?.play()
-            
-            
-
+  
         }
     }
 }
 
-var gVars = globalVariables(level: 1, cellLevel: 1)
 

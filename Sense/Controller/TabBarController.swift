@@ -31,7 +31,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        } else {
+            // Fallback on earlier versions
+        }
         
         
         self.delegate = self
@@ -195,6 +199,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate{
             
               if  iH > 60 {
                   tb.imageInsets = UIEdgeInsets(top: 20, left: 0, bottom: -20, right: 0)
+                  if tb.tag == 3 {
+                     tb.imageInsets = UIEdgeInsets(top: 21, left: 0, bottom: -21, right: 0)
+                  }
               }
               else {
                   if tb.tag == 3 {
