@@ -9,7 +9,8 @@
 import Foundation
 import AVFoundation
 
-var audioPlayer: AVAudioPlayer? = AVAudioPlayer()
+var audioPlayer: AVAudioPlayer? //= AVAudioPlayer()
+
 
 var gVars = globalVariables(level: 1, cellLevel: 1)
 
