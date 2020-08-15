@@ -284,7 +284,7 @@ class ListenViewController: UIViewController {
             _print("Voice setting error:\(error.localizedDescription) and \(error)")
         }
         //
-        
+         
         /*
         firstLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
         secondLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
