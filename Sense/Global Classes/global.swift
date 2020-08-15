@@ -23,6 +23,19 @@ class globalVariables {
     }
     
     func soundEffect(filename: String, ext: String) {
+        
+        //Voice settings
+        do {
+            //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            //audioPlayer = AVAudioPlayer()
+            //_print(audioPlayer as Any)
+        } catch {
+            _print("Voice setting error:\(error.localizedDescription) and \(error)")
+        }
+        //
+        
         if let url = Bundle.main.url(forResource: filename, withExtension: ext){
             
             audioPlayer = try? AVAudioPlayer(contentsOf: url)

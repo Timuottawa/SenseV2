@@ -59,6 +59,7 @@ class ChooseLearningModeVC: UIViewController {
             
         }
     }
+    /*
     //Just for test
     func popupAlert(msg: String) {
         let alert = UIAlertController(title:"Just for testing", message: msg, preferredStyle: .alert)
@@ -112,7 +113,7 @@ class ChooseLearningModeVC: UIViewController {
         //popupAlert(msg: "Passed audio test !")
         // End testing
         
-    }
+    }*/
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) {

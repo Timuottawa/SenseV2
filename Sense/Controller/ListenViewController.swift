@@ -272,7 +272,19 @@ class ListenViewController: UIViewController {
         } else {
             // Fallback on earlier versions
         }
-
+        
+        //Voice settings
+        do {
+            //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            //audioPlayer = AVAudioPlayer()
+            //_print(audioPlayer as Any)
+        } catch {
+            _print("Voice setting error:\(error.localizedDescription) and \(error)")
+        }
+        //
+        
         /*
         firstLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
         secondLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)

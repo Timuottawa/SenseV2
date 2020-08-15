@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 //August 9, 2020 by Tim
 //Wrapper for print()
@@ -31,12 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        //Storyboard
         let sb = UIStoryboard(name: "Main", bundle: nil)
         
+        //App version and build number
         let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"]! as! String
         let build = Bundle.main.infoDictionary!["CFBundleVersion"]! as! String
         
-        _print(version, build)
+        _print("App version:\(version), build:\(build)")
         
         // August 12, 2020 by Tim
         let initVC = sb.instantiateViewController(withIdentifier: "TabBarVC")
@@ -49,11 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //window?.makeKeyAndVisible()  //??? will crash on iPad2 as of an entry defined in SB
         //}
         
+        //Make the window visible
         window?.makeKeyAndVisible() //It's ok now, as no entry defined in SB, only here.
         
-        //Running onBoarding for the first time
+        //Running onBoarding for the first time or different version/build number
         let userDefaults = UserDefaults.standard
         if userDefaults.bool(forKey: "didPerformOnboarding") == false || userDefaults.string(forKey: "version") != version || userDefaults.string(forKey: "build") != build { // August 12, 2020 by Tim
+            
             let obVC = sb.instantiateViewController(withIdentifier: "OnBoardingVC")
             obVC.modalPresentationStyle = .fullScreen
             window?.rootViewController?.present(obVC, animated: false, completion: nil)
