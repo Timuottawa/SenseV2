@@ -9,7 +9,7 @@
 import UIKit
 import ChameleonFramework
 import Lottie
-import AVFoundation
+//import AVFoundation
 import InstantSearchVoiceOverlay
 
 
@@ -1267,11 +1267,11 @@ class QuizViewController: UIViewController {
                 case "nButtonWidth":
                     c.constant = screenWidth! * 1/5
                 case "nButtonHeight":
-                    c.constant = screenHeight! * 1/10
+                    c.constant = screenHeight! * 1/12 //10
                 case "rButtonWidth":
                     c.constant = screenWidth! * 1/5
                 case "rButtonHeight":
-                    c.constant = screenHeight! * 1/10
+                    c.constant = screenHeight! * 1/12 //10
                 case "tHeight":
                     c.constant = screenHeight! * 1/12
                 case "tWidth":
