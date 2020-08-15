@@ -1082,7 +1082,7 @@
         <!--Learn View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LearningViewController" id="BYZ-38-t0r" customClass="LearnViewController" customModule="Sense" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LearnViewController" id="BYZ-38-t0r" customClass="LearnViewController" customModule="Sense" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <subviews>
@@ -1106,6 +1106,7 @@
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8zO-rd-tXI">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1210,7 +1211,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nps-iE-od1">
                                         <rect key="frame" x="34" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.81960784313725488" green="0.86274509803921573" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" identifier="rButtonHeight" id="2Lk-9S-m83"/>
                                             <constraint firstAttribute="width" constant="67" identifier="rButtonWidth" id="FXZ-ZY-C6O"/>
@@ -1238,7 +1239,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvv-HG-2eN">
                                         <rect key="frame" x="273" y="344" width="67" height="40"/>
-                                        <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.81960784313725488" green="0.86274509803921573" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" identifier="nButtonHeight" id="adt-pt-bis"/>
                                             <constraint firstAttribute="width" constant="67" identifier="nButtonWidth" id="oDG-FK-PCg"/>
