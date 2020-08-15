@@ -10,14 +10,14 @@
 import UIKit
 
 import AVFoundation
-import MediaPlayer
+//import MediaPlayer
 import ChameleonFramework
 
 class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource, AVSpeechSynthesizerDelegate{
     
     //Define vars for voice eviroment
-    let synth = AVSpeechSynthesizer(); //TTS对象
-    let audioSession = AVAudioSession.sharedInstance(); //语音引擎
+    var synth: AVSpeechSynthesizer?; //TTS对象
+    //let audioSession = AVAudioSession.sharedInstance(); //语音引擎
     var learningMode = "" 
     
     var num1 : Int?
@@ -94,8 +94,9 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         backToChooseButton.layer.cornerRadius = 25
         view.bringSubviewToFront(backToChooseButton)
 
+        synth = AVSpeechSynthesizer()
         //Init voice eviroment
-        synth.delegate = self;
+        synth?.delegate = self;
         
         //_print("viewDidLoad width: \(self.view.frame.width)")
         //_print(self.dynamicScrollView.frame.size.width)
@@ -106,7 +107,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        
+        super.viewDidAppear(animated)
         _print("viewDidAppear:\(self.dynamicScrollView.frame.size.width)")
         
         //I don't know why StoryBoard added some view in for a blank scroll view? Junly 31, 2020 by Tim
@@ -163,7 +164,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         
         return cell
     }
-    var gtView = UITableView();
+    //var gtView = UITableView();
     let N_VIEWS:Int = 9; //Total number of the table views in the scroll view
     var cellH: CGFloat = 0 //should be replaced by a relative value!
     
@@ -234,11 +235,11 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
         dynamicScrollView.delegate = self;
         
     }
-    
+    /*
     func screateTableView()
     {
         //
-    }
+    }*/
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -315,11 +316,11 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             }
         }
     }
-
+    /*
     func createTableView()
     {
         
-    }
+    }*/
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     {
@@ -347,13 +348,15 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     //To speak out a message
     //Please see https://www.cnblogs.com/qian-gu-ling/archive/2017/03/22/6600993.html
     func speechMessage(message:String){
+        let audioSession = AVAudioSession.sharedInstance(); //语音引擎
         //First, stop the current speaking
-        synth.stopSpeaking(at: AVSpeechBoundary.immediate);
+        synth?.stopSpeaking(at: AVSpeechBoundary.immediate);
         
         if !message.isEmpty {
             do {
                 // 设置语音环境，保证能朗读出声音（特别是刚做过语音识别，这句话必加，不然没声音）
-                try audioSession.setCategory(AVAudioSession.Category.ambient)
+                //try audioSession.setCategory(AVAudioSession.Category.ambient)
+                try audioSession.setCategory(AVAudioSession.Category.playback)
             }catch let error as NSError{
                 _print("!!!error.code!!!\n")
                 _print(error.code)
@@ -367,7 +370,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             //设置音频
             utterance.pitchMultiplier = 1.1
             //开始朗读
-            synth.speak(utterance)
+            synth?.speak(utterance)
             
         }
     }
