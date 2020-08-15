@@ -8,7 +8,7 @@
 
 import UIKit
 import Lottie
-import AVFoundation
+
 
 class ChooseLearningModeVC: UIViewController {
     
