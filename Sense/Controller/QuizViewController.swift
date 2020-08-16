@@ -218,8 +218,12 @@ class QuizViewController: UIViewController {
         })
         
         }//endif #available(iOS 10.0, *)
+        else {
+            popupAlert(msg: "Voice input is only available for iOS 10.0 or above!")
+        }
         
     }
+
     //August 8, 2020 by Tim
     func freeResources()
     {
@@ -935,6 +939,32 @@ class QuizViewController: UIViewController {
         _print("levels \(gVars.level) \(gVars.cellLevel)")
     }
     
+    //August 16, 2020 by Tim
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        _print("viewDidApper")
+        
+        view.bringSubviewToFront(dropDownView)
+        dropDownView.isHidden = false
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+            self.heightConstraint.constant = self.bottom!
+            //
+            self.view.layoutIfNeeded()
+            
+        }) { (complete) in
+            self.dropDownView.smooth(count: 1, for: 0.2, withTranslation: 2)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+                self.heightConstraint.constant = CGFloat(self.view.frame.height)
+                self.view.layoutIfNeeded()
+            }) { (complete) in
+                
+            }
+        }
+
+    }
     /*
     override func viewDidLayoutSubviews() {
 
