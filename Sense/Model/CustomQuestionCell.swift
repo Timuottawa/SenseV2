@@ -54,11 +54,14 @@ class CustomQuestionCell: UITableViewCell {
             
             let str_result = String(Int(numberOne!.text!)! * Int(numberTwo!.text!)!);
             questionButton.setTitle(str_result, for: .normal);
-            let str = numberOne!.text! + " times " + numberTwo!.text! + " equals " + str_result;
+            //let str = numberOne!.text! + " times " + numberTwo!.text! + " equals " + str_result;
+            let str = numberOne!.text! + " " + numberTwo!.text! + " is " + str_result;
             
             //Speak out str
             //get ViewController to get func speechMessage()
-            if let vc = self.superview?.parentViewController as? LearnViewController {      vc.speechMessage(message:str);
+            if let vc = self.superview?.parentViewController as? LearnViewController {
+                vc.speechMessage(message: str);
+
             }
             else{
                 _print("error in customQuestionCell\n")
