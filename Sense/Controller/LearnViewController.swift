@@ -367,11 +367,13 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
             //需要转的文本
             let utterance = AVSpeechUtterance.init(string: message)
             //设置语言，这里是English
-            utterance.voice = AVSpeechSynthesisVoice.init(language: "us_EN")
+            utterance.voice = AVSpeechSynthesisVoice.init(language: "us_GB")
             //设置声音大小
-            utterance.volume = 1.0
+            utterance.volume = 1.0 // [0-1] Default = 1
+            //Speed
+            utterance.rate = 0.5 //AVSpeechUtteranceMinimumSpeechRate                                                                 // AVSpeechUtteranceMaximumSpeechRate
             //设置音频
-            utterance.pitchMultiplier = 1.1
+            utterance.pitchMultiplier = 1.9 //1.1 // [0.5 - 2] Default = 1
             //开始朗读
             synth?.speak(utterance)
             
