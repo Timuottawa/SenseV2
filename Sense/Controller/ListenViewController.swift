@@ -44,6 +44,7 @@ class ListenViewController: UIViewController {
     var bigIndex = 0
     var index = 0
     let timestamps = [0.0000, 2.0443, 4.0907+0.3, 6.1350+0.4, 8.1814+0.4, 10.2258+0.6, 13.0221+0.1, 15.0665+0.2, 17.1129+0.2, 19.1572+0.4, 21.2036]
+
     
     let customFont = UIFont(name: "DK Cool Crayon", size: UIFont.labelFontSize)
     
@@ -105,12 +106,13 @@ class ListenViewController: UIViewController {
     @IBAction func playPressed(_ sender: UIButton) {
         
         if audioPlayer == nil { return }
-        
+        _print("bigIndex:", bigIndex)
         if isPaused == true {
             playButton.setImage(UIImage(named: "Pause"), for: .normal)
             isPaused = false
             stop = false
             //_print("CURRENT: \(audioPlayer.currentTime)")
+            //audioPlayer?.numberOfLoops = 1
             audioPlayer?.play()
             looper()
         }
@@ -165,8 +167,8 @@ class ListenViewController: UIViewController {
                 
                 cellLevel += 1
                 index += 1
-                
-                if index == 11 {
+                _print("index:", index, "bigIndex:", bigIndex, "cT:", audioPlayer?.currentTime)
+                if index == 11 || bigIndex >= 72 {
                     switch bigIndex {
                     case 0:
                         bigIndex = 24
@@ -176,8 +178,15 @@ class ListenViewController: UIViewController {
                         bigIndex = 72
                     case 72:
                         bigIndex = 96
+                        //Tim August 16, 2020
+                        bigIndex = 0
+                        audioPlayer?.stop()
+                        audioPlayer?.currentTime = TimeInterval(self.timestamps[4] + Double(self.bigIndex))
+                        audioPlayer?.play()
                     case 96:
                         bigIndex = 0
+                        //Tim August 16, 2020
+                        audioPlayer?.currentTime = TimeInterval(self.timestamps[0] + Double(self.bigIndex))
                     default: break
                         
                     }
@@ -324,7 +333,7 @@ class ListenViewController: UIViewController {
         if let url = Bundle.main.url(forResource: "Sense1", withExtension: "wav"){
             
             audioPlayer = try? AVAudioPlayer(contentsOf: url)
-            
+            audioPlayer?.numberOfLoops = 100
             if audioPlayer == nil {
                 _print("!!!Error in calling AVAudioPlayer().")
             }
