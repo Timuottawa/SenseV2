@@ -3,6 +3,7 @@
 //  Sense
 //
 //  Created by Bob Yuan on 2020/1/2.
+//  Modified by Tim on 2020/08/19
 //  Copyright © 2020 Bob Yuan. All rights reserved.
 //
 
@@ -34,20 +35,119 @@ class ListenViewController: UIViewController {
     var hopH: CGFloat = 20 //Hiphop Height
     
     var isPaused = true
-    var level: Int = 1
+    var level: Int = 0
     var stop: Bool = false
     var cellLevel: Int = 1
     
     let prefix = "progression"
     let progressions = ["1_1", "1_2", "1_3", "2_1", "2_2", "2_3"]
     
-    var bigIndex = 0
-    var index = 0
     let timestamps = [0.0000, 2.0443, 4.0907+0.3, 6.1350+0.4, 8.1814+0.4, 10.2258+0.6, 13.0221+0.1, 15.0665+0.2, 17.1129+0.2, 19.1572+0.4, 21.2036]
-
     
     let customFont = UIFont(name: "DK Cool Crayon", size: UIFont.labelFontSize)
+ 
+    //---------------------------------
+    var toneCurrentIndex: Int = -1
+    let toneTimestamps = [
+                            0.0, 2.0, 4.21, 6.33, 8.48, 10.6, 12.9, 15.012, 17.27,
+                            19.42, 21.48, 23.66, 26.06, 28.00, 30.33, 32.45, 34.66,
+                            37.00, 39.015, 41.027, 43.42, 45.54, 47.69, 50.066,
+                            52.021001, 54.33, 56.48, 58.63, 61.00, 63.039,
+                            65.022, 67.42, 69.57, 71.69, 74.066,
+                            76
+                         ]
     
+    let cell = [
+                    (1,1), (1,2), (1,3), (1,4), (1,5), (1,6), (1,7), (1,8), (1,9),
+                    (2,2), (2,3), (2,4), (2,5), (2,6), (2,7), (2,8), (2,9),
+                    (3,3), (3,4), (3,5), (3,6), (3,7), (3,8), (3,9),
+                    (4,4), (4,5), (4,6), (4,7), (4,8), (4,9),
+                    (5,5), (5,6), (5,7), (5,8), (5,9)
+               ]
+    
+    let _cell = [
+                    (6,6), (6,7), (6,8), (6,9),
+                    (7,7), (7,8), (7,9),
+                    (8,8), (8,9),
+                    (9,9)
+                ]
+    //---------------------------------
+    
+    //Setting all Labels inlcuding slider's, and stop all animations
+    func setLabels(){
+        slider.value = Float(level)
+        firstLabel.text = level.asWord
+        secondLabel.text = cellLevel.asWord
+        ansLabel.text = (level*cellLevel).asWord
+        numLabel1.text = String(level)
+        numLabel2.text = String(cellLevel)
+        numLabel3.text = String(level*cellLevel)
+        
+        firstLabel.layer.removeAllAnimations()
+        secondLabel.layer.removeAllAnimations()
+        ansLabel.layer.removeAllAnimations()
+        self.view.layoutIfNeeded()
+        
+    }
+    
+    //Setting each Tone, for example, 1 x 1 = 1 for one tone.
+    func setCurrentTone() {
+        //print("setCurrentTone:", audioPlayer?.currentTime as Any )
+        let cT = audioPlayer!.currentTime as Double
+        //print("setCurrentTone cT: ", cT )
+        
+        for i in 0...(toneTimestamps.count-2) {
+            // Init  toneCurrentIndex in  func setCurrentTime()
+            if toneCurrentIndex != i && cT >= toneTimestamps[i] && cT < toneTimestamps[i+1] {
+                toneCurrentIndex = i;
+                
+                //print("setCurrentTone cT: ", cT )
+                
+                if self.level == 9 && self.cellLevel == 9 { //See Ugly below
+                    setStop()
+                    return
+                }
+                //
+                if level >= 5 && i < 10 {
+                    level = _cell[i].0
+                    cellLevel = _cell[i].1
+                    setLabels()
+                    //print("1:", level, cellLevel)
+                    
+                }
+                else {
+                    level = cell[i].0
+                    cellLevel = cell[i].1
+                    setLabels()
+                    //print("2:", level, cellLevel)
+                }
+                
+                //Loop for only one tone
+                _looperOne()
+                
+                return
+            }
+        }//end for
+    }
+    
+    //A timer for sync each tone
+    var displayLinkTimer: CADisplayLink?
+    @objc func _dL_update(sender: CADisplayLink) {
+        
+        if audioPlayer != nil && stop == false && isPaused == false  && audioPlayer?.isPlaying == true{
+            setCurrentTone()
+        }
+
+    }
+    func createDisplayLinkTimer() {
+        displayLinkTimer = CADisplayLink(target: self, selector: #selector(_dL_update))
+        displayLinkTimer?.add(to: .main, forMode: .default)
+    }
+    func killDisplayLinkTimer() {
+        displayLinkTimer?.invalidate()
+    }
+         
+
     // Only for iPad by Tim on August 6, 2020
     func _autoLayout()
     {
@@ -81,288 +181,226 @@ class ListenViewController: UIViewController {
             }
         }
     }
-    
+    //Setting start time points for each tone
+    func setCurrentTime()
+    {
+        var cT = audioPlayer!.currentTime
+
+        //Need change to swich...case... or a formula?
+        if level == 1 {
+            cT = toneTimestamps[0+cellLevel-level]
+        }
+        else if level == 2 {
+            cT = toneTimestamps[9+cellLevel-level]
+        }
+        else if level == 3 {
+            cT = toneTimestamps[17+cellLevel-level]
+        }
+        else if level == 4 {
+            cT = toneTimestamps[24+cellLevel-level]
+        }
+        else if level == 5 {
+            cT = toneTimestamps[30+cellLevel-level]
+        }
+        else if level == 6 {
+            cT = toneTimestamps[0+cellLevel-level]
+        }
+        else if level == 7 {
+            cT = toneTimestamps[4+cellLevel-level]
+        }
+        else if level == 8 {
+            cT = toneTimestamps[7+cellLevel-level]
+        }
+        else if level == 9 {
+            cT = toneTimestamps[9+cellLevel-level]
+        }
+        
+        audioPlayer!.currentTime = TimeInterval(cT) + 0.05 //Just add 0.05 here to avoid audioPlayer's bugs!!!
+        
+        toneCurrentIndex = -1 //Init toneCurrentIndex
+        
+    }
+    //Slide pressed
     @IBAction func onSlide(_ sender: UISlider) {
+        
+        print("onSlide...")
+        
         slider.value = roundf(slider.value)
         level = Int(slider.value)
         cellLevel = level
-        firstLabel.text = level.asWord
-        secondLabel.text = cellLevel.asWord
-        ansLabel.text = (level*cellLevel).asWord
+
+        setCurrentTime()
         
+        setStop()
+
+    }
+    //Starting to play
+    func setPlay() {
+        playButton.setImage(UIImage(named: "Pause"), for: .normal)
+        isPaused = false
+        stop = false
+        
+        audioPlayer?.play()
+        createDisplayLinkTimer()
+    }
+    //Stopping
+    func setStop() {
         playButton.setImage(UIImage(named: "Play"), for: .normal)
         isPaused = true
         audioPlayer?.stop()
-        //_print("---\(audioPlayer.currentTime)")
-        audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        //_print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
         stop = true
+        
+        killDisplayLinkTimer()
+        
+        setLabels()
+    }
+    //Play pressed
+    @IBAction func playPressed(_ sender: UIButton) {
+        if audioPlayer == nil { return }
+
+        if isPaused == true {
+            setCurrentTime()
+          
+            //Ugly, just for playing 9 x 9 = 81 for only one time, see Ugly above!
+            if level == 9 {
+                cellLevel = 0
+            }
+            setPlay()
+        }
+        else {
+            setCurrentTime()
+            setStop()
+        }
+    }
+    override func viewDidLoad() {
+         super.viewDidLoad()
+         if #available(iOS 13.0, *) {
+             overrideUserInterfaceStyle = .light
+         } else {
+             // Fallback on earlier versions
+         }
+         
+         //Voice settings
+         do {
+
+             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+             try AVAudioSession.sharedInstance().setActive(true)
+
+         } catch {
+             _print("Voice setting error:\(error.localizedDescription) and \(error)")
+         }
+         //
+        
+         if _screenHeight > 1000 { //iPad only
+             hopH = CGFloat(Int(_screenHeight * (60/1366)))
+             _print("hopH:\(hopH)")
+             _autoLayout()
+         }
+         else {
+             hopH = 30
+         }
+             
+         level = 1
+         cellLevel = 1
+         setLabels()
+    }
+    func setupAudioPlayer() {
+         if let url = Bundle.main.url(forResource: "Sense3", withExtension: "wav"){
+             
+             audioPlayer = try? AVAudioPlayer(contentsOf: url)
+             audioPlayer?.numberOfLoops = 2
+             if audioPlayer == nil {
+                 _print("!!!Error in calling AVAudioPlayer().")
+             }
+             
+             _print("play....")
+             audioPlayer?.prepareToPlay()
+         }
+     }
+     
+     override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+         setupAudioPlayer()
+     }
+     
+
+     override func viewDidDisappear(_ animated: Bool) {
+         super.viewDidDisappear(animated)
+         if audioPlayer == nil { return }
+         setStop()
+         _print("viewDidDisappear---\(audioPlayer?.currentTime as Any)")
+    }
+    
+    //Loop for only one tone
+    func _looperOne() {
+        print("loopOne....")
+        print("loopOne 1:", audioPlayer?.currentTime as Any)
+        print("loopOne 1:", toneCurrentIndex)
+        
         firstLabel.layer.removeAllAnimations()
         secondLabel.layer.removeAllAnimations()
         ansLabel.layer.removeAllAnimations()
-    }
+        //------------------------------------------------------------
+        if stop == false { // 1---
+               
+               UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+                
+                   self.firstLabelH.constant -= self.hopH //20
+                   self.view.layoutIfNeeded()
     
-    
-    @IBAction func playPressed(_ sender: UIButton) {
+                       }) { (complete) in
+                           UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+                               self.firstLabelH.constant += self.hopH //20
+                               self.view.layoutIfNeeded()
+                               
+                           })
+                       }
+           } //end +++1
         
-        if audioPlayer == nil { return }
-        _print("bigIndex:", bigIndex)
-        if isPaused == true {
-            playButton.setImage(UIImage(named: "Pause"), for: .normal)
-            isPaused = false
-            stop = false
-            //_print("CURRENT: \(audioPlayer.currentTime)")
-            //audioPlayer?.numberOfLoops = 1
-            audioPlayer?.play()
-            looper()
-        }
-        else {
-            playButton.setImage(UIImage(named: "Play"), for: .normal)
-            isPaused = true
-            audioPlayer?.stop()
-            //_print("---\(audioPlayer.currentTime)")
-            audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-            //_print("time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
-            stop = true
-            firstLabel.layer.removeAllAnimations()
-            secondLabel.layer.removeAllAnimations()
-            ansLabel.layer.removeAllAnimations()
-            
-        }
         
-    }
-    
-    
-    func looper() {
-        //while level < 9 {
-            if isPaused == false { //To be playing...
-                
-                if cellLevel > 9 && level > 8 {
-                    audioPlayer?.stop()
-                    
-                    audioPlayer?.currentTime = 0
-                    slider.value = 1
-                    level = 1
-                    cellLevel = 1
-                    bigIndex = 0
-                    index = 0
-                    stop = true
-                }
-
-                if cellLevel > 9 {
-                    level += 1
-                    cellLevel = level
-                    slider.value = Float(level)
-                }
-                if level > 9 {
-                    _print("done")
-                }
-                        
-                firstLabel.text = level.asWord
-                secondLabel.text = cellLevel.asWord
-                ansLabel.text = (level*cellLevel).asWord
-                numLabel1.text = String(level)
-                numLabel2.text = String(cellLevel)
-                numLabel3.text = String(level*cellLevel)
-                
-                cellLevel += 1
-                index += 1
-                _print("index:", index, "bigIndex:", bigIndex, "cT:", audioPlayer?.currentTime)
-                if index == 11 || bigIndex >= 72 {
-                    switch bigIndex {
-                    case 0:
-                        bigIndex = 24
-                    case 24:
-                        bigIndex = 48
-                    case 48:
-                        bigIndex = 72
-                    case 72:
-                        bigIndex = 96
-                        //Tim August 16, 2020
-                        bigIndex = 0
-                        audioPlayer?.stop()
-                        audioPlayer?.currentTime = TimeInterval(self.timestamps[4] + Double(self.bigIndex))
-                        audioPlayer?.play()
-                    case 96:
-                        bigIndex = 0
-                        //Tim August 16, 2020
-                        audioPlayer?.currentTime = TimeInterval(self.timestamps[0] + Double(self.bigIndex))
-                    default: break
-                        
-                    }
-                    index = 0
-                }
-                
-                if stop == false {
-                    
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // 2---
+                if self.stop == false{
                     UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                     
-                        self.firstLabelH.constant -= self.hopH //20
-                        self.view.layoutIfNeeded()
-                        
-                        //_print(self.firstLabel.constraints) //don't print here?
-                        
-                        //self.firstLabel.frame = CGRect(x: self.firstLabel.frame.origin.x, y: self.firstLabel.frame.origin.y - 20, width: self.firstLabel.frame.width, height: self.firstLabel.frame.height)
-                        
-                            }) { (complete) in
-                                
 
-                                UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                                    
-                                    //self.firstLabel.frame = CGRect(x: self.firstLabel.frame.origin.x, y: self.firstLabel.frame.origin.y + 20, width: self.firstLabel.frame.width, height: self.firstLabel.frame.height)
-                                    
-                                    self.firstLabelH.constant += self.hopH //20
+                        self.secondLabelH.constant -= self.hopH //20
+                        self.view.layoutIfNeeded()
+                            
+                        }) { (complete) in
+                            
+                            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+
+                                self.secondLabelH.constant += self.hopH //20
+                                self.view.layoutIfNeeded()
+                            })
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                if self.stop == false {
+                                UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+
+                                    self.ansLabelH.constant -= self.hopH //20
                                     self.view.layoutIfNeeded()
                                     
-                                })
-                            }
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    if self.stop == false{
-                        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                                //self.secondLabel.frame = CGRect(x: self.secondLabel.frame.origin.x, y: self.secondLabel.frame.origin.y - 20, width: self.secondLabel.frame.width, height: self.secondLabel.frame.height)
-                            self.secondLabelH.constant -= self.hopH //20
-                            self.view.layoutIfNeeded()
-                                
-                            }) { (complete) in
-                                
-                                UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                                    //self.secondLabel.frame = CGRect(x: self.secondLabel.frame.origin.x, y: self.secondLabel.frame.origin.y + 20, width: self.secondLabel.frame.width, height: self.secondLabel.frame.height)
-                                    self.secondLabelH.constant += self.hopH //20
-                                    self.view.layoutIfNeeded()
-                                })
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    if self.stop == false {
-                                    UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                                        //self.ansLabel.frame = CGRect(x: self.ansLabel.frame.origin.x, y: self.ansLabel.frame.origin.y - 20, width: self.ansLabel.frame.width, height: self.ansLabel.frame.height)
-                                        self.ansLabelH.constant -= self.hopH //20
-                                        self.view.layoutIfNeeded()
+                                }) { (complete) in
+                                        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
+
+                                            self.ansLabelH.constant += self.hopH //20
+                                            self.view.layoutIfNeeded()
                                         
-                                    }) { (complete) in
-                                            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: [], animations: {
-                                                //self.ansLabel.frame = CGRect(x: self.ansLabel.frame.origin.x, y: self.ansLabel.frame.origin.y + 20, width: self.ansLabel.frame.width, height: self.ansLabel.frame.height)
-                                                self.ansLabelH.constant += self.hopH //20
-                                                self.view.layoutIfNeeded()
-                                            
-                                        })
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.15) {
-                                                
-                                                if self.level < 9 {
-                                                    self.looper()
-                                                }
-                                                else { //if self.level > 9 {
-                                                    
-                                                    audioPlayer?.stop()
-                                                
-                                                    audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(self.bigIndex))
-                                                    _print(self.level)
-                                                    _print(self.cellLevel)
-                                                    
-                                                }
-                                            }
-                                        }
+                                    })
+                                   //Just do nothing!
+                                    print("loopOne 2:", audioPlayer?.currentTime as Any)
                                     }
                                 }
-                        }
+                            }
                     }
                 }
-            }
-        //}
-    }
-    override func viewWillLayoutSubviews() {
+        } //end +++2
+        //------------------------------------------------------------
         
-    }
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            overrideUserInterfaceStyle = .light
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        //Voice settings
-        do {
-            //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            //audioPlayer = AVAudioPlayer()
-            //_print(audioPlayer as Any)
-        } catch {
-            _print("Voice setting error:\(error.localizedDescription) and \(error)")
-        }
-        //
-         
-        /*
-        firstLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
-        secondLabel.font = UIFontMetrics.default.scaledFont(for: customFont!)
-         */
-   
-        //Tim
-        //_print("Listen viewDidLoad:")
-        //_print(stackView.frame.origin.y)
-        //_print(firstLabel.frame.origin.y)
-        //_print("Listen viewDidLoad constraints: \(stackView.constraints)")
-        
-        
-        //firstLabel.adjustsFontForContentSizeCategory = true
-        //secondLabel.adjustsFontForContentSizeCategory = true
-        //ansLabel.adjustsFontForContentSizeCategory = true
-        
-        if _screenHeight > 1000 { //iPad only
-            hopH = CGFloat(Int(_screenHeight * (60/1366)))
-            _print("hopH:\(hopH)")
-            _autoLayout()
-        }
-        else {
-            hopH = 30
-        }
-            
-        
-        firstLabel.text = "one"
-        secondLabel.text = "one"
-        ansLabel.text = "one"
-        numLabel1.text = "1"
-        numLabel2.text = "1"
-        numLabel3.text = "1"
-        slider.value = 1
-         
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        if let url = Bundle.main.url(forResource: "Sense1", withExtension: "wav"){
-            
-            audioPlayer = try? AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = 100
-            if audioPlayer == nil {
-                _print("!!!Error in calling AVAudioPlayer().")
-            }
-            
-            _print("play....")
-            audioPlayer?.prepareToPlay()
-            
-
-        }
-    }
+        print("LoopOne end.")
+    }//end for func _looperOne()
     
-    override func viewDidDisappear(_ animated: Bool) {
-        
-        if audioPlayer == nil { return }
-        
-        playButton.setImage(UIImage(named: "Play"), for: .normal)
-        isPaused = true
-        audioPlayer?.stop()
-        //_print("viewDidDisappear---\(audioPlayer.currentTime)")
-        audioPlayer?.currentTime = TimeInterval(self.timestamps[self.index] + Double(bigIndex))
-        //_print("viewDidDisappear time: \(audioPlayer.currentTime) and bigIndex:\(Double(bigIndex))")
-        stop = true
-        firstLabel.layer.removeAllAnimations()
-        secondLabel.layer.removeAllAnimations()
-        ansLabel.layer.removeAllAnimations()
-        
-    }
-    
-}
+}//end for class
 
 
 
