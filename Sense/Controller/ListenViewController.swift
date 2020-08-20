@@ -103,7 +103,7 @@ class ListenViewController: UIViewController {
                 
                 //print("setCurrentTone cT: ", cT )
                 
-                if self.level == 9 && self.cellLevel == 9 { //See Ugly below
+                if self.level == 9 && self.cellLevel == 9 { //See "Ugly" below
                     setStop()
                     return
                 }
@@ -181,40 +181,22 @@ class ListenViewController: UIViewController {
             }
         }
     }
-    //Setting start time points for each tone
-    func setCurrentTime()
+    //Stopping and setting start time points for each tone
+    func StopPlay_and_SetCurrentTime()
     {
         var cT = audioPlayer!.currentTime
-
-        //Need change to swich...case... or a formula?
-        if level == 1 {
-            cT = toneTimestamps[0+cellLevel-level]
-        }
-        else if level == 2 {
-            cT = toneTimestamps[9+cellLevel-level]
-        }
-        else if level == 3 {
-            cT = toneTimestamps[17+cellLevel-level]
-        }
-        else if level == 4 {
-            cT = toneTimestamps[24+cellLevel-level]
-        }
-        else if level == 5 {
-            cT = toneTimestamps[30+cellLevel-level]
-        }
-        else if level == 6 {
-            cT = toneTimestamps[0+cellLevel-level]
-        }
-        else if level == 7 {
-            cT = toneTimestamps[4+cellLevel-level]
-        }
-        else if level == 8 {
-            cT = toneTimestamps[7+cellLevel-level]
-        }
-        else if level == 9 {
-            cT = toneTimestamps[9+cellLevel-level]
+        let _toneStartingTimeInde: [Int] = [0, 0, 9, 17, 24, 30, 0, 4, 7, 9]
+        
+        if level <= 0 || level >= 10 || cellLevel <= 0 || cellLevel >= 10 {
+            _print("Error in level or cellLevel !!!")
+            return
         }
         
+        //Stop first and set then
+        setStop()
+        
+        cT = toneTimestamps[ _toneStartingTimeInde[level] + cellLevel - level ]
+
         audioPlayer!.currentTime = TimeInterval(cT) + 0.05 //Just add 0.05 here to avoid audioPlayer's bugs!!!
         
         toneCurrentIndex = -1 //Init toneCurrentIndex
@@ -229,10 +211,7 @@ class ListenViewController: UIViewController {
         level = Int(slider.value)
         cellLevel = level
 
-        setCurrentTime()
-        
-        setStop()
-
+        StopPlay_and_SetCurrentTime()
     }
     //Starting to play
     func setPlay() {
@@ -259,17 +238,16 @@ class ListenViewController: UIViewController {
         if audioPlayer == nil { return }
 
         if isPaused == true {
-            setCurrentTime()
+            StopPlay_and_SetCurrentTime()
           
-            //Ugly, just for playing 9 x 9 = 81 for only one time, see Ugly above!
+            //"Ugly", just for playing 9 x 9 = 81 for only one time, see Ugly above!
             if level == 9 {
                 cellLevel = 0
             }
             setPlay()
         }
         else {
-            setCurrentTime()
-            setStop()
+            StopPlay_and_SetCurrentTime()
         }
     }
     override func viewDidLoad() {
