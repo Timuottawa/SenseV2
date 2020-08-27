@@ -65,11 +65,11 @@ class ChooseLearningModeVC: UIViewController {
         let alert = UIAlertController(title:"Just for testing", message: msg, preferredStyle: .alert)
         let action1 = UIAlertAction(title: "OK", style: .default) {
             (action: UIAlertAction) in
-            print("OK")
+           _print("OK")
         }
         let action2 = UIAlertAction(title: "Cancel", style: .cancel) {
             (action: UIAlertAction) in
-            print("Cancel")
+           _print("Cancel")
         }
         alert.addAction(action1)
         alert.addAction(action2)

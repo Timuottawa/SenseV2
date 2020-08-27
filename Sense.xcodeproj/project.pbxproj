@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		4D0645C324D9EE0300F5FB44 /* OnBoardV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */; };
 		4D0645C524D9EF6600F5FB44 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */; };
+		4D1B1A7624F59C4C00706191 /* DoubleSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1B1A7524F59C4C00706191 /* DoubleSliderView.swift */; };
+		4D39109324F1A02300DB16B6 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D39109224F1A02300DB16B6 /* RecordViewController.swift */; };
 		4D9C577024DD7C5E0014C251 /* Pods_Sense.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56DCB2AC1907AABCA945F0F /* Pods_Sense.framework */; };
 		4D9C577624DD8A960014C251 /* globe_rotation.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577524DD8A960014C251 /* globe_rotation.json */; };
-		4D9C577824DD8C1F0014C251 /* Sense1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577724DD8C1F0014C251 /* Sense1.wav */; };
 		4D9C577A24DF76960014C251 /* wrong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577924DF76960014C251 /* wrong.wav */; };
 		4D9C578024DF79AB0014C251 /* correctmc.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C577F24DF79AA0014C251 /* correctmc.mp3 */; };
 		4D9C578224DF7C480014C251 /* congrats.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4D9C578124DF7C480014C251 /* congrats.mp3 */; };
 		4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6FD342724A91198000401BB /* DkCoolCrayon-xJyV.ttf */; };
+		4DCB9F7F24EC91140000CEB0 /* Sense3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4DCB9F7E24EC91130000CEB0 /* Sense3.wav */; };
 		C61F60FF2384B12E007F5035 /* CustomQuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */; };
 		C61F61002384B12E007F5035 /* QuestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C61F60FE2384B12E007F5035 /* QuestionCell.xib */; };
 		C61F610223987B3D007F5035 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61F610123987B3D007F5035 /* TabBarController.swift */; };
@@ -59,11 +61,13 @@
 		379404D15685B282E03C5A2E /* Pods-Sense.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sense.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sense/Pods-Sense.release.xcconfig"; sourceTree = "<group>"; };
 		4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardV.swift; sourceTree = "<group>"; };
 		4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		4D1B1A7524F59C4C00706191 /* DoubleSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleSliderView.swift; sourceTree = "<group>"; };
+		4D39109224F1A02300DB16B6 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		4D9C577524DD8A960014C251 /* globe_rotation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = globe_rotation.json; sourceTree = "<group>"; };
-		4D9C577724DD8C1F0014C251 /* Sense1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sense1.wav; sourceTree = "<group>"; };
 		4D9C577924DF76960014C251 /* wrong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wrong.wav; sourceTree = "<group>"; };
 		4D9C577F24DF79AA0014C251 /* correctmc.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctmc.mp3; sourceTree = "<group>"; };
 		4D9C578124DF7C480014C251 /* congrats.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = congrats.mp3; sourceTree = "<group>"; };
+		4DCB9F7E24EC91130000CEB0 /* Sense3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sense3.wav; sourceTree = "<group>"; };
 		C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomQuestionCell.swift; sourceTree = "<group>"; };
 		C61F60FE2384B12E007F5035 /* QuestionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuestionCell.xib; sourceTree = "<group>"; };
 		C61F610123987B3D007F5035 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		C61F60FA2384B0CD007F5035 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4D1B1A7524F59C4C00706191 /* DoubleSliderView.swift */,
 				C61F60FD2384B12E007F5035 /* CustomQuestionCell.swift */,
 				C61F60FE2384B12E007F5035 /* QuestionCell.xib */,
 				C694BB0D24246D9F0037EEC0 /* CellView.xib */,
@@ -147,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				4D9C577524DD8A960014C251 /* globe_rotation.json */,
-				4D9C577724DD8C1F0014C251 /* Sense1.wav */,
+				4DCB9F7E24EC91130000CEB0 /* Sense3.wav */,
 				C687DC4F24982654004C32A3 /* lighting_changer.json */,
 				C687DC492496CDB8004C32A3 /* red_pulsating.json */,
 				C687DC472496C18E004C32A3 /* large_pulsating.json */,
@@ -159,6 +164,7 @@
 				C694BAF22422FB420037EEC0 /* ChooseLearningModeVC.swift */,
 				C6B4471B23BD9C7500022C11 /* QuizViewController.swift */,
 				C6B4471D23BD9CCF00022C11 /* ListenViewController.swift */,
+				4D39109224F1A02300DB16B6 /* RecordViewController.swift */,
 				C694BAF72423F7150037EEC0 /* GuidedLearningVC.swift */,
 				4D0645C224D9EE0300F5FB44 /* OnBoardV.swift */,
 				4D0645C424D9EF6600F5FB44 /* OnBoardingViewController.swift */,
@@ -306,6 +312,7 @@
 			files = (
 				C687DC4A2496CDB8004C32A3 /* red_pulsating.json in Resources */,
 				C67D9915236BA63E000B638F /* LaunchScreen.storyboard in Resources */,
+				4DCB9F7F24EC91140000CEB0 /* Sense3.wav in Resources */,
 				4DA0205124AE636700745F7D /* DkCoolCrayon-xJyV.ttf in Resources */,
 				C687DC44249685BC004C32A3 /* 24455-summer-buddy.json in Resources */,
 				C687DC4224967F74004C32A3 /* Pulsating.json in Resources */,
@@ -318,7 +325,6 @@
 				4D9C578224DF7C480014C251 /* congrats.mp3 in Resources */,
 				4D9C577A24DF76960014C251 /* wrong.wav in Resources */,
 				C687DC5024982654004C32A3 /* lighting_changer.json in Resources */,
-				4D9C577824DD8C1F0014C251 /* Sense1.wav in Resources */,
 				C67D9910236BA63C000B638F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,10 +380,12 @@
 				4D0645C324D9EE0300F5FB44 /* OnBoardV.swift in Sources */,
 				C6B4471C23BD9C7500022C11 /* QuizViewController.swift in Sources */,
 				C69454DD249D0721000E9D6F /* PanView.swift in Sources */,
+				4D39109324F1A02300DB16B6 /* RecordViewController.swift in Sources */,
 				C694BAF82423F7160037EEC0 /* GuidedLearningVC.swift in Sources */,
 				C624099D242EAA4100D41FFC /* PulseAnimation.swift in Sources */,
 				C694BAF32422FB420037EEC0 /* ChooseLearningModeVC.swift in Sources */,
 				C61F610223987B3D007F5035 /* TabBarController.swift in Sources */,
+				4D1B1A7624F59C4C00706191 /* DoubleSliderView.swift in Sources */,
 				4D0645C524D9EF6600F5FB44 /* OnBoardingViewController.swift in Sources */,
 				C694BAF62423C37F0037EEC0 /* ScaleSegue.swift in Sources */,
 				C67D990D236BA63C000B638F /* LearnViewController.swift in Sources */,
@@ -533,7 +541,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9V9XAASU5T;
 				INFOPLIST_FILE = Sense/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -542,7 +550,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 0.8;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobyuan.Sense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -558,7 +566,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9V9XAASU5T;
 				INFOPLIST_FILE = Sense/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -567,7 +575,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 0.8;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bobyuan.Sense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

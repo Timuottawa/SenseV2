@@ -10,7 +10,6 @@ target 'Sense' do
   pod 'lottie-ios'
   pod 'InstantSearchVoiceOverlay'
   pod 'paper-onboarding'
-
 #  pod 'DrawerView'
 
 

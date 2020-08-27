@@ -76,7 +76,7 @@ class LearnViewController:UIViewController,UIScrollViewDelegate,UITableViewDeleg
     override func viewDidLoad() {
           
         _print("f:vdld()---\(Date().timeIntervalSince1970)")
-        print(self)
+       _print(self)
           
         super.viewDidLoad()
         if #available(iOS 13.0, *) {

@@ -13,6 +13,9 @@ import AVFoundation
 var audioPlayer: AVAudioPlayer? //= AVAudioPlayer()
 
 
+let _file_path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask,                true).first?.appending("/_sense_record_")
+
+
 var gVars = globalVariables(level: 1, cellLevel: 1)
 
 class globalVariables {
@@ -104,10 +107,138 @@ extension UIViewController {
             (action: UIAlertAction) in
             print("Cancel")
         }
-        //alert.addAction(action1)
+        //alert.addAction(action2)
         alert.addAction(action1)
         self.present(alert, animated: true, completion: nil)
     }
 }
 
+extension UIView {
+    
+    func smooth(count : Float = 4,for duration : TimeInterval = 0.5,withTranslation translation : Float = 5) {
+        
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.y")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.repeatCount = count
+        animation.duration = duration/TimeInterval(animation.repeatCount)
+        animation.autoreverses = true
+        animation.values = [translation, -translation]
+        layer.add(animation, forKey: "shake")
+    }
+}
+
+public extension Int {
+  var asWord: String   {
+    let numberValue = NSNumber(value: self)
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .spellOut
+    return formatter.string(from: numberValue)!
+  }
+}
+
+//From https://github.com/anonymity-du/DoubleSliderView-swift/blob/master/DoubleSliderView/DoubleSliderView/UIView%2BExtension.swift
+
+enum OscillatoryAnimationType {
+    case bigger
+    case smaller
+}
+
+extension UIView{
+    var x : CGFloat {
+        get {
+            return frame.origin.x
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.origin.x = newValue
+            frame = tempFrame
+        }
+    }
+    
+    var y : CGFloat {
+        get {
+            return frame.origin.y
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.origin.y = newValue
+            frame = tempFrame
+        }
+    }
+    
+    var width : CGFloat {
+        get {
+            return frame.size.width
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.size.width = newValue
+            frame = tempFrame
+        }
+    }
+    
+    var height : CGFloat {
+        get {
+            return frame.size.height
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.size.height = newValue
+            frame = tempFrame
+        }
+    }
+    
+    var centerX : CGFloat {
+        get {
+            return center.x
+        }
+        set {
+            var tempCenter : CGPoint = center
+            tempCenter.x = newValue
+            center = tempCenter
+        }
+    }
+    var centerY : CGFloat {
+        get {
+            return center.y
+        }
+        set {
+            var tempCenter : CGPoint = center
+            tempCenter.y = newValue
+            center = tempCenter
+        }
+    }
+    var size : CGSize {
+        get {
+            return frame.size
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.size = newValue
+            frame = tempFrame
+        }
+    }
+    
+    var right : CGFloat {
+        get {
+            return frame.origin.x + frame.size.width
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.origin.x = newValue - frame.size.width
+            frame = tempFrame
+        }
+    }
+    
+    var bottom : CGFloat {
+        get {
+            return frame.origin.y + frame.size.height
+        }
+        set {
+            var tempFrame : CGRect = frame
+            tempFrame.origin.y = newValue - frame.size.height
+            frame = tempFrame
+        }
+    }
+}
 

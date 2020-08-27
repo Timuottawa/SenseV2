@@ -10,7 +10,8 @@
 import UIKit
 import AVFoundation
 
-class ListenViewController: UIViewController, AVAudioPlayerDelegate{
+
+class RecordViewController: UIViewController, AVAudioPlayerDelegate {
     
     
     @IBOutlet var autoLayout: [NSLayoutConstraint]!
@@ -31,9 +32,7 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
     @IBOutlet weak var numLabel2: UILabel!
     @IBOutlet weak var numLabel3: UILabel!
     
-    @IBOutlet weak var recIsEnabled: UISwitch!
-    
-    var audioPlayersRecorded = [AVAudioPlayer?](repeating: nil, count: 10)
+    var audioPlayersRecording = [AVAudioPlayer?](repeating: nil, count: 10)
     
     var hopH: CGFloat = 20 //Hiphop Height
     
@@ -74,11 +73,6 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
                     (8,8), (8,9),
                     (9,9)
                 ]
-    
-    var loopA: Int = 1
-    var loopB: Int = 9
-    var loopIsEnable = true
-    
     //---------------------------------
     
     //Setting all Labels inlcuding slider's, and stop all animations
@@ -111,28 +105,28 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
                 
                 //print("setCurrentTone cT: ", cT )
                 
-                //For loopPlaying  !!!!!!!!!!!!!!!!!!
-                if loopIsEnable == true && self.level == self.loopB && self.cellLevel == 9 {
-                   _print("looping....!!!!!!!!!!!! - 1 ")
-
-                    self.level = loopA
-                    self.cellLevel = loopA
+                //if self.level == 9 && self.cellLevel == 9 { //See "Ugly" below
+                if self.cellLevel == 9 { //See "Ugly" below
+                    if let _player = player {
+                        if _player.isPlaying == true {
+                            _print("!!!!!!! Waiting to playing finished !!!!!!");
+                            //In order to run audioPlayDidFinished() to save voice just recorded.
+                            return
+                        }
+                    }
+                    _print("!!!!!!! Playing finished !!!!!!")
+                    slider.value = roundf(slider.value)
+                    level = Int(slider.value)
+                    cellLevel = level
                     StopPlay_and_SetCurrentTime()
-                    
-                    //"Ugly", just for playing 9 x 9 = 81 for only one time, see Ugly above!
-                    if level == 9 {
-                        cellLevel = 0
-                    }//end of "Ugly"
-                    
-                    setPlay()
-                    
-                   _print("looping....!!!!!!!!!!!! - 2 ")
-                    return
-                }
-                //end of loopPlaying
-                
-                if self.level == 9 && self.cellLevel == 9 { //See "Ugly" below
-                    setStop()
+                    //
+                    if isRecording == true {
+                        //正常：录音完成后停止
+                        isRecordingSucess = true
+                        stopRecord()
+                        isRecordingSucess = false
+                    }
+                    //
                     return
                 }
                 //
@@ -140,34 +134,15 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
                     level = _cell[i].0
                     cellLevel = _cell[i].1
                     setLabels()
-                   _print("1:", level, cellLevel)
+                    //print("1:", level, cellLevel)
                     
                 }
                 else {
                     level = cell[i].0
                     cellLevel = cell[i].1
                     setLabels()
-                   _print("2:", level, cellLevel)
+                    //print("2:", level, cellLevel)
                 }
-                
-                //tim
-                if level == cellLevel {
-                    let _level = level
-                    DispatchQueue.main.asyncAfter(deadline: .now() ) {
-                       _print("starting level x playing...", _level)
-                        self.audioPlayersRecorded[_level]?.currentTime = 0.0
-                        
-                        if !self.recIsEnabled.isOn {
-                            self.audioPlayersRecorded[_level]?.volume = 0
-                        }
-                        else {
-                            self.audioPlayersRecorded[_level]?.volume = 3
-                        }
-                        
-                        self.audioPlayersRecorded[_level]?.play()
-                    }
-                }
-                //
                 
                 //Loop for only one tone
                 _looperOne()
@@ -250,7 +225,7 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
         
         //tim
         let delta = cT - toneTimestamps[ _toneStartingTimeInde[level] ]
-        audioPlayersRecorded[level]?.currentTime = TimeInterval(delta) + 0.05
+        player?.currentTime = TimeInterval(delta) + 0.05
         //
         
     }
@@ -264,6 +239,10 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
         cellLevel = level
 
         StopPlay_and_SetCurrentTime()
+        
+        if isRecording == true {
+            stopRecord()
+        }
     }
     //Starting to play
     func setPlay() {
@@ -272,18 +251,8 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
         stop = false
         
         audioPlayer?.play()
-        
         //tim
-        _print("setPlay---level:", level)
-        
-        if !self.recIsEnabled.isOn {
-            self.audioPlayersRecorded[level]?.volume = 0
-        }
-        else {
-            self.audioPlayersRecorded[level]?.volume = 3
-        }
-        
-        audioPlayersRecorded[level]?.play()
+        player?.play()
         //
         
         createDisplayLinkTimer()
@@ -291,25 +260,20 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
     //Stopping
     func setStop() {
         playButton.setImage(UIImage(named: "Play"), for: .normal)
-        isPaused = true
+ 
         audioPlayer?.stop()
         
         //tim
-        audioPlayersRecorded[level]?.stop()
+        player?.stop()
         
-        if level <= 8 { audioPlayersRecorded[level+1]?.stop() }
-        if level >= 2 { audioPlayersRecorded[level-1]?.stop() }
-        //
-        
+        isPaused = true
         stop = true
         
         killDisplayLinkTimer()
         
         setLabels()
-
     }
-    //Play pressed
-    @IBAction func playPressed(_ sender: UIButton) {
+    func playBackgroundMusic() {
         if audioPlayer == nil { return }
 
         if isPaused == true {
@@ -319,12 +283,19 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
             if level == 9 {
                 cellLevel = 0
             }
-            setPlay()
+            isPaused = false
+            stop = false
+             
+            audioPlayer?.play()
+            createDisplayLinkTimer()
         }
         else {
             StopPlay_and_SetCurrentTime()
         }
+        
     }
+    
+   
     override func viewDidLoad() {
          super.viewDidLoad()
          if #available(iOS 13.0, *) {
@@ -336,6 +307,8 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
          //Voice settings
          do {
 
+            //try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord)
+            //try AVAudioSession.sharedInstance().setActive(true)
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.mixWithOthers)
             try AVAudioSession.sharedInstance().setActive(true)
             //try AVAudioSession.sharedInstance().overrideOutputAudioPort(.speaker)
@@ -357,75 +330,43 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
          level = 1
          cellLevel = 1
          setLabels()
-        
-         //doubleSlider_viewDidLoad()
-        
     }
     func setupAudioPlayer() {
          if let url = Bundle.main.url(forResource: "Sense3", withExtension: "wav"){
              
-            audioPlayer = try? AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = -1 //loop infinitely
-            if audioPlayer == nil {
-                _print("!!!Error in calling AVAudioPlayer().")
-            }
+             audioPlayer = try? AVAudioPlayer(contentsOf: url)
+             audioPlayer?.numberOfLoops = 2
+             if audioPlayer == nil {
+                 _print("!!!Error in calling AVAudioPlayer().")
+             }
              
-            _print("play....")
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.volume = 0.7
+             _print("play....")
+             audioPlayer?.prepareToPlay()
+             audioPlayer?.volume = 0.5
          }
      }
-    
      
      override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
         
-         _print("Listen viewDidAppear---\(audioPlayer?.currentTime as Any)")
+         _print("RecordviewDidAppear---\(audioPlayer?.currentTime as Any)")
          setupAudioPlayer()
-        
-        //
-        openRecordedFiles()
      }
      
-    func openRecordedFiles() {
-        
-        for i in 1...9 {
-            let url = URL(fileURLWithPath: _file_path! + String(i)+".wav")
-            audioPlayersRecorded[i] = try? AVAudioPlayer(contentsOf: url)
-            
-            audioPlayersRecorded[i]?.numberOfLoops = 0
-            audioPlayersRecorded[i]?.volume = 3
-            if audioPlayersRecorded[i] == nil {
-                _print("null recorded file for Level: ", i)
-            }
-            audioPlayersRecorded[i]?.prepareToPlay()
-            audioPlayersRecorded[i]?.delegate = self
-        }
-        
-    }
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        _print("Listen: didFinishPlaying?")
-        _print("Listen finishPlaying Level: ", level, cellLevel)
-        
-        player.stop()
-        player.currentTime = 0.0
-        
-    }
 
-     override func viewDidDisappear(_ animated: Bool) {
-         super.viewDidDisappear(animated)
-         if audioPlayer == nil { return }
-         setStop()
-         _print("Listen viewDidDisappear---\(audioPlayer?.currentTime as Any)")
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+     override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
         
-        doubleSlider_viewDidLoad()
-        _print("Listen viewWillAppear---")
+        if audioPlayer == nil { return }
+        if isRecording == true {
+            isSaved[level] = true //正在录音中退出界面不用提醒保存
+            stopRecord()
+        }
+        setStop()
+         
+        _print("RecordviewWillDisappear---\(audioPlayer?.currentTime as Any)")
+        
+        
     }
     
     //Loop for only one tone
@@ -497,173 +438,261 @@ class ListenViewController: UIViewController, AVAudioPlayerDelegate{
        _print("LoopOne end.")
     }//end for func _looperOne()
     
-    //
-    //Double Sliders
-    //https://github.com/anonymity-du/DoubleSliderView-swift/blob/master/DoubleSliderView/DoubleSliderView/ViewController.swift
-    //
-    //
-            var minLevel: Int = 1
-            var maxLevel: Int = 9
-            var curMinLevel: Int = 1
-            var curMaxLevel: Int = 9
-            var doubleSliderY: CGFloat = 0
-            var doubleSliderX: CGFloat = 0
-            let loopButton = UIButton()
-            
     
-            
+    var rRightStatus: AVAuthorizationStatus?
+    func checkAuthoriztion(){
         
-            
-            func doubleSlider_viewDidLoad() {
-                
-                
-                doubleSliderY = playButton.frame.maxY + 40 //???  Should change to relative distance
-                doubleSliderX = 52  //???
-                
-                self.view.addSubview(self.levelLabel)
-                self.view.addSubview(self.levelTipsLabel)
-                self.view.addSubview(self.doubleSliderView)
-                
-                self.levelLabel.centerY = doubleSliderY - 20
-                self.levelLabel.x = doubleSliderX
-                
-                self.levelTipsLabel.centerY = self.levelLabel.centerY
-                self.levelTipsLabel.x = self.levelLabel.right + 7
-          
-                self.doubleSliderView.x = doubleSliderX
-                self.doubleSliderView.y = doubleSliderY - 10 + 20
-                
-                // Do any additional setup after loading the view, typically from a nib.
-                
-                //
-                //tim
-                loopA = curMinLevel
-                loopB = curMaxLevel
-                //
-                //
-                loopButton.setImage(UIImage(named: "Loop"), for: .normal)
-                loopButton.frame = CGRect(x: doubleSliderX - 10 , y: levelTipsLabel.y - 21, width: 60, height: 60)
-                view.addSubview(loopButton)
-                view.bringSubviewToFront(loopButton)
-                loopButton.addTarget(self, action: #selector(loopButtonPressed), for: .touchUpInside)
-                
-            
-            }
-    
-            
-            @objc private func loopButtonPressed()
-            {
-                if loopIsEnable == true {
-                    loopIsEnable = false
-                    doubleSliderView.isHidden = true
-                    levelTipsLabel.text = "  0 "
-                }
-                else {
-                    loopIsEnable = true
-                    doubleSliderView.isHidden = false
-                    levelTipsLabel.text = "\(self.curMinLevel)~\(self.curMaxLevel)"
-                }
-            }
-    
-            
-            //MARK: - private func
-            //根据值获取整数
-            private func fetchInt(from value: CGFloat) -> CGFloat {
-                var newValue: CGFloat = floor(value)
-                let changeValue = value - newValue
-                if changeValue >= 0.5 {
-                    newValue = newValue + 1
-                }
-                return newValue
-            }
+        rRightStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
 
-            private func sliderValueChangeAction(isLeft: Bool, finish: Bool) {
-                if isLeft {
-                    let _level = CGFloat(self.maxLevel - self.minLevel) * self.doubleSliderView.curMinValue
-                    let tmpLevel = self.fetchInt(from: _level)
-                    self.curMinLevel = Int(tmpLevel) + self.minLevel
-                    self.changeLevelTipsText()
-                    //
-                    //tim
-                    loopA = curMinLevel
-                    slider.value = Float(loopA)
-                    level = loopA
-                    cellLevel = level
-                    StopPlay_and_SetCurrentTime()
-                    //
-                    //
-                }else {
-                    let _level = CGFloat(self.maxLevel - self.minLevel) * self.doubleSliderView.curMaxValue
-                    let tmpLevel = self.fetchInt(from: _level)
-                    self.curMaxLevel = Int(tmpLevel) + self.minLevel
-                    self.changeLevelTipsText()
-                    //
-                    //tim
-                    loopB = curMaxLevel
-                    //
-                    loopA = curMinLevel
-                    slider.value = Float(loopA)
-                    level = loopA
-                    cellLevel = level
-                    StopPlay_and_SetCurrentTime()
-                    //
-                    //
-                    //
-                }
-                if finish {
-                    self.changeSliderValue()
-                }
+        if rRightStatus == .notDetermined {
+            _print("Not determined")
+        }
+        if rRightStatus == .restricted
+        {
+            _print("Restricted")
+        }
+        if rRightStatus == .denied {
+            _print("Denied")
+        }
+        if rRightStatus == .authorized {
+            _print("Authorized")
+            return
+        }
+        // 获取麦克风权限
+        AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { (granted: Bool) -> Void in
+            if(!granted){
+                //没有授权
+                self.rRightStatus  = AVAuthorizationStatus.restricted
+                _print("Restricted!")
             }
-            //值取整后可能改变了原始的大小，所以需要重新改变滑块的位置
-            private func changeSliderValue() {
-                let finishMinValue = CGFloat(self.curMinLevel - self.minLevel)/CGFloat(self.maxLevel - self.minLevel)
-                let finishMaxValue = CGFloat(self.curMaxLevel - self.minLevel)/CGFloat(self.maxLevel - self.minLevel)
-                self.doubleSliderView.curMinValue = finishMinValue
-                self.doubleSliderView.curMaxValue = finishMaxValue
-                self.doubleSliderView.changeLocationFromValue()
+            else {
+                self.rRightStatus = AVAuthorizationStatus.authorized
+                _print("Granted!")
             }
-            
-            private func changeLevelTipsText() {
-                if self.curMinLevel == self.curMaxLevel {
-                    self.levelTipsLabel.text = "\(self.curMinLevel)"
-                }else {
-                    self.levelTipsLabel.text = "\(self.curMinLevel)~\(self.curMaxLevel)"
-                }
-                self.levelTipsLabel.sizeToFit()
-                self.levelTipsLabel.centerY = self.levelLabel.centerY
-                self.levelTipsLabel.x = self.levelLabel.right + 7
-            }
-            
-            //MARK:- setter & getter
-            private lazy var levelLabel: UILabel = {
-                let label = UILabel.init()
-                label.textColor = UIColor.white
-                label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-                label.text = ""
-                label.sizeToFit()
-                return label
-            }()
-            
-            private lazy var levelTipsLabel: UILabel = {
-                let label = UILabel.init()
-                label.textColor = UIColor.white
-                label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-                label.text = "\(self.minLevel)~\(self.maxLevel)"
-                label.sizeToFit()
-                return label
-            }()
-            
-            private lazy var doubleSliderView: DoubleSliderView = {
-                let view = DoubleSliderView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width - 52 * 2, height: 35 + 20))
-                view.needAnimation = true
-                //if self.maxLevel > self.minLevel {
-                //    view.minInterval = 4.0/CGFloat(self.maxLevel - self.minLevel)
-                //}
-                view.sliderBtnLocationChangeBlock = { [weak self] isLeft,finish in
-                    self?.sliderValueChangeAction(isLeft: isLeft, finish: finish)
-                }
-                return view
-            }()
+        })
+
+    }
     
-}//end for class
+    //开始录音
+    @IBOutlet weak var recordButton: UIButton!
+    var recorder: AVAudioRecorder?
+    var isRecording: Bool = false
+    
+    @IBAction func startRecord(_ sender: UIButton) {
+
+        if isRecording == true {
+            stopRecord()
+            return
+        }
+        checkAuthoriztion()
+        
+        /*
+        let session = AVAudioSession.sharedInstance()
+        //设置session类型
+        do {
+            try session.setCategory(AVAudioSession.Category.playAndRecord)
+            //, options: AVAudioSession.CategoryOptions.mixWithOthers)
+            
+        } catch let err{
+           _print("设置类型失败:\(err.localizedDescription)")
+        }
+        //设置session动作
+        do {
+            try session.setActive(true)
+        } catch let err {
+           _print("初始化动作失败:\(err.localizedDescription)")
+        }*/
+        
+        if isPaused == false {
+            isSaved[level] = true //no need to save file
+            playButton.sendActions(for: .touchUpInside)
+        }
+        //Go to the beginning of the Level
+        slider.value = roundf(slider.value)
+        level = Int(slider.value)
+        cellLevel = level
+        StopPlay_and_SetCurrentTime()
+        
+        //录音设置，注意，后面需要转换成NSNumber，如果不转换，你会发现，无法录制音频文件，我猜测是因为底层还是用OC写的原因
+        let recordSetting: [
+            String: Any] = [AVSampleRateKey: NSNumber(value: 44100.0),//采样率
+            AVFormatIDKey: kAudioFormatLinearPCM,//音频格式
+            AVLinearPCMBitDepthKey: NSNumber(value: 16),//采样位数
+            AVNumberOfChannelsKey: NSNumber(value: 2),//通道数
+            AVEncoderAudioQualityKey: NSNumber(value: AVAudioQuality.max.rawValue) //录音质量
+        ];
+        //开始录音
+        do {
+            let url = URL(fileURLWithPath: _file_path! + String(level) + "_.wav")
+
+            recorder = try AVAudioRecorder(url: url, settings: recordSetting)
+            recorder!.prepareToRecord()
+            
+            //tim
+            playBackgroundMusic(); //playing background music
+            recordButton.setImage(UIImage(named: "Record"), for: .normal)
+            //
+            
+            recorder!.record()
+            
+            isRecording = true
+            _print("开始录音")
+        } catch let err {
+            _print("录音失败:\(err.localizedDescription)")
+        }
+    }
+
+    //结束录间
+    var isRecordingSucess: Bool = false
+    func stopRecord() { //_ sender: UIButton) {
+        //结束录音
+        _print("stopRecord...")
+        if let recorder = self.recorder {
+            if recorder.isRecording {
+               _print("正在录音，马上结束它，文件保存到了：\(_file_path! + String(level) + "_.wav")")
+            }else {
+               _print("没有录音，但是依然结束它")
+            }
+            
+            recorder.stop()
+            recordButton.setImage(UIImage(named: "Voice"), for: .normal)
+            //
+            slider.value = roundf(slider.value)
+            level = Int(slider.value)
+            cellLevel = level
+            StopPlay_and_SetCurrentTime()
+            //
+            
+            self.isSaved[level] = false
+            
+            self.recorder = nil
+            
+            //Trigger play button
+            if isRecordingSucess == true {
+               _print("Press Play button...")
+                isRecording = false
+                playButton.sendActions(for: .touchUpInside)
+            }
+            
+        }else {
+           _print("没有初始化")
+        }
+        isRecording = false
+    }
+
+
+    var isSaved = [Bool](repeating: true, count: 10)
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        _print("didFinishPlaying?")
+        player.stop()
+              
+        //
+        slider.value = roundf(slider.value)
+        level = Int(slider.value)
+        cellLevel = level
+        StopPlay_and_SetCurrentTime()
+        //
+        //是否需要保存？
+        
+        if isSaved[level] == false {
+            saveFile(level)
+        }
+        isSaved[level] = true
+    }
+    
+    
+    func saveFile(_ _level: Int)
+    {
+     
+        //if isSaved[_level] == true { return }
+        
+        let alert = UIAlertController(title: "", message: "Do you need to save the recorded voice of Level " + String(_level) + "?", preferredStyle: .alert)
+        let action1 = UIAlertAction(title: "Save", style: .default) {
+                (action: UIAlertAction) in
+               _print("Saving...")
+                do{
+                    try? FileManager.default.removeItem(atPath: _file_path!+String(_level)+".wav")
+                    try FileManager.default.moveItem(atPath: _file_path!+String(_level)+"_.wav", toPath: _file_path!+String(_level)+".wav")
+                } catch { _print("Save Error!") }
+                _print(_file_path!+String(_level)+".wav")
+            }
+        let action2 = UIAlertAction(title: "Delete", style: .cancel) {
+                (action: UIAlertAction) in
+               _print("Deleting...")
+                do{
+                    try FileManager.default.removeItem(atPath: _file_path!+String(_level)+"_.wav")
+                } catch { _print("Delete Error!") }
+            }
+        alert.addAction(action1)
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    var player: AVAudioPlayer?  //for playing recorded voice
+    //Play
+    
+    @IBAction func playRecord(_ sender: UIButton) {
+
+        if isRecording == true {
+            return
+        }
+        
+        if audioPlayer == nil { return }
+        
+        if isPaused == true {
+            
+            //播放
+             do {
+                 //let url = Bundle.main.url(forResource: "Sense3", withExtension: "wav")
+                 let filePath = _file_path! + String(level) + ".wav"
+                 let tempfilePath = _file_path! + String(level) + "_.wav"
+                 
+                _print(filePath)
+                _print(tempfilePath)
+                 
+                 let tempfileExists = FileManager.default.fileExists(atPath: tempfilePath)
+                 
+                 if tempfileExists == true {
+                     player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: tempfilePath))
+                 }
+                 else {
+                     player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
+                     _print("Opening the pre-recorded file...")
+                 }
+                 _print("歌曲长度：\(player?.duration as Any)")
+                 player?.volume = 4
+                 player?.delegate = self
+                 player?.prepareToPlay()
+
+                 //
+                 //playPressed()
+                 StopPlay_and_SetCurrentTime()
+                 //"Ugly", just for playing 9 x 9 = 81 for only one time, see Ugly above!
+                 if level == 9 {
+                     cellLevel = 0
+                 }
+                 setPlay()
+                 //
+                 //
+
+             } catch let err {
+                 _print("播放失败:\(err.localizedDescription)")
+             }
+           }
+           else {
+                //save file
+                //
+                if isSaved[level] == false {
+                    _print(audioPlayersRecording[level] as Any)
+                    saveFile(level)
+                }
+                isSaved[level] = true
+                //
+                //
+                StopPlay_and_SetCurrentTime()
+           }
+       }
+       
+    
+}//end for class RecordViewController
 
